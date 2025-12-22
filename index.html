@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Integrux Solutions</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/wVDK3t3.png">
+
     <style>
         :root {
             --bg-main: #0A0A0A;
@@ -27,7 +30,7 @@
         body {
             background-color: var(--bg-main);
             color: var(--text-white);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -48,7 +51,6 @@
             padding: 40px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             position: relative;
-            overflow: hidden;
         }
 
         .login-card::before {
@@ -63,13 +65,34 @@
 
         .header-login {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
-        .logo-img {
-            max-width: 180px;
+        /* LOGO + TEXTO */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .logo-integrux {
+            width: 56px;
             height: auto;
-            margin-bottom: 20px;
+            transform: translateY(5px);
+        }
+
+        .brand-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+
+        .subtitle {
+            margin-top: 6px;
+            font-weight: 300;
         }
 
         .input-group {
@@ -94,6 +117,10 @@
             transition: all 0.3s;
         }
 
+        .form-control::placeholder {
+            color: #666;
+        }
+
         .form-control:focus {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 15px rgba(0, 207, 255, 0.15);
@@ -102,7 +129,7 @@
         .btn-login {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
             border: none;
             border-radius: 6px;
             color: #fff;
@@ -110,10 +137,6 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
             transition: 0.3s;
         }
 
@@ -134,10 +157,10 @@
         }
 
         .copyright {
-            position: fixed;
-            bottom: 20px;
-            color: #333;
+            margin-top: 25px;
+            text-align: center;
             font-size: 0.75rem;
+            color: #444;
         }
 
         @keyframes fadeIn {
@@ -146,62 +169,90 @@
         }
     </style>
 </head>
+
 <body>
 
-    <div class="login-wrapper">
-        <div class="login-card">
-            <div class="header-login">
-                <img src="https://i.imgur.com/wVDK3t3.png" alt="Integrux" class="logo-img" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
-                <h1 id="alt-logo" style="display:none; color: var(--text-white); letter-spacing: 2px;">INTEGRUX</h1>
-                <h2 style="margin-top: 10px; font-weight: 300;">Bem-vindo</h2>
-                <p>Credenciais corporativas</p>
+<div class="login-wrapper">
+    <div class="login-card">
+
+        <div class="header-login">
+            <div class="brand">
+
+                <!-- LOGO SVG INLINE -->
+                <svg class="logo-integrux"
+                     viewBox="50 50 400 400"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="#FFFFFF">
+                    <g transform="translate(0,500) scale(0.1,-0.1)">
+                        <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 222 -196 50 -45 253 0 58 68 101 112 105 122 -427 0 -215 192 0 739 670 0 -82 90 -162 192 -363 0z"/>
+                        <path d="M2416 3903 l64 -73 304 -350 225 -266 -92 -105 -579 -679 399 0 99 117 559 662 -179 220 -398 470 -195 0z"/>
+                        <path d="M3300 3564 l98 -125 184 -228 -146 -170 148 0 316 341 -314 352 -86 0z"/>
+                    </g>
+                </svg>
+
+                <span class="brand-text">INTEGRUX</span>
             </div>
 
-            <form id="loginForm" onsubmit="realizarLogin(event)">
-                <div class="input-group">
-                    <label for="usuario">Usuário / Matrícula</label>
-                    <input type="text" id="usuario" class="form-control" placeholder="admin.frota" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="senha">Senha</label>
-                    <input type="password" id="senha" class="form-control" placeholder="••••••••" required>
-                </div>
-
-                <button type="submit" id="submitBtn" class="btn-login">
-                    Acessar Sistema
-                </button>
-
-                <div class="footer-links">
-                    <a href="#">Esqueceu a senha? Contate o Admin.</a>
-                </div>
-            </form>
+            <h2 class="subtitle">Bem-vindo</h2>
+            <p>Credenciais corporativas</p>
         </div>
+
+        <form onsubmit="realizarLogin(event)">
+            <div class="input-group">
+                <label for="usuario">Usuário / Matrícula</label>
+                <input type="text"
+                       id="usuario"
+                       class="form-control"
+                       placeholder="admin.frota"
+                       required>
+            </div>
+
+            <div class="input-group">
+                <label for="senha">Senha</label>
+                <input type="password"
+                       id="senha"
+                       class="form-control"
+                       placeholder="••••••••"
+                       required>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-login">
+                Acessar Sistema
+            </button>
+
+            <div class="footer-links">
+                <a href="#">Esqueceu a senha? Contate o Admin.</a>
+            </div>
+        </form>
+
+        <div class="copyright">
+            Integrux Solutions © 2025 | Sistema de Gestão Integrada
+        </div>
+
     </div>
+</div>
 
-    <div class="copyright">
-        Integrux Solutions © 2025 | Sistema de Gestão Integrada
-    </div>
+<script>
+function realizarLogin(e) {
+    e.preventDefault();
 
-    <script>
-        function realizarLogin(e) {
-            e.preventDefault();
-            const usuario = document.getElementById('usuario').value.toLowerCase();
-            const senha = document.getElementById('senha').value;
-            const btn = document.getElementById('submitBtn');
+    const usuario = document.getElementById('usuario').value.toLowerCase();
+    const senha = document.getElementById('senha').value;
+    const btn = document.getElementById('submitBtn');
 
-            if ((usuario === "usuario" && senha === "senha") || usuario.includes("almoxarifado")) {
-                btn.innerHTML = 'Acessando... <i class="fa fa-spinner fa-spin"></i>';
-                btn.style.background = 'var(--success-green)';
-                btn.disabled = true;
+    if ((usuario === "usuario" && senha === "senha") || usuario.includes("almoxarifado")) {
+        btn.textContent = "Acessando...";
+        btn.style.background = "var(--success-green)";
+        btn.disabled = true;
 
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
-            } else {
-                alert("Usuário ou senha incorretos.");
-            }
-        }
-    </script>
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1000);
+    } else {
+        alert("Usuário ou senha incorretos.");
+    }
+}
+</script>
+
 </body>
 </html>
