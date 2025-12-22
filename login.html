@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Integrux Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0A0A0A;
+            --bg-panel: #101820;
+            --text-white: #FFFFFF;
+            --text-muted: #888888;
+            --accent-blue: #0055FF;
+            --accent-cyan: #00CFFF;
+            --border-subtle: #1F1F1F;
+            --success-green: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at 50% 10%, #15202b 0%, var(--bg-main) 60%);
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .login-card {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+        }
+
+        .header-login {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-img {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #050505;
+            border: 1px solid #2C2C2C;
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 207, 255, 0.15);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 207, 255, 0.3);
+        }
+
+        .footer-links {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 20px;
+            color: #333;
+            font-size: 0.75rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="header-login">
+                <img src="https://i.imgur.com/wVDK3t3.png" alt="Integrux" class="logo-img" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
+                <h1 id="alt-logo" style="display:none; color: var(--text-white); letter-spacing: 2px;">INTEGRUX</h1>
+                <h2 style="margin-top: 10px; font-weight: 300;">Bem-vindo</h2>
+                <p>Credenciais corporativas</p>
+            </div>
+
+            <form id="loginForm" onsubmit="realizarLogin(event)">
+                <div class="input-group">
+                    <label for="usuario">Usuário / Matrícula</label>
+                    <input type="text" id="usuario" class="form-control" placeholder="admin.frota" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-login">
+                    Acessar Sistema
+                </button>
+
+                <div class="footer-links">
+                    <a href="#">Esqueceu a senha? Contate o Admin.</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="copyright">
+        Integrux Solutions © 2025 | Sistema de Gestão Integrada
+    </div>
+
+    <script>
+        function realizarLogin(e) {
+            e.preventDefault();
+            const usuario = document.getElementById('usuario').value.toLowerCase();
+            const senha = document.getElementById('senha').value;
+            const btn = document.getElementById('submitBtn');
+
+            if ((usuario === "usuario" && senha === "senha") || usuario.includes("almoxarifado")) {
+                btn.innerHTML = 'Acessando... <i class="fa fa-spinner fa-spin"></i>';
+                btn.style.background = 'var(--success-green)';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                alert("Usuário ou senha incorretos.");
+            }
+        }
+    </script>
+</body>
+</html>

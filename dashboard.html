@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrux Solutions - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- ESTILOS GERAIS --- */
+        :root {
+            --bg-body: #0A0A0A;
+            --bg-sidebar: #101820;
+            --bg-card: #151b24;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --accent-blue: #007BFF;
+            --accent-cyan: #00CFFF;
+            --border: #2C2C2C;
+            --success: #00e676;
+            --warning: #ffea00;
+            --danger: #ff1744;
+            --overlay: rgba(0, 0, 0, 0.85);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 260px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; transition: 0.3s; }
+        
+        /* AJUSTE DA LOGO NA BRAND */
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            margin-bottom: 40px; 
+            padding-bottom: 20px; 
+            border-bottom: 1px solid var(--border); 
+        }
+        
+        .brand-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: opacity 0.3s;
+        }
+        .brand-link:hover { opacity: 0.8; }
+
+        .logo-svg {
+            height: 45px; /* Altura ajustada para a sidebar */
+            width: auto;
+        }
+
+        .brand span { font-weight: 700; letter-spacing: 1px; font-size: 1.1rem; margin-left: 8px; }
+
+        .menu-item { padding: 15px; margin-bottom: 10px; border-radius: 8px; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .menu-item:hover, .menu-item.active { background: rgba(0, 207, 255, 0.1); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
+        .user-profile { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 35px; height: 35px; background: var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        /* CONTEÚDO */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        h2 { font-weight: 300; font-size: 1.8rem; }
+        
+        /* CARDS */
+        .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+
+        /* BOTÕES & INPUTS DE FILTRO */
+        .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--accent-blue); color: #fff; }
+        .btn-cyan { background: var(--accent-cyan); color: #000; }
+        .btn-outline { border: 1px solid var(--border); background: transparent; color: var(--text-muted); }
+        .btn-outline:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .btn-success { background: rgba(0, 230, 118, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .btn-danger { background: rgba(255, 23, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); }
+        .btn-warning { background: rgba(255, 234, 0, 0.1); color: var(--warning); border: 1px solid var(--warning); }
+
+        .search-input {
+            background: #0A0A0A; border: 1px solid var(--border); color: white; padding: 8px 12px; border-radius: 6px; outline: none;
+        }
+        .search-input:focus { border-color: var(--accent-cyan); }
+
+        /* TABELA */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; color: var(--text-muted); font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+        td { padding: 15px; border-bottom: 1px solid #1F1F1F; font-size: 0.95rem; }
+        tr:hover td { background-color: #1a232e; }
+
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
+        .bg-ok { background: rgba(0, 230, 118, 0.2); color: var(--success); }
+        .bg-low { background: rgba(255, 234, 0, 0.2); color: var(--warning); }
+        .bg-new { background: rgba(0, 207, 255, 0.2); color: var(--accent-cyan); }
+
+        /* MODAIS */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); display: none; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--bg-sidebar); border: 1px solid var(--border); width: 450px; border-radius: 15px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: modalIn 0.3s ease-out; }
+        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background: #0A0A0A; border: 1px solid var(--border); color: white; border-radius: 8px; outline: none; }
+        option { background: #0A0A0A; color: white; }
+
+        /* EQUIPES GRID & ABAS */
+        .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        .team-card { background: #121212; border: 1px solid var(--border); padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .team-card:hover { border-color: var(--accent-cyan); }
+        .team-card.selected { border-color: var(--accent-cyan); background: rgba(0, 207, 255, 0.05); }
+        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        
+        .tab-content { display: none; animation: fadeIn 0.4s; }
+        .tab-content.active-view { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <a href="#" class="brand-link">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="50 50 400 400" preserveAspectRatio="xMidYMid meet" class="logo-svg" fill="#FFFFFF">
+                    <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)">
+                        <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 c94 -83 195 -172 222 -196 l50 -45 126 -1 127 0 58 68 c32 37 78 87 101 112 23 25 54 61 68 80 14 18 31 37 37 42 7 4 -86 8 -207 8 l-220 0 -75 70 c-41 39 -90 82 -107 96 l-33 26 0 369 0 369 335 2 335 3 -33 35 c-18 19 -52 60 -76 90 -25 30 -49 60 -55 65 -6 6 -28 31 -49 58 l-38 47 -363 0 c-199 0 -366 -3 -369 -7z"></path>
+                        <path d="M2416 3903 c32 -38 61 -70 64 -73 6 -5 262 -300 304 -350 40 -49 141 -165 146 -170 3 -3 22 -25 42 -50 l37 -46 -92 -105 c-95 -110 -446 -520 -530 -621 l-49 -58 200 0 199 0 99 117 c54 65 122 142 149 173 130 146 410 480 410 489 0 10 -29 45 -179 220 -54 64 -110 130 -124 146 -14 17 -53 62 -86 100 -34 39 -74 86 -90 105 -16 19 -60 70 -98 113 l-70 77 -195 0 -195 0 58 -67z"></path>
+                        <path d="M3300 3564 c0 -3 44 -60 98 -125 53 -66 117 -144 141 -174 l43 -54 -146 -170 c-80 -94 -146 -173 -146 -176 0 -3 33 -5 74 -5 l74 0 154 168 c84 92 157 170 162 173 4 4 7 11 5 17 -2 5 -74 87 -159 181 l-155 171 -72 0 c-40 0 -73 -3 -73 -6z"></path>
+                    </g>
+                </svg>
+                <span>INTEGRUX</span>
+            </a>
+        </div>
+        <nav>
+            <a href="#" class="menu-item active" onclick="switchTab('conferencia', this)"><i class="fa-solid fa-clipboard-check"></i> Conferência Diária</a>
+            <a href="#" class="menu-item" onclick="switchTab('estoque', this)"><i class="fa-solid fa-boxes-stacked"></i> Estoque Geral</a>
+            <a href="#" class="menu-item" onclick="switchTab('historico', this)"><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Saídas</a>
+        </nav>
+        <div class="user-profile">
+            <div class="avatar">AL</div>
+            <div>
+                <p style="font-size: 0.9rem; font-weight: bold;">Almoxarife</p>
+                <p style="font-size: 0.75rem; color: #666;"id="Turno">Turno Manhã</p>
+            </div>
+            <a href="login.html" style="margin-left: auto; color: var(--danger);"><i class="fa-solid fa-power-off"></i></a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <div>
+                <h2 id="page-title">Conferência de Kits</h2>
+                <p style="color: var(--text-muted);">Gestão de saída matinal de equipes</p>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-size: 1.2rem; font-weight: bold; color: var(--accent-cyan);" id="relogio">--:--</span>
+                <p style="font-size: 0.8rem; color: #666;" id="data-atual">--/--/--</p>
+            </div>
+        </header>
+
+        <div id="conferencia" class="tab-content active-view">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Selecione a Equipe</h3>
+                    <button class="btn btn-warning" onclick="openExtraModal()">
+                        <i class="fa fa-tools"></i> Material Extra
+                    </button>
+                </div>
+                <div class="teams-grid">
+                    <div class="team-card" onclick="selectTeam('6102', this)">
+                        <div style="font-size: 1.5rem; color: #fff; margin-bottom: 5px;">6102</div>
+                        <span class="badge" style="background: #333; color: #888;" id="status-6102"><span class="status-dot" style="background: #888;"></span>Pendente</span>
+                    </div>
+                    <div class="team-card" onclick="selectTeam('6401', this)">
+                        <div style="font-size: 1.5rem; color: #fff; margin-bottom: 5px;">6401</div>
+                        <span class="badge" style="background: #333; color: #888;" id="status-6401"><span class="status-dot" style="background: #888;"></span>Pendente</span>
+                    </div>
+                    <div class="team-card" onclick="selectTeam('6207', this)">
+                        <div style="font-size: 1.5rem; color: #fff; margin-bottom: 5px;">6207</div>
+                        <span class="badge" style="background: #333; color: #888;" id="status-6207"><span class="status-dot" style="background: #888;"></span>Pendente</span>
+                    </div>
+                </div>
+            </div>
+            <div id="checklist-area" class="card" style="display: none; border-color: var(--accent-blue);">
+                <div class="card-header">
+                    <h3 style="color: var(--accent-cyan);"><i class="fa fa-box-open"></i> Conferência: Equipe <span id="selected-team-id">---</span></h3>
+                </div>
+                <table>
+                    <thead><tr><th>Item</th><th>Qtd Padrão</th><th>Verificação</th></tr></thead>
+                    <tbody id="checklist-items"></tbody>
+                </table>
+                <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
+                    <button class="btn btn-outline" onclick="closeChecklist()">Cancelar</button>
+                    <button class="btn btn-cyan" onclick="authorizeTeam()"><i class="fa fa-check-double"></i> Autorizar Saída</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="estoque" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Inventário Geral</h3>
+                    <div style="gap: 10px; display: flex;">
+                        <button class="btn btn-success" onclick="openStockModal('Entrada')"><i class="fa fa-plus"></i> Entrada</button>
+                        <button class="btn btn-danger" onclick="openStockModal('Saída')"><i class="fa fa-minus"></i> Saída</button>
+                    </div>
+                </div>
+                <table id="stock-table">
+                    <thead>
+                        <tr><th>Cód.</th><th>Descrição</th><th>Categoria</th><th>Em Estoque</th><th>Status</th></tr>
+                    </thead>
+                    <tbody id="stock-table-body">
+                        <tr id="row-0045"><td>#0045</td><td class="desc">Cotovelo 90º PVC 25mm</td><td>Tubulação</td><td class="qtd-cell">140 un</td><td><span class="badge bg-ok">OK</span></td></tr>
+                        <tr id="row-0082"><td>#0082</td><td class="desc">Kit Reparo Válvula</td><td>Hidráulica</td><td class="qtd-cell" style="color:var(--warning)">12 un</td><td><span class="badge bg-low">Baixo</span></td></tr>
+                        <tr id="row-0105"><td>#0105</td><td class="desc">Alicate Bomba D'água</td><td>Ferramenta</td><td class="qtd-cell">5 un</td><td><span class="badge bg-ok">OK</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="historico" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Logs de Atividades</h3>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="filterInput" class="search-input" placeholder="Buscar por nome, equipe ou item..." onkeyup="filterLogs()">
+                        <input type="date" id="filterDate" class="search-input" onchange="filterLogs()">
+                    </div>
+                </div>
+                <table id="table-history">
+                    <thead>
+                        <tr><th>Data/Hora</th><th>Tipo</th><th>Item/Equipe</th><th>Qtd</th><th>Operador/Autorizador</th></tr>
+                    </thead>
+                    <tbody id="history-log-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalStock">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="modalTitle">Movimentação</h3></div>
+            <div class="form-group">
+                <label>Produto (Nome)</label>
+                <input type="text" id="prodName" placeholder="Ex: Luva de Correr">
+            </div>
+            <div class="form-group" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Quantidade</label>
+                    <input type="number" id="prodQty" placeholder="0">
+                </div>
+                <div style="flex: 2;">
+                    <label>Responsável / Quem Adicionou</label>
+                    <input type="text" id="prodUser" placeholder="Seu nome">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-outline" onclick="closeModal('modalStock')">Voltar</button>
+                <button class="btn btn-cyan" id="btnConfirmAction" onclick="saveStockAction()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalExtra">
+        <div class="modal-content" style="border-color: var(--warning);">
+            <div class="modal-header">
+                <h3 style="color: var(--warning);">Material Extra (Campo)</h3>
+            </div>
+            <div class="form-group"><label>Peça</label><input type="text" id="extraItemInput" placeholder="Ex: Alicate Bomba..."></div>
+            <div class="form-group" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Equipe</label>
+                    <select id="extraTeamSelect">
+                        <option value="6102">6102</option>
+                        <option value="6401">6401</option>
+                        <option value="6207">6207</option>
+                    </select>
+                </div>
+                <div style="flex: 1;"><label>Qtd</label><input type="number" id="extraQtyInput" value="1"></div>
+            </div>
+            <div class="form-group">
+                <label>Autorizado por (Fiscal):</label>
+                <select id="extraAuthSelect">
+                    <option value="Fiscal Baiano">Fiscal Baiano</option>
+                    <option value="Fiscal Wesley">Fiscal Wesley</option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-outline" onclick="closeModal('modalExtra')">Cancelar</button>
+                <button class="btn btn-warning" onclick="registerExtraMaterial()" style="color: black;">Registrar Peça</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- NAVEGAÇÃO ---
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-view'));
+            document.getElementById(tabId).classList.add('active-view');
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            const titles = { 'conferencia': 'Conferência de Kits', 'estoque': 'Estoque Geral', 'historico': 'Histórico de Saídas' };
+            document.getElementById('page-title').innerText = titles[tabId];
+        }
+
+        // --- FILTROS DE HISTÓRICO ---
+        function filterLogs() {
+            const textFilter = document.getElementById('filterInput').value.toLowerCase();
+            const dateFilter = document.getElementById('filterDate').value; 
+            
+            const rows = document.querySelectorAll('#history-log-body tr');
+
+            rows.forEach(row => {
+                const rowText = row.innerText.toLowerCase();
+                let dateMatch = true;
+                if (dateFilter) {
+                    const [ano, mes, dia] = dateFilter.split('-');
+                    const dateFormatted = `${dia}/${mes}/${ano}`;
+                    const dateCell = row.cells[0].innerText;
+                    if (!dateCell.includes(dateFormatted)) {
+                        dateMatch = false;
+                    }
+                }
+
+                let textMatch = true;
+                if (textFilter && !rowText.includes(textFilter)) {
+                    textMatch = false;
+                }
+
+                if (dateMatch && textMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // --- MANIPULAÇÃO DE ESTOQUE ---
+        let currentStockType = "";
+
+        function openStockModal(type) {
+            currentStockType = type;
+            const title = document.getElementById('modalTitle');
+            const btn = document.getElementById('btnConfirmAction');
+            title.innerText = type === 'Entrada' ? 'Entrada de Mercadoria' : 'Saída de Mercadoria';
+            title.style.color = type === 'Entrada' ? 'var(--success)' : 'var(--danger)';
+            btn.className = type === 'Entrada' ? 'btn btn-success' : 'btn btn-danger';
+            document.getElementById('modalStock').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            ['prodName', 'prodQty', 'prodUser', 'extraItemInput'].forEach(i => {
+                if(document.getElementById(i)) document.getElementById(i).value = '';
+            });
+        }
+
+        function saveStockAction() {
+            const item = document.getElementById('prodName').value;
+            const qtd = parseInt(document.getElementById('prodQty').value);
+            const user = document.getElementById('prodUser').value;
+
+            if(!item || !qtd || !user) { alert("Preencha todos os campos."); return; }
+
+            updateStockTable(item, qtd, currentStockType);
+            addLog(currentStockType, item, qtd, user);
+            
+            closeModal('modalStock');
+            alert(`${currentStockType} registrada com sucesso!`);
+        }
+
+        function updateStockTable(itemName, qtyChange, type) {
+            const rows = document.querySelectorAll('#stock-table tbody tr');
+            let found = false;
+            const search = itemName.toLowerCase();
+
+            rows.forEach(row => {
+                const desc = row.cells[1].innerText.toLowerCase();
+                const cod = row.cells[0].innerText.toLowerCase();
+
+                if (desc.includes(search) || cod.includes(search)) {
+                    found = true;
+                    const qtdCell = row.cells[3];
+                    let currentQty = parseInt(qtdCell.innerText);
+                    
+                    if (type === 'Entrada') {
+                        currentQty += qtyChange;
+                        qtdCell.style.color = 'var(--success)';
+                    } else {
+                        currentQty -= qtyChange;
+                        if(currentQty < 0) currentQty = 0;
+                        qtdCell.style.color = 'var(--danger)';
+                    }
+                    
+                    qtdCell.innerText = `${currentQty} un`;
+                    setTimeout(() => qtdCell.style.color = '', 2000);
+                }
+            });
+
+            if (!found && type === 'Entrada') {
+                const tbody = document.getElementById('stock-table-body');
+                const newRow = document.createElement('tr');
+                const randomId = Math.floor(Math.random() * 1000);
+                
+                newRow.innerHTML = `
+                    <td>#NEW${randomId}</td>
+                    <td class="desc">${itemName}</td>
+                    <td>Geral</td>
+                    <td class="qtd-cell" style="color: var(--success)">${qtyChange} un</td>
+                    <td><span class="badge bg-new">Novo</span></td>
+                `;
+                tbody.prepend(newRow);
+            }
+        }
+
+        // --- MATERIAL EXTRA ---
+        function openExtraModal() { document.getElementById('modalExtra').style.display = 'flex'; }
+        
+        function registerExtraMaterial() {
+            const item = document.getElementById('extraItemInput').value;
+            const equipe = document.getElementById('extraTeamSelect').value;
+            const qtd = parseInt(document.getElementById('extraQtyInput').value);
+            const fiscal = document.getElementById('extraAuthSelect').value;
+
+            if(!item || !qtd) return;
+
+            updateStockTable(item, qtd, 'Saída');
+            addLog("Saída Extra", `${item} (Eq. ${equipe})`, qtd, fiscal);
+
+            alert(`Peça liberada para Equipe ${equipe}.`);
+            closeModal('modalExtra');
+        }
+
+        // --- LOGS ---
+        function addLog(tipo, item, qtd, user) {
+            const tbody = document.getElementById('history-log-body');
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('pt-BR');
+            const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            const row = document.createElement('tr');
+            let colorClass = 'var(--accent-cyan)';
+            if(tipo === 'Entrada') colorClass = 'var(--success)';
+            if(tipo === 'Saída') colorClass = 'var(--danger)';
+            if(tipo === 'Saída Extra') colorClass = 'var(--warning)';
+
+            row.innerHTML = `
+                <td style="font-size: 0.8rem; color: var(--text-muted)">${dateStr} ${timeStr}</td>
+                <td><span style="color: ${colorClass}; font-weight: bold;">${tipo}</span></td>
+                <td>${item}</td>
+                <td>${qtd}</td>
+                <td>${user}</td>
+            `;
+            tbody.prepend(row);
+        }
+
+        // --- RELÓGIO & CONFERÊNCIA ---
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('relogio').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('data-atual').innerText = now.toLocaleDateString('pt-BR');
+        }, 1000);
+
+        let currentTeam = null;
+        const kitPadrao = [{ item: "Chave Inglesa", qtd: 1 }, { item: "Alicate Pressão", qtd: 1 }, { item: "Kit Vazamento", qtd: 2 }];
+
+        function selectTeam(id, el) {
+            if(document.getElementById(`status-${id}`).innerText.includes("Liberado")) return;
+            document.querySelectorAll('.team-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            currentTeam = id;
+            document.getElementById('selected-team-id').innerText = id;
+            document.getElementById('checklist-area').style.display = 'block';
+            document.getElementById('checklist-items').innerHTML = kitPadrao.map(i => `<tr><td>${i.item}</td><td>${i.qtd}</td><td><input type="checkbox"></td></tr>`).join('');
+            document.getElementById('checklist-area').scrollIntoView({behavior:'smooth'});
+        }
+
+        function closeChecklist() { document.getElementById('checklist-area').style.display = 'none'; }
+        
+        function authorizeTeam() {
+            if(!confirm("Liberar equipe?")) return;
+            const badge = document.getElementById(`status-${currentTeam}`);
+            badge.style.background = 'rgba(0, 230, 118, 0.2)'; badge.style.color = 'var(--success)';
+            badge.innerHTML = '<span class="status-dot" style="background: var(--success);"></span> Liberado';
+            addLog("Saída Kit", `Equipe ${currentTeam}`, "Kit Completo", "Almoxarife");
+            closeChecklist();
+        }
+    </script>
+</body>
+</html>
