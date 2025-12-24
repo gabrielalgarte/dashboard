@@ -3,265 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Gestor SIG | Integrux</title>
+    <title>Dashboard Gestor | Integrux</title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/EthgfYX.png">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-main: #0A0A0A;
-            --bg-sidebar: #0D1117;
-            --bg-card: #161B22;
-            --text-white: #FFFFFF;
-            --text-muted: #8B949E;
-            --accent-blue: #58a6ff;
-            --accent-cyan: #00CFFF;
-            --border: #30363d;
+            --bg-body: #050505;
+            --bg-panel: #0E0F11;
+            --bg-card: #141619;
+            --border-color: #2D333B;
+            --primary: #2F81F7;
             --success: #238636;
+            --warning: #D29922;
+            --danger: #F85149;
+            --text-main: #E6EDF3;
+            --text-muted: #7D8590;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-white);
+            background-color: var(--bg-body);
+            color: var(--text-main);
             display: flex;
             min-height: 100vh;
         }
 
-        /* BARRA LATERAL */
-        .sidebar {
-            width: 260px;
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-            position: fixed;
-            height: 100vh;
+        /* --- SIDEBAR --- */
+        aside {
+            width: 280px;
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
+            display: flex; flex-direction: column;
+            padding: 30px 20px;
+            position: fixed; height: 100vh; z-index: 100;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
+        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 50px; padding-left: 5px; }
+        .brand svg { width: 40px; height: 40px; fill: #FFF; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3)); }
+        .brand-text { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; color: #FFF; }
 
-        .brand-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .nav-menu { list-style: none; flex-grow: 1; }
-        
+        .nav-menu { flex: 1; display: flex; flex-direction: column; gap: 5px; }
         .nav-item {
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding: 14px 18px; border-radius: 10px; color: var(--text-muted);
+            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 12px; font-weight: 500;
         }
-
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(88, 166, 255, 0.1);
-            color: var(--accent-blue);
-        }
-
-        /* CONTEÚDO PRINCIPAL */
-        .main-content {
-            margin-left: 260px;
-            flex-grow: 1;
-            padding: 40px;
-        }
-
-        .header-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--bg-card);
-            padding: 8px 15px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-        }
-
-        .role-badge {
-            background: rgba(0, 207, 255, 0.1);
-            color: var(--accent-cyan);
-            padding: 2px 10px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        /* GRID DE CARDS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 25px;
-            transition: 0.3s;
-        }
-
-        .stat-card:hover { border-color: var(--accent-blue); transform: translateY(-5px); }
-
-        .stat-val { font-size: 2rem; font-weight: 700; margin: 10px 0; }
-        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
-
-        /* TABELA DE ATIVIDADES */
-        .recent-activity {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 25px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th {
-            text-align: left;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        td {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
-            font-size: 0.9rem;
-        }
-
-        .status-pill {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-        }
-
-        .status-pill.success { background: rgba(35, 134, 54, 0.15); color: #3fb950; }
+        .nav-item svg { width: 20px; height: 20px; stroke-width: 2; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: #FFF; transform: translateX(5px); }
+        .nav-item.active { background: rgba(47, 129, 247, 0.15); color: var(--primary); }
 
         .btn-logout {
-            margin-top: auto;
-            color: #f85149;
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-top: auto; color: var(--danger); text-decoration: none; padding: 14px 18px;
+            border-radius: 10px; transition: 0.2s; display: flex; align-items: center; gap: 10px; font-weight: 600;
         }
+        .btn-logout:hover { background: rgba(248, 81, 73, 0.1); }
+
+        /* --- MAIN CONTENT --- */
+        main { margin-left: 280px; flex: 1; padding: 40px 50px; background-image: radial-gradient(circle at top right, #10151f 0%, transparent 40%); }
+
+        header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+        h1 { font-size: 2rem; margin-bottom: 5px; font-weight: 700; }
+        .subtitle { color: var(--text-muted); font-size: 1rem; }
+
+        .user-badge {
+            display: flex; align-items: center; gap: 15px; background: var(--bg-card);
+            padding: 8px 12px 8px 20px; border-radius: 50px; border: 1px solid var(--border-color);
+        }
+        .avatar {
+            width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #005CC5);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem;
+            box-shadow: 0 0 15px rgba(47, 129, 247, 0.4);
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-bottom: 40px;
+        }
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            padding: 25px; border-radius: 16px; position: relative; overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); }
+        .card-val { font-size: 2.2rem; font-weight: 700; margin: 15px 0 5px 0; font-family: 'JetBrains Mono', monospace; }
+        .card-label { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* TABELA */
+        .table-container {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 30px; overflow: hidden;
+        }
+        .table-header { display: flex; justify-content: space-between; margin-bottom: 25px; align-items: center; }
+        .table-header h3 { font-size: 1.2rem; }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        th { text-align: left; color: var(--text-muted); font-size: 0.8rem; padding: 0 20px 15px 20px; font-weight: 600; text-transform: uppercase; }
+        
+        tr.data-row { background: rgba(255,255,255,0.02); transition: 0.2s; }
+        tr.data-row:hover { background: rgba(255,255,255,0.05); transform: scale(1.005); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        td { padding: 20px; font-size: 0.95rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        td:first-child { border-left: 1px solid var(--border-color); border-radius: 12px 0 0 12px; font-weight: 600; color: #FFF; }
+        td:last-child { border-right: 1px solid var(--border-color); border-radius: 0 12px 12px 0; }
+        
+        .cnpj-font { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 0.85rem; }
+
+        /* PILLS & BUTTONS */
+        .status-pill {
+            padding: 6px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .status-pill.pending { background: rgba(125, 133, 144, 0.15); color: #8b949e; border: 1px solid rgba(125, 133, 144, 0.2); }
+        .status-pill.active { background: rgba(35, 134, 54, 0.15); color: #3fb950; border: 1px solid rgba(35, 134, 54, 0.3); box-shadow: 0 0 10px rgba(35, 134, 54, 0.2); }
+        .status-pill.maintenance { background: rgba(210, 153, 34, 0.15); color: #d29922; border: 1px solid rgba(210, 153, 34, 0.3); animation: pulse-yellow 2s infinite; }
+        .status-pill.offline { background: rgba(248, 81, 73, 0.15); color: #f85149; border: 1px solid rgba(248, 81, 73, 0.3); }
+
+        @keyframes pulse-yellow { 0% { box-shadow: 0 0 0 0 rgba(210, 153, 34, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(210, 153, 34, 0); } 100% { box-shadow: 0 0 0 0 rgba(210, 153, 34, 0); } }
+
+        .actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
+        .btn-icon {
+            width: 34px; height: 34px; border-radius: 8px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+            background: transparent; border: 1px solid transparent;
+        }
+
+        /* Botão Aprovar (Check) */
+        .btn-approve { color: #3fb950; background: rgba(35, 134, 54, 0.1); }
+        .btn-approve:hover { background: #3fb950; color: white; transform: translateY(-2px); }
+
+        /* Botão Deletar/Recusar (Lixo) */
+        .btn-trash { color: #f85149; background: rgba(248, 81, 73, 0.1); }
+        .btn-trash:hover { background: #f85149; color: white; transform: translateY(-2px); }
+
+        /* Botão Editar (Lapis) */
+        .btn-edit { color: #2F81F7; background: rgba(47, 129, 247, 0.1); }
+        .btn-edit:hover { background: #2F81F7; color: white; transform: translateY(-2px); }
+        
+        /* Botão Manutenção (Triangulo) */
+        .btn-maint { color: #d29922; background: rgba(210, 153, 34, 0.1); }
+        .btn-maint.active-mode { background: #d29922; color: #000; box-shadow: 0 0 15px #d29922; }
+        .btn-maint:hover { background: #d29922; color: white; transform: translateY(-2px); }
+
+        /* Toggle Button (Power/Switch) */
+        .btn-toggle {
+            width: 40px; height: 22px; background: #333; border-radius: 20px; 
+            position: relative; cursor: pointer; transition: 0.3s; border: none;
+        }
+        .btn-toggle::after {
+            content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+            background: #fff; border-radius: 50%; transition: 0.3s;
+        }
+        .btn-toggle.on { background: #238636; box-shadow: 0 0 10px rgba(35, 134, 54, 0.4); }
+        .btn-toggle.on::after { left: 21px; }
+
+        /* Notification */
+        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 200; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            background: #1F242C; color: white; padding: 15px 20px; border-radius: 8px; border-left: 4px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideIn 0.3s ease-out; display: flex; align-items: center; gap: 10px;
+        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
     </style>
 </head>
 <body>
 
-    <aside class="sidebar">
+    <aside>
         <div class="brand">
-            <svg style="width: 32px;" viewBox="50 50 400 400" xmlns="http://www.w3.org/2000/svg" fill="#58a6ff">
-                <g transform="translate(0,500) scale(0.1,-0.1)">
-                    <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 222 -196 50 -45 253 0 58 68 101 112 105 122 -427 0 -215 192 0 739 670 0 -82 90 -162 192 -363 0z"/>
-                    <path d="M2416 3903 l64 -73 304 -350 225 -266 -92 -105 -579 -679 399 0 99 117 559 662 -179 220 -398 470 -195 0z"/>
-                    <path d="M3300 3564 l98 -125 184 -228 -146 -170 148 0 316 341 -314 352 -86 0z"/>
+            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="50 50 400 400" preserveAspectRatio="xMidYMid meet">
+                <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)">
+                    <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 c94 -83 195 -172 222 -196 l50 -45 126 -1 127 0 58 68 c32 37 78 87 101 112 23 25 54 61 68 80 14 18 31 37 37 42 7 4 -86 8 -207 8 l-220 0 -75 70 c-41 39 -90 82 -107 96 l-33 26 0 369 0 369 335 2 335 3 -33 35 c-18 19 -52 60 -76 90 -25 30 -49 60 -55 65 -6 6 -28 31 -49 58 l-38 47 -363 0 c-199 0 -366 -3 -369 -7z"></path>
+                    <path d="M2416 3903 c32 -38 61 -70 64 -73 6 -5 262 -300 304 -350 40 -49 141 -165 146 -170 3 -3 22 -25 42 -50 l37 -46 -92 -105 c-95 -110 -446 -520 -530 -621 l-49 -58 200 0 199 0 99 117 c54 65 122 142 149 173 130 146 410 480 410 489 0 10 -29 45 -179 220 -54 64 -110 130 -124 146 -14 17 -53 62 -86 100 -34 39 -74 86 -90 105 -16 19 -60 70 -98 113 l-70 77 -195 0 -195 0 58 -67z"></path>
+                    <path d="M3300 3564 c0 -3 44 -60 98 -125 53 -66 117 -144 141 -174 l43 -54 -146 -170 c-80 -94 -146 -173 -146 -176 0 -3 33 -5 74 -5 l74 0 154 168 c84 92 157 170 162 173 4 4 7 11 5 17 -2 5 -74 87 -159 181 l-155 171 -72 0 c-40 0 -73 -3 -73 -6z"></path>
                 </g>
             </svg>
             <span class="brand-text">INTEGRUX</span>
         </div>
-
         <nav class="nav-menu">
-            <div class="nav-item active">📊 Dashboard</div>
-            <div class="nav-item">🏢 Empresas Parceiras</div>
-            <div class="nav-item">📈 Relatórios SIG</div>
-            <div class="nav-item">🛡️ Compliance</div>
-            <div class="nav-item">⚙️ Configurações</div>
+            <div class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Dashboard
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                Gestão de Acessos
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Logs de Auditoria
+            </div>
         </nav>
-
-        <a href="index.html" class="btn-logout">🚪 Sair do Sistema</a>
+        <a href="index.html" class="btn-logout">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sair do Sistema
+        </a>
     </aside>
 
-    <main class="main-content">
-        <header class="header-main">
+    <main>
+        <header>
             <div>
-                <h1>Gestão Estratégica</h1>
-                <p style="color: var(--text-muted);">Bem-vindo ao Painel SIG.</p>
+                <h1>Visão Geral</h1>
+                <p class="subtitle">Monitoramento em tempo real das solicitações.</p>
             </div>
-
-            <div class="user-profile">
+            <div class="user-badge">
                 <div style="text-align: right;">
-                    <div style="font-size: 0.9rem; font-weight: bold;">Gestor SIG</div>
-                    <div class="role-badge">Nível Admin</div>
+                    <div style="font-size: 0.9rem; font-weight: 700;">Admin Master</div>
+                    <div style="font-size: 0.75rem; color: var(--primary);">Gestão SIG</div>
                 </div>
-                <div style="width: 35px; height: 35px; background: var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">G</div>
+                <div class="avatar">G</div>
             </div>
         </header>
 
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Empresas Ativas</div>
-                <div class="stat-val">124</div>
-                <div style="color: var(--success); font-size: 0.8rem;">↑ 12% este mês</div>
+        <div class="stats-grid">
+            <div class="card">
+                <div class="card-label">Empresas Cadastradas</div>
+                <div class="card-val" id="totalCount">0</div>
+                <div style="color: var(--success); font-size: 0.8rem; display: flex; align-items: center; gap: 5px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    +12% esta semana
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Alertas de Compliance</div>
-                <div class="stat-val" style="color: #f85149;">03</div>
-                <div style="color: var(--text-muted); font-size: 0.8rem;">Ações pendentes</div>
+            <div class="card">
+                <div class="card-label">Em Manutenção</div>
+                <div class="card-val" id="maintCount" style="color: var(--warning);">0</div>
+                <div style="color: var(--text-muted); font-size: 0.8rem;">Revisão técnica</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Eficiência de Estoque</div>
-                <div class="stat-val">98.2%</div>
-                <div style="color: var(--accent-cyan); font-size: 0.8rem;">Média Global</div>
+            <div class="card">
+                <div class="card-label">Dados Trafegados</div>
+                <div class="card-val">2.4 TB</div>
+                <div style="color: var(--primary); font-size: 0.8rem;">Integrações ativas</div>
             </div>
-        </section>
+        </div>
 
-        <section class="recent-activity">
-            <h3>Novas Solicitações de Registro</h3>
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Solicitações Recentes</h3>
+            </div>
             <table>
                 <thead>
                     <tr>
-                        <th>EMPRESA</th>
+                        <th>Empresa</th>
                         <th>CNPJ</th>
-                        <th>DATA SOLICITAÇÃO</th>
-                        <th>STATUS</th>
+                        <th>Data Registro</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Ações Rápidas</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Logística Express S.A.</td>
-                        <td>12.345.678/0001-90</td>
-                        <td>22/12/2025</td>
-                        <td><span class="status-pill success">Em Análise</span></td>
-                    </tr>
-                    <tr>
-                        <td>Transportes Horizonte</td>
-                        <td>98.765.432/0001-11</td>
-                        <td>21/12/2025</td>
-                        <td><span class="status-pill success">Em Análise</span></td>
-                    </tr>
-                </tbody>
+                <tbody id="companyTable"></tbody>
             </table>
-        </section>
+        </div>
     </main>
 
-</body>
+    <div class="toast-container" id="toastArea"></div>
 
+    <script>
+        function showToast(msg, type = 'info') {
+            const area = document.getElementById('toastArea');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.borderLeftColor = type === 'success' ? '#238636' : (type === 'warn' ? '#d29922' : '#f85149');
+            toast.innerHTML = `<span>${msg}</span>`;
+            area.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function renderTable() {
+            // Nota: Lendo 'integrux_leads' para compatibilidade com o registro
+            const companies = JSON.parse(localStorage.getItem('integrux_leads')) || [];
+            const tbody = document.getElementById('companyTable');
+            const totalCount = document.getElementById('totalCount');
+            const maintCount = document.getElementById('maintCount');
+
+            tbody.innerHTML = '';
+            totalCount.innerText = companies.length;
+            maintCount.innerText = companies.filter(c => c.status === 'maintenance').length;
+
+            if (companies.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px; color: #555;">Nenhuma solicitação pendente.</td></tr>';
+                return;
+            }
+
+            companies.forEach(company => {
+                let badgeClass = 'pending';
+                let badgeText = 'Aguardando';
+                let buttonsHTML = '';
+                
+                // LÓGICA DE STATUS E BOTÕES
+                
+                if (company.status === 'lead_qualificado' || company.status === 'pending') {
+                    // Cenario 1: Novo Lead -> Mostrar Apenas Aprovar (Check) e Recusar (Lixo)
+                    badgeClass = 'pending';
+                    badgeText = 'Análise Pendente';
+                    
+                    buttonsHTML = `
+                        <button class="btn-icon btn-approve" onclick="approveLead(${company.id})" title="Aprovar Cadastro">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </button>
+                        <button class="btn-icon btn-trash" onclick="removeCompany(${company.id})" title="Recusar Solicitação">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        </button>
+                    `;
+
+                } else {
+                    // Cenario 2: Empresa Ativa -> Mostrar Editar, Manutenção, Switch
+                    const isMaint = company.status === 'maintenance';
+                    const isSiteOn = company.siteEnabled;
+
+                    badgeClass = isMaint ? 'maintenance' : (isSiteOn ? 'active' : 'offline');
+                    badgeText = isMaint ? 'Manutenção' : (isSiteOn ? 'Online' : 'Offline');
+
+                    buttonsHTML = `
+                        <button class="btn-icon btn-edit" onclick="window.location.href='editar-empresa.html?id=${company.id}'" title="Editar Dados">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+
+                        <button class="btn-icon btn-maint ${isMaint ? 'active-mode' : ''}" onclick="toggleMaint(${company.id})" title="Modo Manutenção">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </button>
+
+                        <button class="btn-toggle ${isSiteOn ? 'on' : ''}" onclick="toggleSite(${company.id})" title="${isSiteOn ? 'Desativar Site' : 'Ativar Site'}"></button>
+                    `;
+                }
+
+                const html = `
+                <tr class="data-row">
+                    <td>${company.name || company.companyName}</td>
+                    <td class="cnpj-font">${company.cnpj}</td>
+                    <td style="color: #ccc;">${company.date}</td>
+                    <td><span class="status-pill ${badgeClass}">${badgeText}</span></td>
+                    <td>
+                        <div class="actions">
+                            ${buttonsHTML}
+                        </div>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += html;
+            });
+        }
+
+        // Funções de Lógica
+
+        function approveLead(id) {
+            let list = JSON.parse(localStorage.getItem('integrux_leads'));
+            let item = list.find(x => x.id === id);
+            if(item) {
+                item.status = 'active'; // Passa para o estado aprovado
+                item.siteEnabled = true; // Liga o site automaticamente ao aprovar
+                localStorage.setItem('integrux_leads', JSON.stringify(list));
+                showToast(`Empresa ${item.name || item.companyName} aprovada!`, 'success');
+                renderTable();
+            }
+        }
+
+        function toggleMaint(id) {
+            let list = JSON.parse(localStorage.getItem('integrux_leads'));
+            let item = list.find(x => x.id === id);
+            if(item) {
+                if(item.status === 'maintenance') {
+                    item.status = 'active'; // Sai da manutenção
+                    showToast('Manutenção finalizada.', 'success');
+                } else {
+                    item.status = 'maintenance';
+                    showToast('Modo manutenção ativado!', 'warn');
+                }
+                localStorage.setItem('integrux_leads', JSON.stringify(list));
+                renderTable();
+            }
+        }
+
+        function toggleSite(id) {
+            let list = JSON.parse(localStorage.getItem('integrux_leads'));
+            let item = list.find(x => x.id === id);
+            if(item) {
+                item.siteEnabled = !item.siteEnabled; // Inverte true/false
+                if(item.siteEnabled) showToast('Site ativado com sucesso.', 'success');
+                else showToast('Site desativado temporariamente.', 'error');
+                
+                localStorage.setItem('integrux_leads', JSON.stringify(list));
+                renderTable();
+            }
+        }
+
+        function removeCompany(id) {
+            if(confirm('Tem certeza que deseja recusar/excluir este registro?')) {
+                let list = JSON.parse(localStorage.getItem('integrux_leads'));
+                list = list.filter(x => x.id !== id);
+                localStorage.setItem('integrux_leads', JSON.stringify(list));
+                showToast('Registro removido.', 'error');
+                renderTable();
+            }
+        }
+
+        window.onload = renderTable;
+    </script>
+</body>
 </html>
