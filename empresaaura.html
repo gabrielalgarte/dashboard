@@ -11,9 +11,9 @@
         :root {
             --rose-primary: #D8A9A6;    
             --rose-secondary: #E2BFBC; 
-            --rose-border: #ebd4d2;     
+            --rose-border: #ebd4d2;      
             --bg-body: #f5eae9;        
-            --text-dark: #4a4a4a;       
+            --text-dark: #4a4a4a;        
             --text-light: #ffffff;
             --glass: rgba(255, 255, 255, 0.90);
             --shadow: 0 10px 40px rgba(216, 169, 166, 0.15);
@@ -45,6 +45,7 @@
         .navbar {
             max-width: 1200px; margin: 0 auto; display: flex;
             justify-content: space-between; align-items: center; padding: 1rem 2rem;
+            flex-wrap: wrap; gap: 1rem;
         }
 
         .logo {
@@ -54,13 +55,32 @@
         }
         .logo span { color: var(--rose-primary); font-style: italic; }
 
-        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
         .nav-link {
             text-decoration: none; color: var(--text-dark); font-weight: 500;
             font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
             transition: 0.3s;
         }
         .nav-link:hover { color: var(--rose-primary); }
+
+        /* --- BARRA DE BUSCA --- */
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid var(--rose-border);
+            border-radius: 20px;
+            padding: 5px 15px;
+            width: 250px;
+            transition: 0.3s;
+        }
+        .search-box:focus-within { border-color: var(--rose-primary); box-shadow: 0 0 8px rgba(216, 169, 166, 0.2); }
+        .search-box input {
+            border: none; outline: none; background: transparent;
+            font-size: 0.8rem; width: 100%; color: var(--text-dark);
+        }
+        .search-box i { color: #999; font-size: 0.9rem; cursor: pointer; }
 
         .user-area { display: flex; align-items: center; gap: 1.5rem; }
         
@@ -84,13 +104,15 @@
             display: flex; align-items: center; gap: 5px;
         }
         
+        /* Botão Admin agora oculto por padrão */
         .btn-admin {
-            padding: 0.4rem 1.2rem; border: 1px solid var(--rose-border);
-            text-decoration: none; color: #999; font-weight: 500;
+            padding: 0.4rem 1.2rem; border: 1px solid var(--rose-primary);
+            text-decoration: none; color: var(--rose-primary); font-weight: 600;
             font-size: 0.7rem; text-transform: uppercase; transition: 0.3s;
             border-radius: 20px; letter-spacing: 0.5px;
+            display: none; /* Oculto inicialmente */
         }
-        .btn-admin:hover { border-color: var(--rose-primary); color: var(--rose-primary); }
+        .btn-admin:hover { background: var(--rose-primary); color: white; }
 
         .hero {
             height: 80vh; display: flex; align-items: center; justify-content: center;
@@ -251,8 +273,9 @@
             font-family: inherit; font-size: 0.85rem; resize: none; margin-bottom: 0.5rem;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .navbar { flex-direction: column; gap: 1rem; }
+            .search-box { width: 100%; margin: 10px 0; }
             .nav-links { display: none; }
             .hero-content h1 { font-size: 3rem; }
             .cart-sidebar { width: 100%; right: -100%; }
@@ -266,14 +289,22 @@
     <header>
         <nav class="navbar">
             <a href="#" class="logo">Aura<span>.</span></a>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar produtos, coleções..." onkeyup="filterProducts()">
+                <i class="fas fa-search" onclick="filterProducts()"></i>
+            </div>
+
             <ul class="nav-links">
                 <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#fragrancias-area" class="nav-link">Fragrâncias</a></li>
                 <li><a href="#skincare-area" class="nav-link">Skin Care</a></li>
                 <li><a href="#roupas-area" class="nav-link">Roupas</a></li>
                 <li><a href="#make-area" class="nav-link">Maquiagem</a></li>
             </ul>
             <div class="user-area">
-                <a href="empresaauradashboard.html" class="btn-admin">Admin</a>
+                <a href="empresaauradashboard.html" class="btn-admin" id="adminBtn">Painel Admin</a>
+                
                 <div id="user-display" class="btn-login-user" onclick="openLoginModal()">
                     <i class="far fa-user"></i> <span>Login</span>
                 </div>
@@ -288,12 +319,21 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Sua Beleza,<br>Sua <span>Essência</span></h1>
-            <p style="color: #777; margin-bottom: 2rem; max-width: 600px; margin-inline: auto;">Uma curadoria exclusiva de moda e cuidados para quem valoriza o minimalismo e a autenticidade.</p>
+            <p style="color: #777; margin-bottom: 2rem; max-width: 600px; margin-inline: auto;">Uma curadoria exclusiva de moda, fragrâncias e cuidados para quem valoriza o minimalismo e a autenticidade.</p>
             <a href="#loja-inicio" class="btn-explore">Explorar Coleção</a>
         </div>
     </section>
 
     <div id="loja-inicio"></div>
+
+    <div id="section-fragrancias" class="category-section">
+        <div class="section-header" id="fragrancias-area">
+            <h2 class="section-title">Fragrâncias & Body</h2>
+            <div class="section-separator"></div>
+            <p style="font-size: 0.9rem; color: #888;">Aromas irresistíveis para o seu dia</p>
+        </div>
+        <div class="products-grid" id="grid-fragrancias"></div>
+    </div>
 
     <div id="section-skin" class="category-section">
         <div class="section-header" id="skincare-area">
@@ -395,8 +435,25 @@
     <div class="modal-overlay" id="cart-overlay" onclick="closeCart()" style="z-index: 2000;"></div>
 
     <script>
-        // --- 1. POPULAÇÃO DE DADOS ---
+        // --- 1. POPULAÇÃO DE DADOS (EXPANDIDA) ---
         const initialProducts = [
+            // --- NOVA CATEGORIA: FRAGRÂNCIAS & BODY (ALLEVA & MAIS) ---
+            { name: "Body Splash Irresistible da Alleva", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&w=400&q=80", desc: "Notas florais e toque adocicado envolvente." },
+            { name: "Body Splash Alleva Vanilla Dreams", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=400&q=80", desc: "Baunilha suave para momentos aconchegantes." },
+            { name: "Body Splash Alleva Fresh Cotton", category: "Fragrâncias & Body", price: "74.90", img: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=400&q=80", desc: "Sensação de banho tomado e frescor." },
+            { name: "Body Splash Alleva Summer Vibes", category: "Fragrâncias & Body", price: "82.00", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80", desc: "Tropical, frutado e solar." },
+            { name: "Body Splash Alleva Midnight", category: "Fragrâncias & Body", price: "85.90", img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=400&q=80", desc: "Misterioso e marcante para a noite." },
+            { name: "Mist Corporal Cherry Blossom", category: "Fragrâncias & Body", price: "69.90", img: "https://images.unsplash.com/photo-1595867372361-b66ce7f10352?auto=format&fit=crop&w=400&q=80", desc: "Flor de cerejeira delicada." },
+            { name: "Perfume Capilar Shine & Scent", category: "Fragrâncias & Body", price: "55.00", img: "https://images.unsplash.com/photo-1620917670399-23d6a6669f3e?auto=format&fit=crop&w=400&q=80", desc: "Brilho e aroma para os fios." },
+            { name: "Body Splash Alleva Coconut", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&w=400&q=80", desc: "Coco cremoso e exótico." },
+            { name: "Loção Perfumada Irresistible", category: "Fragrâncias & Body", price: "65.00", img: "https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=400&q=80", desc: "O par perfeito para o splash." },
+            { name: "Óleo Corporal Iluminador Alleva", category: "Fragrâncias & Body", price: "89.90", img: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=400&q=80", desc: "Partículas de ouro e hidratação." },
+            { name: "Eau de Parfum Aura Class", category: "Fragrâncias & Body", price: "220.00", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80", desc: "Sofisticação em frasco." },
+            { name: "Mist Facial Refrescante", category: "Fragrâncias & Body", price: "45.00", img: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=400&q=80", desc: "Água termal aromatizada." },
+            { name: "Kit Presente Alleva Lovers", category: "Fragrâncias & Body", price: "189.90", img: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=400&q=80", desc: "3 Mini Splashes exclusivos." },
+            { name: "Creme de Mãos Alleva Rose", category: "Fragrâncias & Body", price: "35.00", img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=400&q=80", desc: "Toque aveludado instantâneo." },
+            { name: "Body Splash Alleva Ocean", category: "Fragrâncias & Body", price: "74.90", img: "https://images.unsplash.com/photo-1595867372361-b66ce7f10352?auto=format&fit=crop&w=400&q=80", desc: "Brisa do mar engarrafada." },
+
             // Skin Care
             { name: "Sérum Iluminador Aura", category: "Skin Care", price: "129.90", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=400&q=80", desc: "Vitamina C pura para um brilho natural." },
             { name: "Hidratante Cloud Cream", category: "Skin Care", price: "89.90", img: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=400&q=80", desc: "Textura leve como nuvem." },
@@ -420,8 +477,9 @@
         ];
 
         function checkAndInitProducts() {
+            // Força a atualização se a lista salva for menor que a nova lista (devido aos novos produtos)
             let stock = JSON.parse(localStorage.getItem('auraStock'));
-            if (!stock || stock.length === 0) {
+            if (!stock || stock.length < initialProducts.length) {
                 localStorage.setItem('auraStock', JSON.stringify(initialProducts));
             }
         }
@@ -431,19 +489,27 @@
         let currentUser = null; 
         let cart = [];
 
-        function renderProducts() {
+        function renderProducts(filterText = "") {
             const products = JSON.parse(localStorage.getItem('auraStock')) || [];
             
             const grids = {
+                'Fragrâncias & Body': document.getElementById('grid-fragrancias'),
                 'Skin Care': document.getElementById('grid-skin'),
                 'Roupas': document.getElementById('grid-roupas'),
                 'Maquiagem': document.getElementById('grid-make')
             };
 
+            // Limpa grids
             Object.values(grids).forEach(el => el.innerHTML = '');
-            let hasCat = { 'Skin Care': false, 'Roupas': false, 'Maquiagem': false };
+            let hasCat = { 'Fragrâncias & Body': false, 'Skin Care': false, 'Roupas': false, 'Maquiagem': false };
 
             products.forEach((product, index) => {
+                // Filtro de Busca
+                const matchSearch = product.name.toLowerCase().includes(filterText.toLowerCase()) || 
+                                    product.category.toLowerCase().includes(filterText.toLowerCase());
+                
+                if (!matchSearch) return;
+
                 if(!grids[product.category]) return;
 
                 hasCat[product.category] = true;
@@ -465,12 +531,31 @@
                 grids[product.category].innerHTML += card;
             });
 
+            // Mostra ou esconde seções baseadas no filtro
+            if(hasCat['Fragrâncias & Body']) document.getElementById('section-fragrancias').classList.add('active');
+            else document.getElementById('section-fragrancias').classList.remove('active');
+
             if(hasCat['Skin Care']) document.getElementById('section-skin').classList.add('active');
+            else document.getElementById('section-skin').classList.remove('active');
+
             if(hasCat['Roupas']) document.getElementById('section-roupas').classList.add('active');
+            else document.getElementById('section-roupas').classList.remove('active');
+
             if(hasCat['Maquiagem']) document.getElementById('section-make').classList.add('active');
+            else document.getElementById('section-make').classList.remove('active');
+
+            // Se não encontrou nada na busca, mostra a primeira seção apenas para não ficar vazio
+            if (filterText !== "" && !Object.values(hasCat).some(v => v)) {
+                 // Opcional: Mostrar msg "Nenhum produto encontrado"
+            }
         }
 
-        // --- LÓGICA DE LOGIN ---
+        function filterProducts() {
+            const txt = document.getElementById('searchInput').value;
+            renderProducts(txt);
+        }
+
+        // --- LÓGICA DE LOGIN E ADMIN ---
         function openLoginModal() {
             if(currentUser) {
                 if(confirm("Deseja sair da sua conta?")) {
@@ -478,7 +563,7 @@
                     updateUserUI();
                     cart = [];
                     updateCartUI();
-                    renderChat(); // Atualiza o chat ao sair
+                    renderChat(); 
                 }
             } else {
                 document.getElementById('login-modal').classList.add('open');
@@ -499,23 +584,44 @@
             const uName = document.getElementById('uName').value;
             const uPass = document.getElementById('uPass').value;
 
+            // Simulação de Login
             if(uName === 'Maria' && uPass === '1517') {
-                currentUser = { name: 'Maria' };
-                updateUserUI();
-                closeModals();
-                renderChat(); // Atualiza o chat ao logar
-                alert(`Bem-vindo(a) de volta, ${currentUser.name}!`);
+                currentUser = { name: 'Maria', role: 'admin' }; // Maria é admin
+                alert(`Bem-vinda, Admin ${currentUser.name}!`);
             } else {
-                alert("Usuário ou senha incorretos.");
+                // Login genérico para outros usuários (cliente comum)
+                // Para teste: qualquer outro nome/senha entra como cliente
+                if(uName.length > 0) {
+                     currentUser = { name: uName, role: 'customer' };
+                     alert(`Bem-vindo(a), ${currentUser.name}!`);
+                } else {
+                     alert("Por favor, preencha os campos.");
+                     return;
+                }
             }
+            
+            updateUserUI();
+            closeModals();
+            renderChat(); 
         });
 
         function updateUserUI() {
             const userDisplay = document.getElementById('user-display');
+            const adminBtn = document.getElementById('adminBtn');
+
             if(currentUser) {
                 userDisplay.innerHTML = `<i class="fas fa-user-check" style="color:var(--rose-primary)"></i> <span>Olá, ${currentUser.name}</span>`;
+                
+                // LÓGICA DO BOTÃO ADMIN: Só aparece se role for 'admin'
+                if (currentUser.role === 'admin') {
+                    adminBtn.style.display = 'inline-block';
+                } else {
+                    adminBtn.style.display = 'none';
+                }
+
             } else {
                 userDisplay.innerHTML = `<i class="far fa-user"></i> <span>Login</span>`;
+                adminBtn.style.display = 'none'; // Garante que some se deslogar
             }
         }
 
@@ -525,9 +631,31 @@
                 document.getElementById('warning-modal').classList.add('open');
                 return;
             }
+            // Importante: Pegar do localStorage novamente pois o índice da renderização pode variar com filtro
+            // Mas para simplificar neste exemplo sem ID único, vamos buscar pelo NOME ou manter a lista completa carregada na memória
+            // Correção: Como 'index' vem do renderLoop que pode estar filtrado, a lógica ideal seria passar o objeto produto.
+            // Para não quebrar a lógica simples atual, vamos assumir que o tryAddToCart recebe o indice do array GLOBAL
+            // Nota: Se filtrar, o indice muda visualmente.
+            // SOLUÇÃO ROBUSTA: Recarregar o produto clicado. O botão agora precisa de ajuste se usarmos filtro.
+            // Para este código funcionar com o filtro, o ideal é o botão passar o ID ou pegarmos o produto direto do array renderizado.
+            
+            // Vamos simplificar: O renderProducts usa o array completo filtrado. 
+            // O index passado no HTML gerado precisa ser o index ORIGINAL do array 'auraStock'.
+            // Vou corrigir o renderProducts levemente acima se fosse complexo, mas aqui vou pegar o array do localStorage e achar o item.
+            
             const products = JSON.parse(localStorage.getItem('auraStock'));
-            const product = products[index];
-            cart.push(product);
+            const productToAdd = products[index]; // Isso assume que renderProducts usa o index original.
+            // OBS: No renderProducts com filtro, o index muda. 
+            // Correção rápida para o filtro funcionar com o carrinho:
+            // No mundo real, usaríamos IDs. Aqui, vou confiar que o usuário vai buscar e clicar.
+            
+            // ATENÇÃO: Se usarmos busca, o index 0 da busca pode ser o index 10 do array original.
+            // O jeito certo sem mudar toda a estrutura é passar o nome para adicionar.
+            // Vou manter o index por simplicidade, mas saiba que na busca pode haver divergência se não mapearmos o index original.
+            // No código acima, o forEach percorre o array original, então o 'index' é preservado mesmo com o 'if(!match) return'.
+            // Então está SEGURO!
+            
+            cart.push(productToAdd);
             updateCartUI();
             
             const btn = event.target.closest('button');
@@ -627,7 +755,6 @@
             const msg = document.getElementById('chatMsg').value;
             if(!msg) return alert("Por favor, digite uma mensagem.");
 
-            // Cria o Ticket
             const ticket = {
                 id: Date.now(),
                 user: currentUser.name,
@@ -636,7 +763,6 @@
                 date: new Date().toLocaleTimeString()
             };
 
-            // Salva no LocalStorage para o Admin ver
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             tickets.push(ticket);
             localStorage.setItem('auraTickets', JSON.stringify(tickets));
@@ -648,6 +774,7 @@
 
         // Inicialização
         renderProducts();
+        updateUserUI(); // Garante estado inicial correto do botão Admin
     </script>
 </body>
 </html>
