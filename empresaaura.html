@@ -29,260 +29,99 @@
             line-height: 1.6;
         }
 
-        /* Top Bar e Header */
-        .top-bar {
-            background-color: var(--rose-primary); color: var(--text-light);
-            text-align: center; padding: 0.5rem; font-size: 0.8rem;
-            font-weight: 500; letter-spacing: 1px;
-        }
-
-        header {
-            position: sticky; top: 0; width: 100%; background: var(--glass);
-            backdrop-filter: blur(12px); z-index: 1000;
-            border-bottom: 1px solid var(--rose-border);
-        }
-
-        .navbar {
-            max-width: 1200px; margin: 0 auto; display: flex;
-            justify-content: space-between; align-items: center; padding: 1rem 2rem;
-            flex-wrap: wrap; gap: 1rem;
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif; font-size: 1.8rem;
-            font-weight: 700; color: var(--text-dark); text-decoration: none;
-            letter-spacing: -0.5px;
-        }
+        /* --- LAYOUT BÁSICO --- */
+        .top-bar { background-color: var(--rose-primary); color: var(--text-light); text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; }
+        header { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--rose-border); }
+        .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; flex-wrap: wrap; gap: 1rem; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--text-dark); text-decoration: none; letter-spacing: -0.5px; }
         .logo span { color: var(--rose-primary); font-style: italic; }
-
         .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
-        .nav-link {
-            text-decoration: none; color: var(--text-dark); font-weight: 500;
-            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
-            transition: 0.3s;
-        }
+        .nav-link { text-decoration: none; color: var(--text-dark); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         .nav-link:hover { color: var(--rose-primary); }
 
-        /* --- BARRA DE BUSCA --- */
-        .search-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border: 1px solid var(--rose-border);
-            border-radius: 20px;
-            padding: 5px 15px;
-            width: 250px;
-            transition: 0.3s;
-        }
-        .search-box:focus-within { border-color: var(--rose-primary); box-shadow: 0 0 8px rgba(216, 169, 166, 0.2); }
-        .search-box input {
-            border: none; outline: none; background: transparent;
-            font-size: 0.8rem; width: 100%; color: var(--text-dark);
-        }
+        .search-box { position: relative; display: flex; align-items: center; background: #fff; border: 1px solid var(--rose-border); border-radius: 20px; padding: 5px 15px; width: 250px; transition: 0.3s; }
+        .search-box input { border: none; outline: none; background: transparent; font-size: 0.8rem; width: 100%; color: var(--text-dark); }
         .search-box i { color: #999; font-size: 0.9rem; cursor: pointer; }
 
         .user-area { display: flex; align-items: center; gap: 1.5rem; }
-        
-        .icon-btn {
-            background: none; border: none; font-size: 1.1rem; color: var(--text-dark);
-            cursor: pointer; position: relative; transition: 0.3s;
-        }
+        .icon-btn { background: none; border: none; font-size: 1.1rem; color: var(--text-dark); cursor: pointer; position: relative; transition: 0.3s; }
         .icon-btn:hover { color: var(--rose-primary); transform: translateY(-2px); }
-        
-        .cart-badge {
-            position: absolute; top: -8px; right: -8px;
-            background: var(--rose-primary); color: white;
-            font-size: 0.6rem; width: 16px; height: 16px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; opacity: 0; transition: 0.3s;
-        }
+        .cart-badge { position: absolute; top: -8px; right: -8px; background: var(--rose-primary); color: white; font-size: 0.6rem; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; opacity: 0; transition: 0.3s; }
         .cart-badge.show { opacity: 1; }
-
-        .btn-login-user {
-            font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text-dark);
-            display: flex; align-items: center; gap: 5px;
-        }
-        
-        /* Botão Admin agora oculto por padrão */
-        .btn-admin {
-            padding: 0.4rem 1.2rem; border: 1px solid var(--rose-primary);
-            text-decoration: none; color: var(--rose-primary); font-weight: 600;
-            font-size: 0.7rem; text-transform: uppercase; transition: 0.3s;
-            border-radius: 20px; letter-spacing: 0.5px;
-            display: none; /* Oculto inicialmente */
-        }
+        .btn-login-user { font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text-dark); display: flex; align-items: center; gap: 5px; }
+        .btn-admin { padding: 0.4rem 1.2rem; border: 1px solid var(--rose-primary); text-decoration: none; color: var(--rose-primary); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; border-radius: 20px; letter-spacing: 0.5px; display: none; }
         .btn-admin:hover { background: var(--rose-primary); color: white; }
 
-        .hero {
-            height: 80vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; background: linear-gradient(135deg, #f5eae9 0%, #ffffff 100%);
-            padding: 0 2rem; position: relative;
-        }
-        
-        .hero::before {
-            content: ''; position: absolute; width: 300px; height: 300px;
-            background: var(--rose-secondary); filter: blur(80px); opacity: 0.4;
-            border-radius: 50%; top: 20%; left: 10%; z-index: 0;
-        }
-
-        .hero-content { z-index: 1; position: relative; }
-        .hero-content h1 {
-            font-family: 'Playfair Display', serif; font-size: 4.5rem;
-            margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-dark);
-        }
+        /* --- HERO & SECTIONS --- */
+        .hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #f5eae9 0%, #ffffff 100%); padding: 0 2rem; position: relative; }
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-dark); }
         .hero-content h1 span { font-style: italic; color: var(--rose-primary); }
-        .btn-explore {
-            background: var(--rose-primary); color: var(--text-light);
-            padding: 1rem 3rem; text-decoration: none; font-weight: 500;
-            letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem;
-            transition: 0.4s; display: inline-block; border-radius: 4px;
-        }
+        .btn-explore { background: var(--rose-primary); color: var(--text-light); padding: 1rem 3rem; text-decoration: none; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; transition: 0.4s; display: inline-block; border-radius: 4px; }
         .btn-explore:hover { background: var(--rose-secondary); transform: translateY(-5px); }
 
         .category-section { margin-bottom: 4rem; display: none; }
         .category-section.active { display: block; animation: fadeIn 0.8s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         .section-header { text-align: center; margin: 3rem 0 2rem; }
         .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-dark); }
         .section-separator { width: 50px; height: 2px; background: var(--rose-primary); margin: 10px auto; }
 
-        .products-grid {
-            max-width: 1200px; margin: 0 auto; display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2.5rem; padding: 0 2rem;
-        }
-
+        /* --- PRODUTOS --- */
+        .products-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; padding: 0 2rem; }
         .product-card { background: transparent; transition: 0.3s; cursor: pointer; position: relative; }
-        
-        .product-img-wrapper {
-            height: 350px; background-color: #fff; position: relative;
-            overflow: hidden; margin-bottom: 1.2rem; border-radius: 4px;
-        }
-        
-        .product-img-wrapper img {
-            width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease;
-        }
-
+        .product-img-wrapper { height: 350px; background-color: #fff; position: relative; overflow: hidden; margin-bottom: 1.2rem; border-radius: 4px; }
+        .product-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
         .product-card:hover .product-img-wrapper img { transform: scale(1.1); opacity: 0.9; }
-        
-        .add-cart-btn {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(50px);
-            background: white; color: var(--text-dark); padding: 0.8rem 1.5rem;
-            border: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700;
-            letter-spacing: 1px; cursor: pointer; transition: 0.4s; opacity: 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 80%; text-align: center; display: flex;
-            align-items: center; justify-content: center; gap: 8px;
-        }
+        .add-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(50px); background: white; color: var(--text-dark); padding: 0.8rem 1.5rem; border: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.4s; opacity: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 80%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .add-cart-btn:hover { background: var(--rose-primary); color: white; }
         .product-card:hover .add-cart-btn { transform: translateX(-50%) translateY(0); opacity: 1; }
-
         .product-info { text-align: center; }
-        .product-desc { font-size: 0.8rem; color: #888; margin-bottom: 5px; font-style: italic; }
         .product-name { font-size: 1rem; margin: 0.3rem 0; font-weight: 500; letter-spacing: 0.5px; }
         .product-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text-dark); }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); z-index: 2000; display: none;
-            backdrop-filter: blur(5px); justify-content: center; align-items: center;
-        }
+        /* --- MODAIS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; backdrop-filter: blur(5px); justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; animation: fadeModal 0.3s; }
-
-        .modal-box {
-            background: #fff; padding: 2.5rem; width: 400px; max-width: 90%;
-            border-radius: 8px; text-align: center; position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-
-        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .modal-box { background: #fff; padding: 2.5rem; width: 400px; max-width: 90%; border-radius: 8px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.2rem; color: #aaa; }
         .form-group { margin-bottom: 1rem; text-align: left; }
         .form-group label { font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 5px; }
         .form-group input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; outline: none; transition: 0.3s; }
-        .form-group input:focus { border-color: var(--rose-primary); }
-
-        .btn-primary {
-            background: var(--rose-primary); color: white; border: none; padding: 0.8rem 2rem;
-            width: 100%; text-transform: uppercase; font-weight: 600; letter-spacing: 1px;
-            cursor: pointer; transition: 0.3s; margin-top: 1rem;
-        }
+        .btn-primary { background: var(--rose-primary); color: white; border: none; padding: 0.8rem 2rem; width: 100%; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: 0.3s; margin-top: 1rem; }
         .btn-primary:hover { background: var(--rose-secondary); }
+        .toggle-link { font-size: 0.8rem; color: #777; margin-top: 1rem; cursor: pointer; text-decoration: underline; }
 
-        .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.2rem; color: #aaa; }
-
-        .toggle-link {
-            font-size: 0.8rem; color: #777; margin-top: 1rem; cursor: pointer; text-decoration: underline;
-        }
-        .toggle-link:hover { color: var(--rose-primary); }
-
-        .cart-sidebar {
-            position: fixed; top: 0; right: -400px; width: 400px; height: 100%;
-            background: white; z-index: 2001; box-shadow: -5px 0 30px rgba(0,0,0,0.1);
-            transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column;
-        }
-        .cart-sidebar.open { right: 0; }
-        .cart-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .cart-body { flex: 1; padding: 1.5rem; overflow-y: auto; }
-        .cart-footer { padding: 1.5rem; border-top: 1px solid #eee; background: #fafafa; }
-        .cart-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-        .cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 4px; }
-        .cart-item-info h4 { font-size: 0.9rem; margin-bottom: 4px; }
-        .cart-item-info p { font-weight: 600; color: var(--rose-primary); }
-
-        .payment-options { display: flex; gap: 10px; margin-top: 10px; justify-content: center; }
-        .payment-btn { flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; text-align: center; transition: 0.3s; }
-        .payment-btn:hover, .payment-btn.selected { border-color: var(--rose-primary); color: var(--rose-primary); background: #fff5f5; }
-
-        @keyframes fadeModal { from { opacity: 0; } to { opacity: 1; } }
-
-        footer {
-            background: #fff; padding: 3rem 2rem; text-align: center; margin-top: 4rem;
-            border-top: 1px solid var(--rose-border); font-size: 0.8rem; color: #888;
-        }
-
-        /* --- CHAT FLUTUANTE --- */
-        .chat-float-btn {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 60px; height: 60px;
-            background: var(--rose-primary); color: white;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            font-size: 1.5rem; cursor: pointer; z-index: 3000;
-            box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5);
-            transition: 0.3s; animation: pulse 2s infinite;
-        }
+        /* --- CHAT SYSTEM (Atualizado) --- */
+        .chat-float-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--rose-primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5); transition: 0.3s; animation: pulse 2s infinite; }
         .chat-float-btn:hover { transform: scale(1.1); background: var(--rose-secondary); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(216, 169, 166, 0); } 100% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0); } }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(216, 169, 166, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0); }
-        }
-
-        .chat-window {
-            position: fixed; bottom: 100px; right: 30px; width: 320px;
-            background: #fff; border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            z-index: 3000; overflow: hidden; display: none;
-            flex-direction: column; border: 1px solid var(--rose-border);
-        }
+        .chat-window { position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px; background: #f0f2f5; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 3000; overflow: hidden; display: none; flex-direction: column; border: 1px solid var(--rose-border); }
         .chat-window.open { display: flex; animation: slideUp 0.3s; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .chat-header { background: var(--rose-primary); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .chat-header h4 { font-size: 0.9rem; font-weight: 600; }
-        .chat-body { padding: 1.5rem; text-align: center; font-size: 0.9rem; color: #666; }
-        .chat-footer { padding: 1rem; border-top: 1px solid #eee; background: #fafafa; }
-        .chat-footer textarea {
-            width: 100%; border: 1px solid #ddd; padding: 0.8rem; border-radius: 6px;
-            font-family: inherit; font-size: 0.85rem; resize: none; margin-bottom: 0.5rem;
-        }
+        .chat-body { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .chat-footer { padding: 10px; background: white; border-top: 1px solid #ddd; display: flex; gap: 8px; }
+        .chat-footer input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+        .chat-footer button { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--rose-primary); color: white; cursor: pointer; }
 
+        /* Bolhas de Chat */
+        .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; word-wrap: break-word; }
+        .bubble-me { align-self: flex-end; background: #e7ffdb; color: #111; border-top-right-radius: 0; box-shadow: 0 1px 1px rgba(0,0,0,0.1); }
+        .bubble-admin { align-self: flex-start; background: white; color: #333; border-top-left-radius: 0; box-shadow: 0 1px 1px rgba(0,0,0,0.1); }
+        .bubble-time { display: block; font-size: 0.65rem; color: #999; text-align: right; margin-top: 4px; }
+
+        /* --- CART SIDEBAR --- */
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .cart-body { flex: 1; padding: 1.5rem; overflow-y: auto; }
+        .cart-footer { padding: 1.5rem; border-top: 1px solid #eee; background: #fafafa; }
+        
         @media (max-width: 900px) {
             .navbar { flex-direction: column; gap: 1rem; }
-            .search-box { width: 100%; margin: 10px 0; }
             .nav-links { display: none; }
-            .hero-content h1 { font-size: 3rem; }
             .cart-sidebar { width: 100%; right: -100%; }
         }
     </style>
@@ -294,22 +133,18 @@
     <header>
         <nav class="navbar">
             <a href="#" class="logo">Aura<span>.</span></a>
-            
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar produtos, coleções..." onkeyup="filterProducts()">
+                <input type="text" id="searchInput" placeholder="Buscar..." onkeyup="filterProducts()">
                 <i class="fas fa-search" onclick="filterProducts()"></i>
             </div>
-
             <ul class="nav-links">
                 <li><a href="#" class="nav-link">Home</a></li>
                 <li><a href="#fragrancias-area" class="nav-link">Fragrâncias</a></li>
                 <li><a href="#skincare-area" class="nav-link">Skin Care</a></li>
                 <li><a href="#roupas-area" class="nav-link">Roupas</a></li>
-                <li><a href="#make-area" class="nav-link">Maquiagem</a></li>
             </ul>
             <div class="user-area">
                 <a href="empresaauradashboard.html" class="btn-admin" id="adminBtn">Painel Admin</a>
-                
                 <div id="user-display" class="btn-login-user" onclick="openLoginModal()">
                     <i class="far fa-user"></i> <span>Login</span>
                 </div>
@@ -324,219 +159,90 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Sua Beleza,<br>Sua <span>Essência</span></h1>
-            <p style="color: #777; margin-bottom: 2rem; max-width: 600px; margin-inline: auto;">Uma curadoria exclusiva de moda, fragrâncias e cuidados para quem valoriza o minimalismo e a autenticidade.</p>
+            <p style="color: #777; margin-bottom: 2rem; max-width: 600px; margin-inline: auto;">Curadoria exclusiva para quem valoriza o minimalismo.</p>
             <a href="#loja-inicio" class="btn-explore">Explorar Coleção</a>
         </div>
     </section>
 
     <div id="loja-inicio"></div>
 
-    <div id="section-fragrancias" class="category-section">
-        <div class="section-header" id="fragrancias-area">
-            <h2 class="section-title">Fragrâncias & Body</h2>
-            <div class="section-separator"></div>
-            <p style="font-size: 0.9rem; color: #888;">Aromas irresistíveis para o seu dia</p>
-        </div>
-        <div class="products-grid" id="grid-fragrancias"></div>
-    </div>
+    <div id="section-fragrancias" class="category-section"><div class="section-header" id="fragrancias-area"><h2 class="section-title">Fragrâncias</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-fragrancias"></div></div>
+    <div id="section-skin" class="category-section"><div class="section-header" id="skincare-area"><h2 class="section-title">Skin Care</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-skin"></div></div>
+    <div id="section-roupas" class="category-section"><div class="section-header" id="roupas-area"><h2 class="section-title">Roupas</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-roupas"></div></div>
+    <div id="section-make" class="category-section"><div class="section-header" id="make-area"><h2 class="section-title">Maquiagem</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-make"></div></div>
 
-    <div id="section-skin" class="category-section">
-        <div class="section-header" id="skincare-area">
-            <h2 class="section-title">Ritual de Skin Care</h2>
-            <div class="section-separator"></div>
-            <p style="font-size: 0.9rem; color: #888;">Cuidado puro para sua pele</p>
-        </div>
-        <div class="products-grid" id="grid-skin"></div>
-    </div>
+    <footer><p>&copy; 2025 Aura Skins. Todos os direitos reservados.</p></footer>
 
-    <div id="section-roupas" class="category-section">
-        <div class="section-header" id="roupas-area">
-            <h2 class="section-title">Aura Moda</h2>
-            <div class="section-separator"></div>
-            <p style="font-size: 0.9rem; color: #888;">Tecidos naturais e design atemporal</p>
-        </div>
-        <div class="products-grid" id="grid-roupas"></div>
-    </div>
-
-    <div id="section-make" class="category-section">
-        <div class="section-header" id="make-area">
-            <h2 class="section-title">Beleza Real</h2>
-            <div class="section-separator"></div>
-            <p style="font-size: 0.9rem; color: #888;">Realce seus traços únicos</p>
-        </div>
-        <div class="products-grid" id="grid-make"></div>
-    </div>
-
-    <footer>
-        <p>&copy; 2025 Aura Skins. Todos os direitos reservados.</p>
-    </footer>
-
-    <div class="chat-float-btn" onclick="toggleChat()">
-        <i class="fas fa-comment-dots"></i>
-    </div>
-
+    <div class="chat-float-btn" onclick="toggleChat()"><i class="fas fa-comment-dots"></i></div>
     <div class="chat-window" id="chat-window">
         <div class="chat-header">
             <h4><i class="fas fa-headset"></i> Suporte Aura</h4>
             <i class="fas fa-times" onclick="toggleChat()" style="cursor: pointer;"></i>
         </div>
-        <div class="chat-body" id="chat-body-content">
-            </div>
+        <div class="chat-body" id="chat-body-content"></div>
         <div class="chat-footer" id="chat-footer-content">
-            </div>
+            <input type="text" id="chatMsg" placeholder="Digite sua mensagem...">
+            <button onclick="sendSupportMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
     </div>
 
     <div class="modal-overlay" id="login-modal">
         <div class="modal-box">
             <span class="close-modal" onclick="closeModals()">&times;</span>
-            
             <div id="login-section">
                 <h3 class="modal-title">Bem-vindo(a)</h3>
-                <p style="color:#888; margin-bottom: 1.5rem;">Acesse sua conta Aura para continuar.</p>
                 <form id="userLoginForm">
-                    <div class="form-group">
-                        <label>Email ou Usuário</label>
-                        <input type="text" id="uName" placeholder="Ex: maria@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Senha</label>
-                        <input type="password" id="uPass" required>
-                    </div>
+                    <div class="form-group"><label>Email ou Nome</label><input type="text" id="uName" required></div>
+                    <div class="form-group"><label>Senha</label><input type="password" id="uPass" required></div>
                     <button type="submit" class="btn-primary">Entrar</button>
-                    <div class="toggle-link" onclick="toggleAuthMode()">Não tem conta? Cadastre-se</div>
+                    <div class="toggle-link" onclick="toggleAuthMode()">Criar Conta</div>
                 </form>
             </div>
-
             <div id="register-section" style="display: none;">
                 <h3 class="modal-title">Criar Conta</h3>
-                <p style="color:#888; margin-bottom: 1.5rem;">Junte-se ao universo Aura.</p>
                 <form id="userRegisterForm">
-                    <div class="form-group">
-                        <label>Nome Completo</label>
-                        <input type="text" id="regName" placeholder="Ex: Ana Silva" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="regEmail" placeholder="Ex: ana@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Senha</label>
-                        <input type="password" id="regPass" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirmar Senha</label>
-                        <input type="password" id="regPassConfirm" required>
-                    </div>
+                    <div class="form-group"><label>Nome</label><input type="text" id="regName" required></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div>
+                    <div class="form-group"><label>Senha</label><input type="password" id="regPass" required></div>
                     <button type="submit" class="btn-primary">Cadastrar</button>
-                    <div class="toggle-link" onclick="toggleAuthMode()">Já tem conta? Fazer Login</div>
+                    <div class="toggle-link" onclick="toggleAuthMode()">Fazer Login</div>
                 </form>
             </div>
-
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="warning-modal">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeModals()">&times;</span>
-            <i class="fas fa-lock" style="font-size: 3rem; color: var(--rose-primary); margin-bottom: 1rem;"></i>
-            <h3 class="modal-title" style="font-size: 1.5rem;">Faça Login</h3>
-            <p style="color:#666; margin-bottom: 1.5rem;">Senhor(a), você precisa estar logado(a) na sua conta Aura para esta ação.</p>
-            <button onclick="switchContextToLogin()" class="btn-primary">Fazer Login Agora</button>
         </div>
     </div>
 
     <div class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header">
-            <h3 style="font-family: 'Playfair Display', serif;">Sua Sacola</h3>
-            <span class="close-modal" onclick="closeCart()" style="position: static;">&times;</span>
-        </div>
-        <div class="cart-body" id="cart-items-container">
-            <p style="text-align: center; color: #999; margin-top: 2rem;">Sua sacola está vazia.</p>
-        </div>
+        <div class="cart-header"><h3>Sua Sacola</h3><span class="close-modal" onclick="closeCart()" style="position: static;">&times;</span></div>
+        <div class="cart-body" id="cart-items-container"></div>
         <div class="cart-footer">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold;">
-                <span>Total</span>
-                <span id="cart-total">R$ 0,00</span>
-            </div>
-            <p style="font-size: 0.8rem; margin-bottom: 5px;">Método de Pagamento:</p>
-            <div class="payment-options">
-                <div class="payment-btn"><i class="fas fa-qrcode"></i> PIX</div>
-                <div class="payment-btn"><i class="far fa-credit-card"></i> Cartão</div>
-            </div>
-            <button class="btn-primary" style="margin-top: 1.5rem;" onclick="alert('Funcionalidade de Checkout em desenvolvimento!')">Finalizar Compra</button>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold;"><span>Total</span><span id="cart-total">R$ 0,00</span></div>
+            <button class="btn-primary" onclick="alert('Checkout em desenvolvimento!')">Finalizar</button>
         </div>
     </div>
-
     <div class="modal-overlay" id="cart-overlay" onclick="closeCart()" style="z-index: 2000;"></div>
 
     <script>
-        // --- 1. POPULAÇÃO DE DADOS ---
+        // --- 1. PRODUTOS ---
         const initialProducts = [
-            // Fragrâncias
-            { name: "Body Splash Irresistible da Alleva", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&w=400&q=80", desc: "Notas florais e toque adocicado envolvente." },
-            { name: "Body Splash Alleva Vanilla Dreams", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=400&q=80", desc: "Baunilha suave para momentos aconchegantes." },
-            { name: "Body Splash Alleva Fresh Cotton", category: "Fragrâncias & Body", price: "74.90", img: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=400&q=80", desc: "Sensação de banho tomado e frescor." },
-            { name: "Body Splash Alleva Summer Vibes", category: "Fragrâncias & Body", price: "82.00", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80", desc: "Tropical, frutado e solar." },
-            { name: "Body Splash Alleva Midnight", category: "Fragrâncias & Body", price: "85.90", img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=400&q=80", desc: "Misterioso e marcante para a noite." },
-            { name: "Mist Corporal Cherry Blossom", category: "Fragrâncias & Body", price: "69.90", img: "https://images.unsplash.com/photo-1595867372361-b66ce7f10352?auto=format&fit=crop&w=400&q=80", desc: "Flor de cerejeira delicada." },
-            { name: "Perfume Capilar Shine & Scent", category: "Fragrâncias & Body", price: "55.00", img: "https://images.unsplash.com/photo-1620917670399-23d6a6669f3e?auto=format&fit=crop&w=400&q=80", desc: "Brilho e aroma para os fios." },
-            { name: "Body Splash Alleva Coconut", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&w=400&q=80", desc: "Coco cremoso e exótico." },
-            { name: "Loção Perfumada Irresistible", category: "Fragrâncias & Body", price: "65.00", img: "https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=400&q=80", desc: "O par perfeito para o splash." },
-            { name: "Óleo Corporal Iluminador Alleva", category: "Fragrâncias & Body", price: "89.90", img: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=400&q=80", desc: "Partículas de ouro e hidratação." },
-            { name: "Eau de Parfum Aura Class", category: "Fragrâncias & Body", price: "220.00", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80", desc: "Sofisticação em frasco." },
-            { name: "Mist Facial Refrescante", category: "Fragrâncias & Body", price: "45.00", img: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=400&q=80", desc: "Água termal aromatizada." },
-            { name: "Kit Presente Alleva Lovers", category: "Fragrâncias & Body", price: "189.90", img: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=400&q=80", desc: "3 Mini Splashes exclusivos." },
-            { name: "Creme de Mãos Alleva Rose", category: "Fragrâncias & Body", price: "35.00", img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=400&q=80", desc: "Toque aveludado instantâneo." },
-            { name: "Body Splash Alleva Ocean", category: "Fragrâncias & Body", price: "74.90", img: "https://images.unsplash.com/photo-1595867372361-b66ce7f10352?auto=format&fit=crop&w=400&q=80", desc: "Brisa do mar engarrafada." },
-
-            // Skin Care
-            { name: "Sérum Iluminador Aura", category: "Skin Care", price: "129.90", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=400&q=80", desc: "Vitamina C pura para um brilho natural." },
-            { name: "Hidratante Cloud Cream", category: "Skin Care", price: "89.90", img: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=400&q=80", desc: "Textura leve como nuvem." },
-            { name: "Tônico Facial Rose", category: "Skin Care", price: "65.00", img: "https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&w=400&q=80", desc: "Equilíbrio de pH com água de rosas." },
-            { name: "Óleo Facial Repair", category: "Skin Care", price: "145.50", img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=400&q=80", desc: "Regeneração noturna intensa." },
-            { name: "Máscara Detox Argila", category: "Skin Care", price: "78.00", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=400&q=80", desc: "Purificação profunda dos poros." },
-            
-            // Roupas
-            { name: "Vestido Linen Breeze", category: "Roupas", price: "289.00", img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80", desc: "Leveza e conforto em linho puro." },
-            { name: "Blusa Seda Off-White", category: "Roupas", price: "199.90", img: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=400&q=80", desc: "Elegância minimalista." },
-            { name: "Calça Pantalona Terra", category: "Roupas", price: "249.00", img: "https://images.unsplash.com/photo-1584370848010-d7cc637703ef?auto=format&fit=crop&w=400&q=80", desc: "Movimento fluido e cintura alta." },
-            { name: "Kimono Floral Soft", category: "Roupas", price: "159.90", img: "https://images.unsplash.com/photo-1551488852-d81439884589?auto=format&fit=crop&w=400&q=80", desc: "Toque romântico para qualquer look." },
-            { name: "Saia Midi Plissada", category: "Roupas", price: "179.00", img: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=400&q=80", desc: "Clássico moderno em tons pastéis." },
-
-            // Maquiagem
-            { name: "Paleta Nude Rose", category: "Maquiagem", price: "189.90", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=400&q=80", desc: "Tons terrosos para o dia a dia." },
-            { name: "Batom Matte Velvet", category: "Maquiagem", price: "59.90", img: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=400&q=80", desc: "Conforto e longa duração." },
-            { name: "Blush Cremoso Peach", category: "Maquiagem", price: "85.00", img: "https://images.unsplash.com/photo-1596704017382-30508d6970ab?auto=format&fit=crop&w=400&q=80", desc: "Cor natural e saudável." },
-            { name: "Iluminador Glow Stick", category: "Maquiagem", price: "92.00", img: "https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=400&q=80", desc: "Brilho radiante instantâneo." },
-            { name: "Máscara de Cílios Volume", category: "Maquiagem", price: "68.50", img: "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?auto=format&fit=crop&w=400&q=80", desc: "Definição sem grumos." }
+            { name: "Body Splash Irresistible", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=400" },
+            { name: "Sérum Iluminador", category: "Skin Care", price: "129.90", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400" },
+            { name: "Vestido Linen Breeze", category: "Roupas", price: "289.00", img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400" },
+            { name: "Batom Matte Velvet", category: "Maquiagem", price: "59.90", img: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400" }
         ];
 
         function checkAndInitProducts() {
             let stock = JSON.parse(localStorage.getItem('auraStock'));
-            if (!stock || stock.length < initialProducts.length) {
+            if (!stock || stock.length === 0) {
                 localStorage.setItem('auraStock', JSON.stringify(initialProducts));
             }
         }
         checkAndInitProducts();
-
-        // --- 2. SISTEMA DE USUÁRIO E CARRINHO ---
-        // Inicializa a base de usuários se não existir
-        function initUsers() {
-            let users = JSON.parse(localStorage.getItem('auraUsers'));
-            if(!users) {
-                // Admin Padrão
-                const admin = { id: 1, name: "Maria", email: "maria@auraskin.com", password: "1517", role: "admin", status: "active", spent: 0, date: "01/01/2023" };
-                localStorage.setItem('auraUsers', JSON.stringify([admin]));
-            }
-        }
-        initUsers();
 
         let currentUser = null; 
         let cart = [];
 
         function renderProducts(filterText = "") {
             const products = JSON.parse(localStorage.getItem('auraStock')) || [];
-            
             const grids = {
                 'Fragrâncias & Body': document.getElementById('grid-fragrancias'),
                 'Skin Care': document.getElementById('grid-skin'),
@@ -548,304 +254,182 @@
             let hasCat = { 'Fragrâncias & Body': false, 'Skin Care': false, 'Roupas': false, 'Maquiagem': false };
 
             products.forEach((product, index) => {
-                const matchSearch = product.name.toLowerCase().includes(filterText.toLowerCase()) || 
-                                    product.category.toLowerCase().includes(filterText.toLowerCase());
-                
-                if (!matchSearch) return;
-
-                if(!grids[product.category]) return;
-
+                const matchSearch = product.name.toLowerCase().includes(filterText.toLowerCase());
+                if (!matchSearch || !grids[product.category]) return;
                 hasCat[product.category] = true;
                 const card = `
                     <div class="product-card">
                         <div class="product-img-wrapper">
-                            <img src="${product.img}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x400?text=Aura'">
-                            <button class="add-cart-btn" onclick="tryAddToCart(${index})">
-                                <i class="fas fa-shopping-bag"></i> Adicionar
-                            </button>
+                            <img src="${product.img}" onerror="this.src='https://via.placeholder.com/400'">
+                            <button class="add-cart-btn" onclick="addToCart(${index})"><i class="fas fa-shopping-bag"></i> Adicionar</button>
                         </div>
                         <div class="product-info">
-                            <div class="product-desc">${product.desc || ''}</div>
                             <h3 class="product-name">${product.name}</h3>
                             <div class="product-price">R$ ${parseFloat(product.price).toFixed(2)}</div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 grids[product.category].innerHTML += card;
             });
 
-            if(hasCat['Fragrâncias & Body']) document.getElementById('section-fragrancias').classList.add('active');
-            else document.getElementById('section-fragrancias').classList.remove('active');
-
-            if(hasCat['Skin Care']) document.getElementById('section-skin').classList.add('active');
-            else document.getElementById('section-skin').classList.remove('active');
-
-            if(hasCat['Roupas']) document.getElementById('section-roupas').classList.add('active');
-            else document.getElementById('section-roupas').classList.remove('active');
-
-            if(hasCat['Maquiagem']) document.getElementById('section-make').classList.add('active');
-            else document.getElementById('section-make').classList.remove('active');
+            // Ativar seções
+            Object.keys(hasCat).forEach(cat => {
+                const elId = 'section-' + (cat === 'Fragrâncias & Body' ? 'fragrancias' : cat === 'Skin Care' ? 'skin' : cat === 'Roupas' ? 'roupas' : 'make');
+                const el = document.getElementById(elId);
+                if(el) hasCat[cat] ? el.classList.add('active') : el.classList.remove('active');
+            });
         }
+        function filterProducts() { renderProducts(document.getElementById('searchInput').value); }
 
-        function filterProducts() {
-            const txt = document.getElementById('searchInput').value;
-            renderProducts(txt);
-        }
-
-        // --- LÓGICA DE LOGIN E REGISTRO ---
+        // --- AUTH ---
         function openLoginModal() {
             if(currentUser) {
-                if(confirm("Deseja sair da sua conta?")) {
-                    currentUser = null;
-                    updateUserUI();
-                    cart = [];
-                    updateCartUI();
-                    renderChat(); 
+                if(confirm("Sair da conta?")) {
+                    currentUser = null; updateUserUI();
+                    document.getElementById('chat-body-content').innerHTML = ''; // Limpa chat visualmente
                 }
             } else {
-                document.getElementById('login-section').style.display = 'block';
-                document.getElementById('register-section').style.display = 'none';
                 document.getElementById('login-modal').classList.add('open');
             }
         }
-
+        function closeModals() { document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('open')); }
         function toggleAuthMode() {
-            const loginSec = document.getElementById('login-section');
-            const regSec = document.getElementById('register-section');
-            if(loginSec.style.display === 'none') {
-                loginSec.style.display = 'block';
-                regSec.style.display = 'none';
-            } else {
-                loginSec.style.display = 'none';
-                regSec.style.display = 'block';
-            }
+            const l = document.getElementById('login-section'), r = document.getElementById('register-section');
+            if(l.style.display === 'none') { l.style.display='block'; r.style.display='none'; } else { l.style.display='none'; r.style.display='block'; }
         }
 
-        function closeModals() {
-            document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('open'));
-        }
-
-        function switchContextToLogin() {
-            closeModals();
-            setTimeout(() => openLoginModal(), 300);
-        }
-
-        // LOGIN
-        document.getElementById('userLoginForm').addEventListener('submit', function(e) {
+        document.getElementById('userLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const uInput = document.getElementById('uName').value;
+            const uName = document.getElementById('uName').value;
             const uPass = document.getElementById('uPass').value;
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-
-            // Procura usuário (email ou nome)
-            const user = users.find(u => (u.email === uInput || u.name === uInput) && u.password === uPass);
-
+            const user = users.find(u => (u.email === uName || u.name === uName) && u.password === uPass);
             if(user) {
-                if(user.status === 'blocked') {
-                    alert("Esta conta foi bloqueada. Entre em contato com o suporte.");
-                    return;
-                }
-                currentUser = user;
-                alert(`Bem-vindo(a), ${user.name}!`);
-                updateUserUI();
-                closeModals();
-                renderChat(); 
-            } else {
-                alert("Usuário ou senha incorretos.");
-            }
+                if(user.status === 'blocked') return alert("Conta bloqueada.");
+                currentUser = user; updateUserUI(); closeModals();
+            } else alert("Dados incorretos.");
         });
 
-        // REGISTRO
-        document.getElementById('userRegisterForm').addEventListener('submit', function(e) {
+        document.getElementById('userRegisterForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const pass = document.getElementById('regPass').value;
-            const passConfirm = document.getElementById('regPassConfirm').value;
-
-            if(pass !== passConfirm) {
-                alert("As senhas não coincidem.");
-                return;
-            }
-
+            const name = document.getElementById('regName').value, email = document.getElementById('regEmail').value, pass = document.getElementById('regPass').value;
             let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-
-            // Verifica se email já existe
-            if(users.find(u => u.email === email)) {
-                alert("Este email já está cadastrado.");
-                return;
-            }
-
-            const newUser = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                password: pass,
-                role: 'customer',
-                status: 'active',
-                spent: 0,
-                date: new Date().toLocaleDateString()
-            };
-
+            if(users.find(u => u.email === email)) return alert("Email já existe.");
+            const newUser = { id: Date.now(), name, email, password: pass, role: 'customer', status: 'active', spent: 0, date: new Date().toLocaleDateString() };
             users.push(newUser);
             localStorage.setItem('auraUsers', JSON.stringify(users));
-            
-            alert("Cadastro realizado com sucesso! Fazendo login...");
-            currentUser = newUser;
-            updateUserUI();
-            closeModals();
-            renderChat();
+            currentUser = newUser; updateUserUI(); closeModals();
         });
 
         function updateUserUI() {
-            const userDisplay = document.getElementById('user-display');
-            const adminBtn = document.getElementById('adminBtn');
-
+            const display = document.getElementById('user-display'), adminBtn = document.getElementById('adminBtn');
             if(currentUser) {
-                userDisplay.innerHTML = `<i class="fas fa-user-check" style="color:var(--rose-primary)"></i> <span>Olá, ${currentUser.name}</span>`;
-                
-                if (currentUser.role === 'admin') {
-                    adminBtn.style.display = 'inline-block';
-                } else {
-                    adminBtn.style.display = 'none';
-                }
-
+                display.innerHTML = `<i class="fas fa-check"></i> ${currentUser.name}`;
+                adminBtn.style.display = (currentUser.role === 'admin' || currentUser.role === 'dona') ? 'inline-block' : 'none';
             } else {
-                userDisplay.innerHTML = `<i class="far fa-user"></i> <span>Login</span>`;
+                display.innerHTML = `<i class="far fa-user"></i> Login`;
                 adminBtn.style.display = 'none';
             }
         }
 
-        // --- LÓGICA DO CARRINHO ---
-        function tryAddToCart(index) {
-            if(!currentUser) {
-                document.getElementById('warning-modal').classList.add('open');
-                return;
-            }
-            
+        // --- CARRINHO ---
+        function addToCart(index) {
+            if(!currentUser) return alert("Faça login para comprar.");
             const products = JSON.parse(localStorage.getItem('auraStock'));
-            const productToAdd = products[index]; 
-            
-            cart.push(productToAdd);
+            cart.push(products[index]);
             updateCartUI();
-            
-            const btn = event.target.closest('button');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> Adicionado';
-            btn.style.background = '#E2BFBC';
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = 'white';
-            }, 1500);
+            alert("Produto adicionado!");
         }
-
         function updateCartUI() {
-            const badge = document.getElementById('cart-count');
-            badge.innerText = cart.length;
-            if(cart.length > 0) badge.classList.add('show');
-            else badge.classList.remove('show');
-
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-count').classList.add('show');
             const container = document.getElementById('cart-items-container');
-            const totalEl = document.getElementById('cart-total');
-            
-            if(cart.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #999; margin-top: 2rem;">Sua sacola está vazia.</p>';
-                totalEl.innerText = 'R$ 0,00';
-                return;
-            }
-
-            let html = '';
+            container.innerHTML = '';
             let total = 0;
             cart.forEach((item, i) => {
                 total += parseFloat(item.price);
-                html += `
-                    <div class="cart-item">
-                        <img src="${item.img}" alt="${item.name}">
-                        <div class="cart-item-info">
-                            <h4>${item.name}</h4>
-                            <p>R$ ${parseFloat(item.price).toFixed(2)}</p>
-                            <span style="font-size:0.7rem; color:red; cursor:pointer;" onclick="removeFromCart(${i})">Remover</span>
-                        </div>
-                    </div>
-                `;
+                container.innerHTML += `<div class="cart-item"><img src="${item.img}"><div><h4>${item.name}</h4><p>R$ ${item.price}</p><small onclick="cart.splice(${i},1);updateCartUI()" style="color:red;cursor:pointer">Remover</small></div></div>`;
             });
-            container.innerHTML = html;
-            totalEl.innerText = 'R$ ' + total.toFixed(2);
+            document.getElementById('cart-total').innerText = "R$ " + total.toFixed(2);
         }
+        function openCart() { document.getElementById('cart-sidebar').classList.add('open'); document.getElementById('cart-overlay').classList.add('open'); }
+        function closeCart() { document.getElementById('cart-sidebar').classList.remove('open'); document.getElementById('cart-overlay').classList.remove('open'); }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function openCart() {
-            document.getElementById('cart-sidebar').classList.add('open');
-            document.getElementById('cart-overlay').classList.add('open');
-        }
-
-        function closeCart() {
-            document.getElementById('cart-sidebar').classList.remove('open');
-            document.getElementById('cart-overlay').classList.remove('open');
-        }
-
-        // --- CHAT SYSTEM ---
+        // --- CHAT SYSTEM REAL ---
         function toggleChat() {
             const chat = document.getElementById('chat-window');
-            if (chat.classList.contains('open')) {
-                chat.classList.remove('open');
-            } else {
-                chat.classList.add('open');
-                renderChat();
-            }
+            if(chat.classList.contains('open')) chat.classList.remove('open');
+            else { chat.classList.add('open'); renderChat(); }
         }
 
         function renderChat() {
             const body = document.getElementById('chat-body-content');
             const footer = document.getElementById('chat-footer-content');
+            
+            if(!currentUser) {
+                body.innerHTML = '<div style="text-align:center; padding:2rem; color:#999;"><i class="fas fa-lock" style="font-size:2rem;"></i><br>Faça login para falar conosco.</div>';
+                footer.style.display = 'none';
+                return;
+            }
+            footer.style.display = 'flex';
 
-            if (!currentUser) {
-                body.innerHTML = `
-                    <i class="fas fa-lock" style="font-size: 2rem; color: #ddd; margin-bottom: 1rem;"></i>
-                    <p>Senhor(a), para iniciar um atendimento personalizado, por favor faça login na sua conta.</p>
-                `;
-                footer.innerHTML = `<button onclick="switchContextToLogin()" class="btn-primary" style="margin:0; font-size:0.8rem;">Fazer Login</button>`;
+            // Buscar ticket do usuário
+            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            
+            body.innerHTML = '';
+            if(myTicket && myTicket.messages) {
+                myTicket.messages.forEach(msg => {
+                    const isMe = msg.sender === currentUser.name;
+                    body.innerHTML += `
+                        <div class="bubble ${isMe ? 'bubble-me' : 'bubble-admin'}">
+                            <strong>${msg.sender}</strong><br>${msg.text}
+                            <span class="bubble-time">${msg.time}</span>
+                        </div>
+                    `;
+                });
+                body.scrollTop = body.scrollHeight; // Scroll para o fim
             } else {
-                body.innerHTML = `
-                    <p style="margin-bottom: 1rem;">Olá, <strong>${currentUser.name}</strong>!</p>
-                    <p>Descreva o seu problema e inicie o chat com um atendente real.</p>
-                    <div id="msg-success" style="display:none; margin-top:10px; color: green; font-size: 0.8rem;">Mensagem enviada! Aguarde o atendimento no painel.</div>
-                `;
-                footer.innerHTML = `
-                    <textarea id="chatMsg" rows="2" placeholder="Digite aqui..."></textarea>
-                    <button onclick="sendSupportMessage()" class="btn-primary" style="margin:0; font-size:0.8rem;">Enviar Mensagem</button>
-                `;
+                body.innerHTML = '<p style="text-align:center; color:#ccc; margin-top:50px;">Inicie uma conversa...</p>';
             }
         }
 
         function sendSupportMessage() {
-            const msg = document.getElementById('chatMsg').value;
-            if(!msg) return alert("Por favor, digite uma mensagem.");
-
-            const ticket = {
-                id: Date.now(),
-                user: currentUser.name,
-                message: msg,
-                status: 'Pendente',
-                date: new Date().toLocaleTimeString()
-            };
+            const txt = document.getElementById('chatMsg').value;
+            if(!txt) return;
 
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            tickets.push(ticket);
-            localStorage.setItem('auraTickets', JSON.stringify(tickets));
+            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
 
+            const msgObj = { sender: currentUser.name, text: txt, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+
+            if(myTicket) {
+                myTicket.messages.push(msgObj);
+                myTicket.status = 'Pendente'; // Reabre se tiver fechado ou atualiza status
+            } else {
+                // Cria novo ticket
+                tickets.push({
+                    id: Date.now(),
+                    user: currentUser.name,
+                    status: 'Pendente',
+                    date: new Date().toLocaleDateString(),
+                    messages: [msgObj]
+                });
+            }
+
+            localStorage.setItem('auraTickets', JSON.stringify(tickets));
             document.getElementById('chatMsg').value = '';
-            document.getElementById('msg-success').style.display = 'block';
-            setTimeout(() => { toggleChat(); }, 2000);
+            renderChat();
         }
 
-        // Inicialização
+        // Auto-refresh chat a cada 3 segundos para ver resposta do admin
+        setInterval(() => {
+            if(document.getElementById('chat-window').classList.contains('open') && currentUser) {
+                renderChat();
+            }
+        }, 3000);
+
         renderProducts();
-        updateUserUI(); 
+        updateUserUI();
     </script>
 </body>
 </html>
