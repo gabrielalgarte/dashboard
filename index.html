@@ -211,13 +211,13 @@
                 <h2>Acesso ao Sistema</h2>
                 <span class="sub-text">Entre com suas credenciais de usuário.</span>
                 
-                <form id="loginForm">
+                <form onsubmit="event.preventDefault(); window.location.href='dashboard-gestor.html'">
                     <div class="input-group">
-                        <input type="text" id="loginUser" class="form-input" placeholder=" " required autocomplete="off">
+                        <input type="text" class="form-input" placeholder=" " required autocomplete="off">
                         <label>Usuário</label>
                     </div>
                     <div class="input-group">
-                        <input type="password" id="loginPass" class="form-input" placeholder=" " required>
+                        <input type="password" class="form-input" placeholder=" " required>
                         <label>Senha</label>
                     </div>
                     
@@ -312,64 +312,18 @@
             else { login.classList.add('hidden'); register.classList.remove('hidden'); }
         }
 
-        // LÓGICA DE LOGIN COM USUÁRIOS ESPECÍFICOS E USUÁRIOS APROVADOS
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const userInput = document.getElementById('loginUser').value.trim();
-            const passInput = document.getElementById('loginPass').value;
-
-            // 1. Verificar usuários fixos do sistema
-            const systemUsers = [
-                { u: 'Algarte', p: '1517', dest: 'dashboard-gestor.html' },
-                { u: 'Daniel', p: '113377', dest: 'dashboard-gestor.html' },
-                { u: 'Gestorsig', p: 'admin', dest: 'dashboard-gestor.html' },
-                { u: 'Almoxarifado', p: '1234', dest: 'dashboard.html' } // Senha padrão 1234
-            ];
-
-            const foundSystemUser = systemUsers.find(
-                item => item.u.toLowerCase() === userInput.toLowerCase() && item.p === passInput
-            );
-
-            if (foundSystemUser) {
-                window.location.href = foundSystemUser.dest;
-                return;
-            }
-
-            // 2. Verificar usuários aprovados (Empresas aceitas via Painel)
-            // A aprovação ocorrerá no dashboard-gestor.html, que salvará em 'integrux_users'
-            const approvedUsers = JSON.parse(localStorage.getItem('integrux_users')) || [];
-            
-            const foundApprovedUser = approvedUsers.find(
-                item => item.username.toLowerCase() === userInput.toLowerCase() && item.password === passInput
-            );
-
-            if (foundApprovedUser) {
-                // Empresas geralmente vão para o gestor, ou para uma url definida no objeto do usuário
-                window.location.href = foundApprovedUser.destination || 'dashboard-gestor.html';
-                return;
-            }
-
-            // Se falhar
-            alert('Usuário ou senha incorretos, ou sua solicitação ainda está em análise.');
-        });
-
-        // LÓGICA DE REGISTRO (SOLICITAÇÃO)
         document.getElementById('regForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Criação do objeto da empresa solicitante (Lead)
             const companyData = {
                 id: Date.now(),
                 name: document.getElementById('regName').value,
                 cnpj: document.getElementById('regCnpj').value,
                 contact: document.getElementById('regContact').value,
                 date: new Date().toLocaleDateString('pt-BR'),
-                status: 'Pendente', // Status inicial para aparecer no painel de aprovação
+                status: 'lead_qualificado', 
                 siteEnabled: false
             };
             
-            // Salva na lista de Leads (Pendentes de aprovação)
             let leads = JSON.parse(localStorage.getItem('integrux_leads')) || [];
             leads.push(companyData);
             localStorage.setItem('integrux_leads', JSON.stringify(leads));
