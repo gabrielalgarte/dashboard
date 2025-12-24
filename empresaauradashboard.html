@@ -78,7 +78,7 @@
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Formulário e Tabela */
+        /* Formulário e Tabela de Produtos */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         .form-full { grid-column: span 2; }
         label { font-size: 0.85rem; font-weight: 600; color: #666; margin-bottom: 0.5rem; display: block; }
@@ -132,47 +132,35 @@
             display: flex; align-items: center; gap: 5px; color: #666;
         }
         .btn-action:hover { background: #f9f9f9; border-color: var(--rose-dark); color: var(--rose-dark); }
+        
+        .btn-action:disabled { cursor: not-allowed; opacity: 0.6; }
 
-        /* CHAT AURA STYLE */
+        /* CHAT STYLE */
         .chat-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1000; display: none;
+            background: rgba(0,0,0,0.4); z-index: 999; display: none;
             justify-content: center; align-items: center; backdrop-filter: blur(2px);
         }
-        .chat-window {
-            width: 400px; height: 500px; background: #fff;
-            border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        .chat-box {
+            width: 400px; height: 550px; background: white; border-radius: 16px;
+            display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
         .chat-header {
-            padding: 15px 20px; background: var(--rose-dark); color: white;
+            padding: 15px; background: var(--rose-dark); color: white;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .chat-body {
-            flex: 1; padding: 20px; overflow-y: auto; background: #fbfbfb;
+        .chat-msgs {
+            flex: 1; padding: 20px; overflow-y: auto; background: #fdfbfb;
             display: flex; flex-direction: column; gap: 10px;
         }
-        .chat-footer {
-            padding: 15px; background: #fff; border-top: 1px solid #eee; display: flex; gap: 10px;
-        }
-        .chat-msg {
-            max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4;
-        }
-        .msg-me {
-            align-self: flex-end; background: var(--rose-dark); color: white;
-            border-bottom-right-radius: 2px;
-        }
-        .msg-them {
-            align-self: flex-start; background: #eee; color: #555;
-            border-bottom-left-radius: 2px;
-        }
-        .chat-input {
-            flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none;
-        }
-        .chat-send {
-            width: 40px; height: 40px; border-radius: 50%; background: var(--rose-dark);
-            color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
+        .msg { padding: 10px 15px; border-radius: 10px; font-size: 0.9rem; max-width: 80%; }
+        .msg-me { align-self: flex-end; background: var(--rose-med); color: #fff; border-bottom-right-radius: 0; }
+        .msg-sup { align-self: flex-start; background: #eee; color: #555; border-bottom-left-radius: 0; }
+        
+        .chat-footer { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .chat-input { flex: 1; border: 1px solid #ddd; border-radius: 20px; padding: 10px 15px; outline: none; }
+        .chat-send { background: var(--rose-dark); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
 
         @media (max-width: 900px) {
             body { flex-direction: column; height: auto; }
@@ -264,11 +252,10 @@
 
         <div id="view-support" class="view-section">
             <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
-                    <h2 style="border:none; margin:0; padding:0;">Meus Tickets</h2>
-                    <button class="btn-add" style="width: auto;" onclick="createNewTicket()">+ Novo Chamado</button>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2>Solicitações de Atendimento</h2>
+                    <button class="btn-add" style="width: auto; padding: 0.5rem 1rem; font-size: 0.7rem;" onclick="createNewTicket()">+ Novo Chamado</button>
                 </div>
-                
                 <div id="tickets-container">
                     <p style="color: #999;">Carregando solicitações...</p>
                 </div>
@@ -278,25 +265,24 @@
     </div>
 
     <div class="chat-overlay" id="chatOverlay">
-        <div class="chat-window">
+        <div class="chat-box">
             <div class="chat-header">
-                <div>
-                    <strong style="font-size: 0.9rem;">Suporte Integrux</strong><br>
-                    <span style="font-size: 0.7rem; opacity: 0.9;">Conectado</span>
+                <span>Suporte Integrux</span>
+                <i class="fas fa-times" style="cursor:pointer;" onclick="closeChat()"></i>
+            </div>
+            <div class="chat-msgs" id="chatMessages">
                 </div>
-                <i class="fas fa-times" style="cursor: pointer;" onclick="closeChat()"></i>
-            </div>
-            <div class="chat-body" id="chatBody">
-                <div style="text-align: center; color: #aaa; font-size: 0.8rem; margin-top: 10px;">Início do atendimento</div>
-            </div>
             <div class="chat-footer">
-                <input type="text" class="chat-input" id="chatInput" placeholder="Digite sua mensagem...">
-                <button class="chat-send" onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Mensagem...">
+                <button class="chat-send" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
     <script>
+        // SIMULAÇÃO DE ID DA EMPRESA (Aura = 1)
+        const MY_ID = 1;
+
         // --- NAVEGAÇÃO ENTRE ABAS ---
         function switchTab(tab) {
             document.querySelectorAll('.menu a').forEach(el => el.classList.remove('active'));
@@ -310,15 +296,16 @@
             } else {
                 document.getElementById('menu-support').classList.add('active');
                 document.getElementById('view-support').classList.add('active');
-                document.getElementById('page-title').innerText = "Central de Ajuda";
-                document.getElementById('page-subtitle').innerText = "Fale com o suporte técnico.";
-                renderTickets();
+                document.getElementById('page-title').innerText = "Ordem de Serviços";
+                document.getElementById('page-subtitle').innerText = "Gerencie chamados e agendamentos de clientes.";
+                renderTickets(); 
             }
         }
 
         // --- LÓGICA DE PRODUTOS ---
         const form = document.getElementById('productForm');
         const tableBody = document.getElementById('tableBody');
+
         const initialData = [
             { name: "Sérum Iluminador", category: "Skin Care", price: "129.90", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=400&q=80", desc: "Vitamina C pura." },
             { name: "Vestido Linen", category: "Roupas", price: "289.00", img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80", desc: "Leveza e conforto." },
@@ -345,7 +332,7 @@
                         <td><span class="tag ${tagClass}">${product.category}</span></td>
                         <td>R$ ${parseFloat(product.price).toFixed(2)}</td>
                         <td>
-                            <button onclick="deleteProduct(${index})" class="btn-delete" style="border:none; background:transparent; color:#d46a6a; cursor:pointer;"><i class="fas fa-trash"></i></button>
+                            <button onclick="deleteProduct(${index})" class="btn-action" style="color:var(--danger); border-color:var(--danger);"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -376,106 +363,108 @@
             }
         };
 
-        // --- LÓGICA DE SUPORTE (SIMPLIFICADA PARA DEMO) ---
-        // Simula que a empresa 'Aura' tem o ID 1
-        const COMPANY_ID = 1; 
+        // --- LÓGICA DE SUPORTE INTEGRADA COM INTEGRUX ---
+        // Aqui simulamos a conexão. Quando criamos um ticket, atualizamos a lista de Leads da Integrux.
 
         function createNewTicket() {
-            const msg = prompt("Descreva seu problema resumidamente:");
-            if(!msg) return;
+            const reason = prompt("Descreva resumidamente o problema:");
+            if(!reason) return;
 
-            // Cria um chamado no banco de dados compartilhado com a Integrux
-            // Usando a mesma chave que a Integrux usa para ler empresas/leads
+            // 1. Pega os dados da Integrux (Admin)
             let leads = JSON.parse(localStorage.getItem('integrux_leads')) || [];
             
-            // Verifica se a Aura já existe lá, se não, cria (apenas para garantir o fluxo)
-            let auraCompany = leads.find(l => l.id === COMPANY_ID);
+            // 2. Verifica se a Aura já existe lá
+            let me = leads.find(l => l.id === MY_ID);
             
-            if(!auraCompany) {
-                auraCompany = {
-                    id: COMPANY_ID,
+            if(!me) {
+                // Se não existir, cria o cadastro da Aura lá automaticamente para iniciar o suporte
+                me = {
+                    id: MY_ID,
                     name: "Aura Boutique",
                     cnpj: "12.345.678/0001-90",
-                    osNumber: "OS-2024-9999",
-                    status: "maintenance", // Já entra como manutenção solicitada
-                    osStatus: "pending",   // Pendente para a Integrux
+                    osNumber: "OS-" + Math.floor(Math.random()*10000),
+                    status: "maintenance",
+                    osStatus: "pending", // Pendente para o Admin aceitar
                     siteEnabled: true
                 };
-                leads.push(auraCompany);
+                leads.push(me);
             } else {
-                // Atualiza status para solicitar atenção
-                auraCompany.status = "maintenance"; 
-                auraCompany.osStatus = "pending";
+                // Se já existe, muda o status para Manutenção / Pendente
+                me.status = "maintenance";
+                me.osStatus = "pending";
             }
-            
+
             localStorage.setItem('integrux_leads', JSON.stringify(leads));
             
-            // Salva log local
-            const date = new Date().toLocaleString();
-            let myTickets = JSON.parse(localStorage.getItem('auraLocalTickets')) || [];
-            myTickets.push({ id: Date.now(), msg: msg, date: date, status: 'Aberto' });
-            localStorage.setItem('auraLocalTickets', JSON.stringify(myTickets));
-            
+            // Cria um registro local apenas visual
+            const localTicket = {
+                id: Date.now(),
+                msg: reason,
+                date: new Date().toLocaleTimeString(),
+                status: 'Aberto'
+            };
+            let myTickets = JSON.parse(localStorage.getItem('aura_local_tickets')) || [];
+            myTickets.push(localTicket);
+            localStorage.setItem('aura_local_tickets', JSON.stringify(myTickets));
+
             renderTickets();
-            alert("Chamado aberto! A Integrux foi notificada.");
+            alert("Chamado aberto! Aguarde um técnico da Integrux iniciar o atendimento.");
         }
 
         function renderTickets() {
             const container = document.getElementById('tickets-container');
-            const localTickets = JSON.parse(localStorage.getItem('auraLocalTickets')) || [];
-            
-            // Verifica status real na Integrux
+            // Olha o status REAL na Integrux
             let leads = JSON.parse(localStorage.getItem('integrux_leads')) || [];
-            let auraRemote = leads.find(l => l.id === COMPANY_ID);
-            let remoteStatus = auraRemote ? auraRemote.osStatus : 'none';
+            let me = leads.find(l => l.id === MY_ID);
+            
+            // Dados locais apenas para histórico visual
+            let myTickets = JSON.parse(localStorage.getItem('aura_local_tickets')) || [];
 
-            let btnLabel = "Aguardando...";
-            let btnAction = "";
-            let statusClass = "status-pendente";
-            let statusText = "Pendente";
-
-            // Se a Integrux colocou em progresso ou finalizou, liberamos o chat
-            if(remoteStatus === 'in_progress') {
-                statusText = "Em Atendimento";
-                statusClass = "status-atendimento";
-                btnLabel = "Abrir Chat com Suporte";
-                btnAction = "openChat()";
-            } else if (remoteStatus === 'completed') {
-                statusText = "Resolvido";
-                statusClass = "status-agendado";
-                btnLabel = "Ver Histórico";
-                btnAction = "openChat()";
-            }
-
-            if(localTickets.length === 0) {
-                container.innerHTML = '<p style="color: #999; font-style: italic;">Nenhum chamado aberto.</p>';
+            if(myTickets.length === 0) {
+                container.innerHTML = '<p style="color: #999; font-style: italic;">Nenhum chamado aberto no momento.</p>';
                 return;
             }
 
-            // Renderiza o último ticket como exemplo
-            const lastTicket = localTickets[localTickets.length - 1];
+            // Exibe apenas o último ticket como exemplo de fluxo ativo
+            const lastT = myTickets[myTickets.length -1];
             
+            let statusBadge = 'status-pendente';
+            let statusText = 'Aguardando Técnico';
+            let btnDisabled = true;
+            let btnText = "Chat Indisponível";
+
+            // Se o Admin da Integrux mudou o status para 'in_progress'
+            if(me && me.osStatus === 'in_progress') {
+                statusBadge = 'status-atendimento';
+                statusText = 'Em Atendimento';
+                btnDisabled = false;
+                btnText = 'Abrir Chat';
+            } else if (me && me.osStatus === 'completed') {
+                statusBadge = 'status-agendado';
+                statusText = 'Resolvido';
+            }
+
             container.innerHTML = `
                 <div class="ticket-card">
                     <div class="ticket-info">
-                        <h4>Ticket #${lastTicket.id} <span class="status-badge ${statusClass}">${statusText}</span></h4>
-                        <p>"${lastTicket.msg}"</p>
-                        <div class="ticket-meta">Aberto em: ${lastTicket.date}</div>
+                        <h4>Ticket #${lastT.id} <span class="status-badge ${statusBadge}">${statusText}</span></h4>
+                        <p>"${lastT.msg}"</p>
+                        <div class="ticket-meta">Aberto às: ${lastT.date}</div>
                     </div>
                     <div class="ticket-actions">
-                        ${btnAction ? `<button onclick="${btnAction}" class="btn-action" style="color: white; background: var(--rose-dark); border:none;"><i class="fas fa-comments"></i> ${btnLabel}</button>` : `<button class="btn-action" disabled style="opacity:0.5; cursor: default;">Aguardando Técnico...</button>`}
+                        <button onclick="openChat()" class="btn-action" ${btnDisabled ? 'disabled' : ''}><i class="fas fa-comments"></i> ${btnText}</button>
                     </div>
                 </div>
             `;
         }
 
-        // --- SISTEMA DE CHAT (LOCALSTORAGE BRIDGE) ---
+        // --- CHAT SYSTEM (LocalStorage) ---
         let chatInterval = null;
 
         function openChat() {
             document.getElementById('chatOverlay').style.display = 'flex';
-            loadChatMessages();
-            chatInterval = setInterval(loadChatMessages, 3000); // Polling a cada 3s
+            loadChat();
+            chatInterval = setInterval(loadChat, 2000); // Atualiza a cada 2s
         }
 
         function closeChat() {
@@ -483,53 +472,40 @@
             clearInterval(chatInterval);
         }
 
-        function loadChatMessages() {
-            // Chave: integrux_chat_IDDAEMPRESA
-            const chatKey = `integrux_chat_${COMPANY_ID}`; 
-            const messages = JSON.parse(localStorage.getItem(chatKey)) || [];
-            const body = document.getElementById('chatBody');
+        function loadChat() {
+            const key = `integrux_chat_${MY_ID}`;
+            const msgs = JSON.parse(localStorage.getItem(key)) || [];
+            const area = document.getElementById('chatMessages');
             
-            // Simplesmente recria o HTML (para demo está ok, idealmente faria diff)
-            body.innerHTML = '<div style="text-align: center; color: #aaa; font-size: 0.8rem; margin-top: 10px; margin-bottom: 20px;">Início do atendimento</div>';
-            
-            messages.forEach(m => {
+            area.innerHTML = '';
+            msgs.forEach(m => {
                 const div = document.createElement('div');
-                div.className = `chat-msg ${m.sender === 'client' ? 'msg-me' : 'msg-them'}`;
+                div.className = `msg ${m.sender === 'client' ? 'msg-me' : 'msg-sup'}`;
                 div.innerText = m.text;
-                body.appendChild(div);
+                area.appendChild(div);
             });
-            
-            // Scroll para baixo
-            // body.scrollTop = body.scrollHeight; 
         }
 
-        function sendChatMessage() {
+        function sendChat() {
             const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if(!text) return;
+            const txt = input.value.trim();
+            if(!txt) return;
 
-            const chatKey = `integrux_chat_${COMPANY_ID}`;
-            let messages = JSON.parse(localStorage.getItem(chatKey)) || [];
+            const key = `integrux_chat_${MY_ID}`;
+            let msgs = JSON.parse(localStorage.getItem(key)) || [];
+            msgs.push({ sender: 'client', text: txt, time: Date.now() });
             
-            messages.push({
-                sender: 'client',
-                text: text,
-                timestamp: Date.now()
-            });
-
-            localStorage.setItem(chatKey, JSON.stringify(messages));
+            localStorage.setItem(key, JSON.stringify(msgs));
             input.value = '';
-            loadChatMessages(); // Atualiza na hora
-            
-            // Auto-scroll
-            const body = document.getElementById('chatBody');
-            body.scrollTop = body.scrollHeight;
+            loadChat();
         }
-        
-        // Enter para enviar
-        document.getElementById('chatInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') sendChatMessage();
-        });
+
+        // Auto update tickets status
+        setInterval(() => {
+            if(document.getElementById('view-support').classList.contains('active')) {
+                renderTickets();
+            }
+        }, 5000);
 
         renderTable();
     </script>
