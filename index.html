@@ -259,6 +259,7 @@
         const USERS_DB = [
             { name: "Algarte", role: "Desenvolvedor", user: "Algarte", passHash: hashPassword("1517"), initial: "A", color: "#2F81F7" },
             { name: "Daniel", role: "CEO", user: "Daniel", passHash: hashPassword("1133"), initial: "D", color: "#D29922" },
+            { name: "Aura Skins", role: "Parceiro", user: "SistemaAura", passHash: hashPassword("180421"), initial: "AS", color: "#D8A9A6" },
             { name: "MasterAdmin", role: "Super Admin", user: "MasterAdmin", passHash: hashPassword("integrux2025"), initial: "M", color: "#238636" },
             { name: "Almoxarifado", role: "Almoxarifado", user: "Almoxarifado", passHash: hashPassword("1234"), initial: "AL", color: "#6e7681" }
         ];
@@ -282,8 +283,11 @@
 
             if (foundAdmin) {
                 localStorage.setItem('integrux_session', JSON.stringify(foundAdmin));
-                if(foundAdmin.role === 'Almoxarifado') {
+                
+                if(foundAdmin.user === 'Almoxarifado') {
                     window.location.href = 'dashboard.html';
+                } else if(foundAdmin.user === 'SistemaAura') {
+                    window.location.href = 'empresaauradashboard.html';
                 } else {
                     window.location.href = 'dashboard-gestor.html';
                 }
@@ -292,7 +296,7 @@
 
             // 2. Se não for admin, verifica se é uma empresa gerada
             const companies = JSON.parse(localStorage.getItem('integrux_leads')) || [];
-            // Verifica se o usuário bate com o 'generatedUser' e a senha (que no caso da empresa é armazenada como texto puro na demo ou hash simulado)
+            // Verifica se o usuário bate com o 'generatedUser' e a senha
             const foundCompany = companies.find(c => c.generatedUser === userVal && c.generatedPass === passVal);
 
             if (foundCompany) {
@@ -352,4 +356,3 @@
     </script>
 </body>
 </html>
-
