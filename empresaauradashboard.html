@@ -12,15 +12,14 @@
             --rose-dark: #D8A9A6;   
             --rose-med: #E2BFBC;
             --rose-light: #ebd4d2;
-            --bg-body: #f9f4f4; /* Fundo levemente mais claro */
+            --bg-body: #f8f5f5;
             --white: #ffffff;
             --text-main: #4a4a4a;
             --text-logo: #1a1a1a;   
             --danger: #d46a6a;
             --success: #6bbb6b;
             --warning: #f0ad4e;
-            --info: #17a2b8;
-            --shadow-soft: 0 10px 30px rgba(216, 169, 166, 0.1);
+            --shadow-soft: 0 10px 30px rgba(216, 169, 166, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,8 +37,7 @@
         .sidebar {
             width: 270px; background: var(--white); color: var(--text-main);
             display: flex; flex-direction: column; padding: 2.5rem 2rem;
-            transition: 0.3s; box-shadow: 5px 0 20px rgba(0,0,0,0.02);
-            border-right: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 5px 0 20px rgba(0,0,0,0.02);
             z-index: 10;
         }
 
@@ -76,100 +74,87 @@
             padding-bottom: 1rem;
         }
 
-        /* Views (Tabs) */
         .view-section { display: none; animation: fadeIn 0.4s ease-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Formulários */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-        .form-full { grid-column: span 2; }
-        label { font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 0.6rem; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+        /* Inputs e Botões */
         input, select, textarea {
             width: 100%; padding: 1rem; border: 1px solid #eee;
             border-radius: 10px; font-family: inherit; background: #fcfcfc;
-            outline: none; transition: 0.3s; color: #555; font-size: 0.9rem;
+            outline: none; transition: 0.3s; color: #555; font-size: 0.9rem; margin-bottom: 1rem;
         }
-        input:focus, select:focus, textarea:focus { border-color: var(--rose-dark); background: #fff; box-shadow: 0 0 0 3px rgba(216, 169, 166, 0.1); }
+        input:focus, select:focus, textarea:focus { border-color: var(--rose-dark); background: #fff; }
+        label { font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 0.4rem; display: block; text-transform: uppercase; }
 
-        /* Botões */
-        button.btn-add, button.btn-save {
+        button.btn-primary {
             background: var(--rose-dark); color: var(--white); border: none;
             padding: 1rem 2rem; border-radius: 10px; cursor: pointer;
             font-weight: 600; transition: 0.3s; text-transform: uppercase;
             font-size: 0.8rem; letter-spacing: 1px; width: 100%;
-            box-shadow: 0 4px 15px rgba(216, 169, 166, 0.4);
         }
-        button.btn-add:hover, button.btn-save:hover { background: #c29592; transform: translateY(-2px); }
+        button.btn-primary:hover { background: #c29592; transform: translateY(-2px); }
 
-        /* Tabelas */
-        .table-container { overflow-x: auto; border-radius: 12px; border: 1px solid #f0f0f0; }
+        /* --- NOVO CARD FINANCEIRO --- */
+        .finance-card {
+            background: white; border-radius: 16px; padding: 2rem;
+            box-shadow: var(--shadow-soft); display: grid;
+            grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem;
+            align-items: center;
+        }
+        .fin-item { text-align: center; border-right: 1px solid #eee; }
+        .fin-item:last-child { border-right: none; }
+        .fin-label { font-size: 0.8rem; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .fin-value { font-size: 1.8rem; font-weight: 700; color: var(--text-logo); font-family: 'Playfair Display', serif; }
+        .fin-sub { font-size: 0.75rem; color: var(--success); font-weight: 600; margin-top: 5px; }
+        
+        /* Tabela Cliente */
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th { text-align: left; padding: 1.2rem; background: #fafafa; color: #888; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #eee; }
-        td { background: #fff; padding: 1.2rem; border-bottom: 1px solid #f9f9f9; font-size: 0.9rem; vertical-align: middle; color: #555; transition: 0.2s; }
-        tr:hover td { background: #fdfdfd; }
+        th { text-align: left; padding: 1.2rem; background: #fafafa; color: #888; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid #eee; }
+        td { background: #fff; padding: 1.2rem; border-bottom: 1px solid #f9f9f9; font-size: 0.9rem; vertical-align: middle; color: #555; }
         
-        .product-thumb { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-right: 12px; vertical-align: middle; }
-        
-        /* Badges e Status */
-        .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .role-admin { background: #efe1df; color: #8e5652; border: 1px solid #e2bfbc; }
-        .role-client { background: #f5f5f5; color: #777; border: 1px solid #eee; }
-        
-        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
-        .status-active { background-color: var(--success); box-shadow: 0 0 0 3px #e6ffea; }
-        .status-blocked { background-color: var(--danger); box-shadow: 0 0 0 3px #ffe6e6; }
+        .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
+        .role-dona { background: var(--text-logo); color: #fff; }
+        .role-gerente { background: var(--rose-dark); color: #fff; }
+        .role-vendedor { background: #fff5e6; color: var(--warning); border: 1px solid #ffeeba; }
+        .role-cliente { background: #f5f5f5; color: #999; }
 
-        /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
-        .stat-card { background: white; padding: 2rem; border-radius: 16px; display: flex; align-items: center; gap: 1.5rem; box-shadow: var(--shadow-soft); transition: 0.3s; border: 1px solid #fff; }
-        .stat-card:hover { transform: translateY(-5px); }
-        .stat-icon { width: 60px; height: 60px; background: #fff5f5; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--rose-dark); font-size: 1.5rem; }
-        .stat-info h3 { font-size: 1.8rem; font-weight: 700; color: var(--text-logo); margin: 0; line-height: 1.1; }
-        .stat-info p { color: #999; font-size: 0.85rem; margin: 5px 0 0 0; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* Ações e Tickets */
-        .action-group { display: flex; gap: 8px; }
-        .btn-icon { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #eee; background: white; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; color: #777; font-size: 0.9rem; }
+        .btn-icon { width: 35px; height: 35px; border-radius: 8px; border: 1px solid #eee; background: white; cursor: pointer; transition: 0.2s; color: #777; margin-left: 5px; }
         .btn-icon:hover { background: var(--rose-dark); color: white; border-color: var(--rose-dark); }
-        .btn-icon.delete:hover { background: var(--danger); border-color: var(--danger); }
+        .btn-icon.delete:hover { background: var(--danger); border-color: var(--danger); color: white; }
 
-        .ticket-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-        .ticket-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-
-        /* --- MODAL DE EDIÇÃO PROFISSIONAL --- */
+        /* --- MODAL PADRÃO (Clientes) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(40, 40, 40, 0.6); z-index: 2000; display: none;
-            backdrop-filter: blur(8px); justify-content: center; align-items: center;
+            backdrop-filter: blur(5px); justify-content: center; align-items: center;
         }
         .modal-overlay.open { display: flex; animation: fadeModal 0.3s; }
-        
-        .modal-box {
-            background: #fff; padding: 3rem; width: 600px; max-width: 90%;
-            border-radius: 20px; position: relative;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+        .modal-box { background: #fff; padding: 2.5rem; width: 500px; max-width: 90%; border-radius: 20px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #aaa; }
+
+        /* --- CHAT MODAL ESTILO WHATSAPP --- */
+        .chat-modal-box {
+            width: 400px; height: 600px; background: #f0f2f5; display: flex; flex-direction: column;
+            border-radius: 20px; overflow: hidden; position: relative;
         }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee; }
-        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text-logo); margin: 0; border: none; padding: 0; }
-        .close-modal { cursor: pointer; font-size: 1.5rem; color: #aaa; transition: 0.3s; }
-        .close-modal:hover { color: var(--rose-dark); }
+        .chat-modal-header { background: var(--rose-dark); padding: 1rem; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .chat-content { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         
-        .btn-delete-account {
-            background: transparent; border: 1px solid var(--danger); color: var(--danger);
-            margin-top: 1rem; width: auto; padding: 0.8rem 1.5rem;
-        }
-        .btn-delete-account:hover { background: var(--danger); color: white; transform: none; }
+        .bubble { max-width: 80%; padding: 10px 15px; border-radius: 10px; font-size: 0.9rem; position: relative; word-wrap: break-word; }
+        .bubble-client { align-self: flex-start; background: white; color: #333; border-top-left-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .bubble-admin { align-self: flex-end; background: #e7ffdb; color: #111; border-top-right-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .bubble-time { font-size: 0.65rem; color: #999; display: block; text-align: right; margin-top: 4px; }
+
+        .chat-input-area { background: white; padding: 10px; display: flex; gap: 10px; border-top: 1px solid #ddd; }
+        .chat-input-area input { margin: 0; border-radius: 20px; padding: 10px 15px; border: 1px solid #ddd; }
+        .btn-send-chat { width: 45px; height: 45px; background: var(--rose-dark); color: white; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
         @media (max-width: 900px) {
             body { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; padding: 1.5rem; flex-direction: row; justify-content: space-between; align-items: center; overflow-x: auto; }
-            .menu { display: flex; gap: 10px; }
-            .menu a { padding: 0.8rem; margin: 0; }
-            .menu span { display: none; }
-            .form-grid { grid-template-columns: 1fr; }
-            .form-full { grid-column: span 1; }
-            .ticket-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .sidebar { width: 100%; flex-direction: row; justify-content: space-between; padding: 1rem; overflow-x: auto; }
+            .finance-card { grid-template-columns: 1fr; gap: 1rem; }
+            .fin-item { border-right: none; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
         }
     </style>
 </head>
@@ -190,60 +175,50 @@
         <div class="header">
             <div>
                 <h1 id="page-title">Gestão de Clientes</h1>
-                <p id="page-subtitle" style="color: #999; font-size: 0.9rem;">Controle de usuários e dados cadastrais.</p>
+                <p id="page-subtitle" style="color: #999; font-size: 0.9rem;">Controle de usuários e permissões.</p>
             </div>
-            <div style="background: var(--white); padding: 0.6rem 1.4rem; border-radius: 40px; color: #555; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-soft);">
+            <div style="background: var(--white); padding: 0.6rem 1.4rem; border-radius: 40px; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-soft);">
                 <img src="https://ui-avatars.com/api/?name=Maria&background=D8A9A6&color=fff" style="width: 35px; height: 35px; border-radius: 50%;">
                 <div style="display: flex; flex-direction: column; line-height: 1.2;">
-                    <span style="font-weight: 700; color: var(--text-logo);">Maria</span>
-                    <span style="font-size: 0.7rem; color: #999;">Master Admin</span>
+                    <span id="admin-name-display" style="font-weight: 700; color: var(--text-logo);">Maria</span>
+                    <span id="admin-role-display" style="font-size: 0.7rem; color: #999; text-transform: uppercase;">Dona</span>
                 </div>
             </div>
         </div>
 
         <div id="view-clients" class="view-section active">
             
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-users"></i></div>
-                    <div class="stat-info">
-                        <h3 id="total-users">0</h3>
-                        <p>Total de Clientes</p>
-                    </div>
+            <div class="finance-card">
+                <div class="fin-item">
+                    <div class="fin-label">Faturamento Total</div>
+                    <div class="fin-value" id="total-revenue">R$ 0,00</div>
+                    <div class="fin-sub"><i class="fas fa-arrow-up"></i> Acumulado</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: var(--success); background: #e6ffea;"><i class="fas fa-user-check"></i></div>
-                    <div class="stat-info">
-                        <h3 id="active-users">0</h3>
-                        <p>Contas Ativas</p>
-                    </div>
+                <div class="fin-item">
+                    <div class="fin-label">Meta Mensal</div>
+                    <div class="fin-value" style="color: #999;">R$ 15.000</div>
+                    <div class="fin-sub" style="color: var(--warning);">65% Atingida</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: #d4b106; background: #fffbe6;"><i class="fas fa-wallet"></i></div>
-                    <div class="stat-info">
-                        <h3 id="total-revenue">R$ 0,00</h3>
-                        <p>Faturamento Total</p>
-                    </div>
+                <div class="fin-item">
+                    <div class="fin-label">Lucro Líquido (Est.)</div>
+                    <div class="fin-value" style="color: var(--success);" id="total-profit">R$ 0,00</div>
+                    <div class="fin-sub">Margem aprox. 40%</div>
                 </div>
             </div>
 
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
-                    <h2>Base de Clientes</h2>
-                    <div style="position: relative;">
-                        <input type="text" id="searchClient" placeholder="Buscar por nome..." onkeyup="renderClients()" 
-                               style="width: 280px; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 30px; border: 1px solid #e0e0e0;">
-                        <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #ccc;"></i>
-                    </div>
+                    <h2>Base de Usuários</h2>
+                    <input type="text" id="searchClient" placeholder="Buscar por nome..." onkeyup="renderClients()" style="width: 250px; margin-bottom: 0;">
                 </div>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Cliente</th>
+                                <th>Nome</th>
                                 <th>Email</th>
                                 <th>Cargo</th>
-                                <th>Total Gasto</th>
+                                <th>Gasto Total</th>
                                 <th>Status</th>
                                 <th style="text-align: right;">Gerenciar</th>
                             </tr>
@@ -256,403 +231,364 @@
 
         <div id="view-products" class="view-section">
             <div class="card">
-                <h2>Adicionar Novo Item</h2>
+                <h2>Adicionar Novo Produto</h2>
                 <form id="productForm">
-                    <div class="form-grid">
-                        <div>
-                            <label>Nome do Produto</label>
-                            <input type="text" id="pName" placeholder="Ex: Sérum Aura Glow" required>
-                        </div>
-                        <div>
-                            <label>Categoria</label>
-                            <select id="pCat">
-                                <option value="Fragrâncias & Body">Fragrâncias & Body</option>
-                                <option value="Skin Care">Skin Care</option>
-                                <option value="Roupas">Roupas</option>
-                                <option value="Maquiagem">Maquiagem</option>
-                            </select>
-                        </div>
-                        <div class="form-full">
-                            <label>URL da Imagem (Link)</label>
-                            <input type="url" id="pImg" placeholder="https://exemplo.com/imagem.jpg" required>
-                        </div>
-                        <div class="form-full">
-                            <label>Descrição Curta</label>
-                            <textarea id="pDesc" rows="2" placeholder="Ex: Hidratação profunda..." required></textarea>
-                        </div>
-                        <div>
-                            <label>Preço (R$)</label>
-                            <input type="number" id="pPrice" placeholder="0.00" step="0.01" required>
-                        </div>
-                        <div style="display: flex; align-items: flex-end;">
-                            <button type="submit" class="btn-add"><i class="fas fa-plus"></i> Adicionar à Loja</button>
-                        </div>
-                    </div>
+                    <input type="text" id="pName" placeholder="Nome do Produto" required>
+                    <select id="pCat">
+                        <option value="Fragrâncias & Body">Fragrâncias & Body</option>
+                        <option value="Skin Care">Skin Care</option>
+                        <option value="Roupas">Roupas</option>
+                        <option value="Maquiagem">Maquiagem</option>
+                    </select>
+                    <input type="url" id="pImg" placeholder="URL da Imagem" required>
+                    <input type="text" id="pDesc" placeholder="Descrição Curta">
+                    <input type="number" id="pPrice" placeholder="Preço (R$)" step="0.01" required>
+                    <button type="submit" class="btn-primary">Cadastrar Produto</button>
                 </form>
-            </div>
-
-            <div class="card" style="background: transparent; box-shadow: none; border: none; padding: 0;">
-                <h2 style="padding-left: 1rem; border: none; margin-bottom: 1rem;">Inventário na Loja</h2>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Imagem</th>
-                                <th>Produto / Descrição</th>
-                                <th>Categoria</th>
-                                <th>Preço</th>
-                                <th style="text-align: right;">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
-                    </table>
-                </div>
             </div>
         </div>
 
         <div id="view-support" class="view-section">
             <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h2>Tickets de Clientes</h2>
-                    <button class="btn-add" style="width: auto;" onclick="loadTickets()"><i class="fas fa-sync-alt"></i> Atualizar</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+                    <h2>Caixa de Entrada</h2>
+                    <button class="btn-primary" style="width: auto;" onclick="loadTickets()"><i class="fas fa-sync"></i> Atualizar</button>
                 </div>
-                <div id="tickets-container" style="margin-top: 2rem;">
-                    <p style="color: #999;">Carregando solicitações...</p>
-                </div>
+                <div id="tickets-container"></div>
             </div>
         </div>
-
     </div>
 
     <div class="modal-overlay" id="edit-client-modal">
         <div class="modal-box">
-            <div class="modal-header">
-                <h3 class="modal-title">Editar Cadastro</h3>
-                <span class="close-modal" onclick="closeEditModal()">&times;</span>
-            </div>
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            <h2>Editar Dados</h2>
             <form id="editClientForm">
                 <input type="hidden" id="editIndex">
-                <div class="form-grid">
-                    <div class="form-full">
-                        <label>Nome Completo</label>
-                        <input type="text" id="editName" required>
-                    </div>
-                    <div class="form-full">
-                        <label>Email de Contato</label>
-                        <input type="email" id="editEmail" required>
-                    </div>
-                    <div class="form-full">
-                        <label>Endereço de Entrega (Novo)</label>
-                        <input type="text" id="editAddress" placeholder="Rua, Número, Bairro...">
-                    </div>
-                    <div>
-                        <label>Total Gasto (R$)</label>
-                        <input type="number" id="editSpent" step="0.01">
-                    </div>
-                    <div>
-                        <label>Status da Conta</label>
-                        <select id="editStatus">
-                            <option value="active">Ativa</option>
-                            <option value="blocked">Bloqueada</option>
-                        </select>
-                    </div>
-                </div>
                 
-                <div style="display: flex; gap: 1rem; margin-top: 2rem; align-items: center;">
-                    <button type="button" onclick="saveClientData()" class="btn-save">Salvar Alterações</button>
-                    <button type="button" onclick="deleteClient()" class="btn-save btn-delete-account" title="Ação Irreversível">
-                        <i class="fas fa-trash-alt"></i> Excluir Conta
-                    </button>
-                </div>
+                <label>Nome Completo</label>
+                <input type="text" id="editName" required>
+
+                <label>Email</label>
+                <input type="email" id="editEmail" required>
+
+                <label>Cargo / Permissão</label>
+                <select id="editRole">
+                    <option value="customer">Cliente</option>
+                    <option value="vendedor">Vendedor(a)</option>
+                    <option value="gerente">Gerente</option>
+                    <option value="dona">Dona (Owner)</option>
+                </select>
+
+                <label>Status</label>
+                <select id="editStatus">
+                    <option value="active">Ativo</option>
+                    <option value="blocked">Bloqueado</option>
+                </select>
+
+                <label>Ajuste Manual de Gasto (R$)</label>
+                <input type="number" id="editSpent" step="0.01">
+
+                <button type="button" onclick="saveClientData()" class="btn-primary">Salvar Alterações</button>
             </form>
         </div>
     </div>
 
+    <div class="modal-overlay" id="chat-reply-modal">
+        <div class="chat-modal-box">
+            <div class="chat-modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="https://ui-avatars.com/api/?name=User&background=fff&color=D8A9A6" id="chat-avatar" style="width: 35px; height: 35px; border-radius: 50%;">
+                    <div>
+                        <span id="chat-username" style="font-weight: 700; display: block;">Cliente</span>
+                        <span style="font-size: 0.7rem; opacity: 0.8;">Online</span>
+                    </div>
+                </div>
+                <i class="fas fa-times" style="cursor: pointer;" onclick="closeChatModal()"></i>
+            </div>
+            
+            <div class="chat-content" id="chat-history">
+                </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="replyInput" placeholder="Digite sua resposta..." style="margin-bottom: 0;">
+                <button class="btn-send-chat" onclick="sendReply()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- 1. DADOS INICIAIS ---
-        function initUsers() {
+        // --- CONFIGURAÇÃO INICIAL E DADOS ---
+        // Simulação: Quem está logado no painel?
+        // Troque 'Maria' por outro nome para testar a permissão do botão "X"
+        const LOGGED_ADMIN = "Maria"; 
+
+        function initData() {
+            // Usuários
             let users = JSON.parse(localStorage.getItem('auraUsers'));
             if (!users || users.length === 0) {
                 users = [
-                    { id: 1, name: "Maria", email: "maria@auraskin.com", role: "admin", status: "active", spent: 0, date: "01/01/2023", address: "Matriz Aura" },
-                    { id: 2, name: "Ana Silva", email: "ana.silva@email.com", role: "customer", status: "active", spent: 450.90, date: "15/05/2024", address: "Rua das Flores, 123" },
-                    { id: 3, name: "Beatriz Costa", email: "bia.costa@email.com", role: "customer", status: "active", spent: 1290.00, date: "20/06/2024", address: "Av. Paulista, 1000 - Apt 40" },
-                    { id: 4, name: "Carla Dias", email: "carla.dias@email.com", role: "customer", status: "blocked", spent: 0, date: "10/07/2024", address: "Sem endereço" },
-                    { id: 5, name: "Fernanda Lima", email: "fer.lima@email.com", role: "customer", status: "active", spent: 89.90, date: "02/08/2024", address: "Rua Verde, 45" }
+                    { id: 1, name: "Maria", email: "maria@auraskin.com", role: "dona", status: "active", spent: 0 },
+                    { id: 2, name: "Ana Silva", email: "ana@email.com", role: "customer", status: "active", spent: 450.90 },
+                    { id: 3, name: "Lucas Vendas", email: "lucas@aura.com", role: "vendedor", status: "active", spent: 0 },
+                    { id: 4, name: "Beatriz Gerente", email: "bia@aura.com", role: "gerente", status: "active", spent: 1200.00 }
                 ];
                 localStorage.setItem('auraUsers', JSON.stringify(users));
             }
-        }
-        initUsers();
 
-        // --- 2. NAVEGAÇÃO ---
+            // Atualiza UI do Admin Logado
+            document.getElementById('admin-name-display').innerText = LOGGED_ADMIN;
+            const me = users.find(u => u.name === LOGGED_ADMIN);
+            if(me) document.getElementById('admin-role-display').innerText = me.role;
+        }
+        initData();
+
+        // --- NAVEGAÇÃO ---
         function switchTab(tab) {
-            document.querySelectorAll('.menu a').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.menu a').forEach(el => el.classList.remove('active'));
 
             if(tab === 'clients') {
-                document.getElementById('menu-clients').classList.add('active');
                 document.getElementById('view-clients').classList.add('active');
-                document.getElementById('page-title').innerText = "Gestão de Clientes";
-                document.getElementById('page-subtitle').innerText = "Controle de usuários e dados cadastrais.";
+                document.getElementById('menu-clients').classList.add('active');
                 renderClients();
             } else if(tab === 'products') {
-                document.getElementById('menu-products').classList.add('active');
                 document.getElementById('view-products').classList.add('active');
-                document.getElementById('page-title').innerText = "Gestão de Produtos";
-                document.getElementById('page-subtitle').innerText = "Cadastre fotos, descrições e preços para a loja.";
-                renderTable();
+                document.getElementById('menu-products').classList.add('active');
             } else {
-                document.getElementById('menu-support').classList.add('active');
                 document.getElementById('view-support').classList.add('active');
-                document.getElementById('page-title').innerText = "Atendimento ao Cliente";
-                document.getElementById('page-subtitle').innerText = "Gerencie as mensagens enviadas através do site.";
-                loadTickets(); 
+                document.getElementById('menu-support').classList.add('active');
+                loadTickets();
             }
         }
 
         function logout() {
-            if(confirm("Deseja realmente sair do painel?")) {
-                window.location.href = "empresaaura.html"; 
-            }
+            if(confirm("Sair do sistema?")) window.location.href = "empresaaura.html";
         }
 
-        // --- 3. GESTÃO DE CLIENTES (PROFISSIONAL) ---
-        let currentEditIndex = null;
+        // --- GESTÃO DE CLIENTES ---
+        let editIndex = null;
 
         function renderClients() {
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const tbody = document.getElementById('clientsTableBody');
             const search = document.getElementById('searchClient').value.toLowerCase();
-            
-            // Cálculos Financeiros
-            let totalRevenue = users.reduce((acc, user) => acc + (parseFloat(user.spent) || 0), 0);
-            
-            // Atualizar Stats
-            document.getElementById('total-users').innerText = users.length;
-            document.getElementById('active-users').innerText = users.filter(u => u.status === 'active').length;
-            document.getElementById('total-revenue').innerText = totalRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            let totalRev = 0;
 
             tbody.innerHTML = '';
 
             users.forEach((user, index) => {
+                totalRev += parseFloat(user.spent) || 0;
+                
                 if(!user.name.toLowerCase().includes(search)) return;
 
-                const isMe = (user.name === 'Maria'); 
-                
-                const statusDot = user.status === 'active' ? 'status-active' : 'status-blocked';
-                const statusLabel = user.status === 'active' ? 'Ativo' : 'Bloqueado';
-                const roleClass = user.role === 'admin' ? 'role-admin' : 'role-client';
-                const avatarUrl = `https://ui-avatars.com/api/?name=${user.name}&background=random&color=fff`;
+                // Labels de Cargo
+                let roleClass = 'role-cliente';
+                let roleName = 'Cliente';
+                if(user.role === 'dona') { roleClass = 'role-dona'; roleName = 'Dona'; }
+                if(user.role === 'gerente') { roleClass = 'role-gerente'; roleName = 'Gerente'; }
+                if(user.role === 'vendedor') { roleClass = 'role-vendedor'; roleName = 'Vendedor(a)'; }
 
                 // Botões de Ação
-                let actionsHtml = '';
-                if(!isMe) {
-                    actionsHtml = `
-                        <div class="action-group" style="justify-content: flex-end;">
-                            <button onclick="openEditModal(${index})" class="btn-icon" title="Editar Cadastro"><i class="fas fa-pen"></i></button>
-                        </div>
-                    `;
-                } else {
-                    actionsHtml = `<span style="font-size:0.7rem; color:#ccc; font-style:italic; display:block; text-align:right;">Conta Master</span>`;
+                let actions = `
+                    <button class="btn-icon" onclick="openEditModal(${index})" title="Editar Cadastro"><i class="fas fa-pen"></i></button>
+                `;
+                
+                // Lógica do X: Apenas Maria (Dona) pode ver
+                if (LOGGED_ADMIN === 'Maria') {
+                    // Maria não pode se deletar
+                    if(user.name !== 'Maria') {
+                        actions += `<button class="btn-icon delete" onclick="deleteClient(${index})" title="Excluir Definitivamente"><i class="fas fa-times"></i></button>`;
+                    }
                 }
 
                 const row = `
                     <tr>
-                        <td>
-                            <div style="display:flex; align-items:center;">
-                                <img src="${avatarUrl}" class="product-thumb">
-                                <div>
-                                    <strong style="display:block; color:var(--text-main);">${user.name}</strong>
-                                    <span style="font-size:0.75rem; color:#999;">ID: ${user.id}</span>
-                                </div>
-                            </div>
-                        </td>
+                        <td><strong>${user.name}</strong></td>
                         <td>${user.email}</td>
-                        <td><span class="role-badge ${roleClass}">${user.role === 'admin' ? 'Admin' : 'Cliente'}</span></td>
-                        <td style="font-weight:600; color:var(--text-main);">R$ ${parseFloat(user.spent).toFixed(2)}</td>
-                        <td><div style="display:flex; align-items:center;"><span class="status-dot ${statusDot}"></span>${statusLabel}</div></td>
-                        <td>${actionsHtml}</td>
+                        <td><span class="role-badge ${roleClass}">${roleName}</span></td>
+                        <td>R$ ${parseFloat(user.spent).toFixed(2)}</td>
+                        <td><span style="color:${user.status === 'active' ? 'var(--success)' : 'var(--danger)'}">●</span> ${user.status === 'active' ? 'Ativo' : 'Bloq.'}</td>
+                        <td style="text-align: right;">${actions}</td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
             });
+
+            // Atualiza Card Financeiro
+            document.getElementById('total-revenue').innerText = totalRev.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            // Lucro fictício de 40%
+            document.getElementById('total-profit').innerText = (totalRev * 0.40).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
 
-        // --- FUNÇÕES DO MODAL DE EDIÇÃO ---
+        // --- LÓGICA DO MODAL DE EDIÇÃO ---
         function openEditModal(index) {
-            currentEditIndex = index;
+            editIndex = index;
             const users = JSON.parse(localStorage.getItem('auraUsers'));
             const user = users[index];
 
             document.getElementById('editName').value = user.name;
             document.getElementById('editEmail').value = user.email;
-            document.getElementById('editAddress').value = user.address || "";
-            document.getElementById('editSpent').value = user.spent;
+            document.getElementById('editRole').value = user.role;
             document.getElementById('editStatus').value = user.status;
+            document.getElementById('editSpent').value = user.spent;
 
             document.getElementById('edit-client-modal').classList.add('open');
         }
 
         function closeEditModal() {
             document.getElementById('edit-client-modal').classList.remove('open');
-            currentEditIndex = null;
+            editIndex = null;
         }
 
         function saveClientData() {
-            if(currentEditIndex === null) return;
-
+            if(editIndex === null) return;
             let users = JSON.parse(localStorage.getItem('auraUsers'));
-            
-            // Atualiza dados
-            users[currentEditIndex].name = document.getElementById('editName').value;
-            users[currentEditIndex].email = document.getElementById('editEmail').value;
-            users[currentEditIndex].address = document.getElementById('editAddress').value;
-            users[currentEditIndex].spent = parseFloat(document.getElementById('editSpent').value) || 0;
-            users[currentEditIndex].status = document.getElementById('editStatus').value;
+
+            users[editIndex].name = document.getElementById('editName').value;
+            users[editIndex].email = document.getElementById('editEmail').value;
+            users[editIndex].role = document.getElementById('editRole').value;
+            users[editIndex].status = document.getElementById('editStatus').value;
+            users[editIndex].spent = parseFloat(document.getElementById('editSpent').value) || 0;
 
             localStorage.setItem('auraUsers', JSON.stringify(users));
-            
             closeEditModal();
             renderClients();
-            alert("Cadastro atualizado com sucesso.");
+            alert("Dados atualizados!");
         }
 
-        function deleteClient() {
-            if(currentEditIndex === null) return;
-            
-            // Simulação de verificação de sessão (Aqui assumimos que quem vê o painel é Maria, 
-            // mas em um sistema real checaríamos o token/sessão do backend).
-            // Para garantir a lógica pedida:
-            
-            const adminUser = JSON.parse(localStorage.getItem('auraUsers')).find(u => u.name === 'Maria');
-            // Num sistema real, pegaríamos o currentUser da sessão. Vamos simular que o Admin logado é Maria.
-            const currentUser = "Maria"; // Hardcoded para a lógica pedida
-
-            if (currentUser !== "Maria") {
-                alert("Apenas a Admin Master Maria tem permissão para excluir contas definitivamente.");
-                return;
-            }
-
-            if(confirm("ATENÇÃO: Você está prestes a excluir este cadastro permanentemente do sistema.\n\nDeseja continuar?")) {
+        function deleteClient(index) {
+            if(LOGGED_ADMIN !== 'Maria') return; // Segurança extra
+            if(confirm("ATENÇÃO: Isso removerá o cliente permanentemente. Continuar?")) {
                 let users = JSON.parse(localStorage.getItem('auraUsers'));
-                users.splice(currentEditIndex, 1);
+                users.splice(index, 1);
                 localStorage.setItem('auraUsers', JSON.stringify(users));
-                
-                closeEditModal();
                 renderClients();
-                alert("Cliente removido do banco de dados.");
             }
         }
 
-        // --- 4. GESTÃO DE PRODUTOS ---
-        const form = document.getElementById('productForm');
-        const tableBody = document.getElementById('tableBody');
-        let products = JSON.parse(localStorage.getItem('auraStock')) || [];
+        // --- LÓGICA DE SUPORTE E CHAT (AGORA FUNCIONAL) ---
+        let currentTicketIndex = null;
 
-        function renderTable() {
-            tableBody.innerHTML = '';
-            const displayProducts = [...products].reverse(); 
-
-            if(displayProducts.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999; padding: 2rem;">Nenhum produto cadastrado.</td></tr>';
-                return;
-            }
-
-            displayProducts.forEach((product, reversedIndex) => {
-                const originalIndex = products.length - 1 - reversedIndex;
-                let tagClass = 'tag-skin';
-                if(product.category === 'Roupas') tagClass = 'tag-roupas';
-                if(product.category === 'Maquiagem') tagClass = 'tag-make';
-                if(product.category === 'Fragrâncias & Body') tagClass = 'tag-frag';
-
-                const row = `
-                    <tr>
-                        <td><img src="${product.img}" class="product-thumb" alt="img" onerror="this.src='https://via.placeholder.com/50'"></td>
-                        <td><strong>${product.name}</strong><br><span style="font-size:0.8rem; color:#888;">${product.desc}</span></td>
-                        <td><span class="tag ${tagClass}">${product.category}</span></td>
-                        <td>R$ ${parseFloat(product.price).toFixed(2)}</td>
-                        <td style="text-align: right;">
-                            <button onclick="deleteProduct(${originalIndex})" class="btn-icon delete" title="Remover da Loja" style="margin-left:auto;"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('pName').value;
-            const cat = document.getElementById('pCat').value;
-            const price = document.getElementById('pPrice').value;
-            const img = document.getElementById('pImg').value;
-            const desc = document.getElementById('pDesc').value;
-
-            products.push({ name, category: cat, price, img, desc });
-            localStorage.setItem('auraStock', JSON.stringify(products));
-            form.reset();
-            renderTable();
-            alert("Produto adicionado à loja com sucesso!");
-        });
-
-        window.deleteProduct = (index) => {
-            if(confirm('Tem certeza? Isso removerá o item da loja imediatamente.')) {
-                products.splice(index, 1);
-                localStorage.setItem('auraStock', JSON.stringify(products));
-                renderTable();
-            }
-        };
-
-        // --- 5. GESTÃO DE SUPORTE ---
         function loadTickets() {
             const container = document.getElementById('tickets-container');
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             
             if(tickets.length === 0) {
-                container.innerHTML = '<p style="color: #999; font-style: italic; text-align:center; padding: 2rem;">Nenhuma mensagem recebida ainda.</p>';
+                container.innerHTML = '<p style="text-align:center; color:#999; margin-top:2rem;">Nenhuma mensagem nova.</p>';
                 return;
             }
 
             container.innerHTML = '';
-            tickets.reverse().forEach((ticket, index) => {
+            
+            // Renderiza lista de tickets
+            tickets.slice().reverse().forEach((ticket, index) => {
+                // Precisamos do índice real no array original (pois invertemos a visualização)
                 const realIndex = tickets.length - 1 - index;
-                let statusBadge = ticket.status === 'Pendente' ? 'status-pendente' : 'status-resolvido';
                 
-                // Botão de ação
-                let actionBtn = '';
-                if(ticket.status === 'Pendente') {
-                    actionBtn = `<button onclick="resolveTicket(${realIndex})" class="btn-icon" style="color:var(--success); border-color:var(--success); width:auto; padding:0 10px;" title="Marcar Resolvido"><i class="fas fa-check"></i></button>`;
-                } else {
-                    actionBtn = `<i class="fas fa-check-double" style="color:var(--success);"></i>`;
-                }
+                // Pega a última mensagem para exibir no preview
+                const lastMsg = ticket.messages ? ticket.messages[ticket.messages.length - 1].text : ticket.message;
+                const badgeColor = ticket.status === 'Pendente' ? 'var(--warning)' : 'var(--success)';
 
-                const card = `
-                    <div class="ticket-card" style="border-left: 4px solid ${ticket.status === 'Pendente' ? 'var(--warning)' : 'var(--success)'}">
-                        <div class="ticket-info">
-                            <h4><i class="fas fa-user" style="color:#ddd; margin-right:8px;"></i> ${ticket.user} <span class="role-badge" style="background:${ticket.status === 'Pendente' ? '#fff5e6' : '#e6ffea'}; color:${ticket.status === 'Pendente' ? '#f0ad4e' : '#6bbb6b'}; margin-left:10px;">${ticket.status}</span></h4>
-                            <p style="margin-top:8px; font-style:italic; color:#666;">"${ticket.message}"</p>
-                            <div class="ticket-meta" style="margin-top:10px; font-size:0.75rem; color:#aaa;"><i class="far fa-clock"></i> ${ticket.date}</div>
+                const item = `
+                    <div class="ticket-card" style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border:1px solid #eee; border-radius:12px; margin-bottom:1rem; background:white;">
+                        <div style="display:flex; gap:15px; align-items:center;">
+                            <div style="width:40px; height:40px; background:#f0f0f0; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#888;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin:0;">${ticket.user} <span style="font-size:0.7rem; background:${badgeColor}; color:white; padding:2px 8px; border-radius:10px;">${ticket.status}</span></h4>
+                                <p style="margin:5px 0 0; font-size:0.85rem; color:#666; max-width:400px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg}</p>
+                                <span style="font-size:0.7rem; color:#ccc;">${ticket.date}</span>
+                            </div>
                         </div>
-                        <div class="ticket-actions">
-                             ${actionBtn}
+                        <div>
+                            <button class="btn-primary" style="padding: 0.6rem 1.2rem; width:auto;" onclick="openChatModal(${realIndex})">
+                                <i class="fas fa-comments"></i> Responder
+                            </button>
                         </div>
                     </div>
                 `;
-                container.innerHTML += card;
+                container.innerHTML += item;
             });
         }
 
-        window.resolveTicket = (index) => {
-            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            if(tickets[index]) {
-                if(confirm(`Deseja marcar o atendimento de ${tickets[index].user} como resolvido?`)) {
-                    tickets[index].status = 'Resolvido';
-                    localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                    loadTickets();
-                }
+        // Abre o Modal de Chat
+        function openChatModal(index) {
+            currentTicketIndex = index;
+            const tickets = JSON.parse(localStorage.getItem('auraTickets'));
+            const ticket = tickets[index];
+
+            document.getElementById('chat-username').innerText = ticket.user;
+            document.getElementById('chat-avatar').src = `https://ui-avatars.com/api/?name=${ticket.user}&background=fff&color=D8A9A6`;
+            document.getElementById('chat-reply-modal').classList.add('open');
+            
+            renderChatHistory(ticket);
+        }
+
+        function closeChatModal() {
+            document.getElementById('chat-reply-modal').classList.remove('open');
+            currentTicketIndex = null;
+        }
+
+        function renderChatHistory(ticket) {
+            const historyDiv = document.getElementById('chat-history');
+            historyDiv.innerHTML = '';
+
+            // Se o ticket ainda usa o formato antigo (só uma mensagem), converte visualmente
+            let msgs = ticket.messages || [ { sender: ticket.user, text: ticket.message, time: ticket.date } ];
+
+            msgs.forEach(m => {
+                const isAdmin = m.sender === 'Admin';
+                const bubbleClass = isAdmin ? 'bubble-admin' : 'bubble-client';
+                const time = m.time || '';
+                
+                const html = `
+                    <div class="bubble ${bubbleClass}">
+                        ${m.text}
+                        <span class="bubble-time">${time}</span>
+                    </div>
+                `;
+                historyDiv.innerHTML += html;
+            });
+            
+            // Scroll para o final
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+        }
+
+        function sendReply() {
+            if(currentTicketIndex === null) return;
+            
+            const txt = document.getElementById('replyInput').value;
+            if(!txt) return;
+
+            let tickets = JSON.parse(localStorage.getItem('auraTickets'));
+            let ticket = tickets[currentTicketIndex];
+
+            // Normaliza estrutura se for ticket antigo
+            if(!ticket.messages) {
+                ticket.messages = [ { sender: ticket.user, text: ticket.message, time: ticket.date } ];
             }
-        };
+
+            // Adiciona resposta do Admin
+            ticket.messages.push({
+                sender: 'Admin',
+                text: txt,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            });
+
+            // Atualiza status se estava pendente
+            ticket.status = 'Em Atendimento'; // ou Resolvido
+
+            localStorage.setItem('auraTickets', JSON.stringify(tickets));
+            
+            // Limpa input e re-renderiza
+            document.getElementById('replyInput').value = '';
+            renderChatHistory(ticket);
+            
+            // Atualiza a lista lá atrás também
+            loadTickets();
+        }
 
         // Init
         renderClients();
