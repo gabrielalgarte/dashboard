@@ -34,7 +34,7 @@
             position: relative;
         }
 
-        /* Ambient Light Effect */
+        /* Efeitos de Fundo */
         body::before {
             content: ''; position: absolute; width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(0, 102, 255, 0.15), transparent 70%);
@@ -50,7 +50,7 @@
 
         .container {
             position: relative; z-index: 10;
-            width: 100%; max-width: 1000px; /* Aumentei um pouco para caber o registro detalhado */
+            width: 100%; max-width: 1000px;
             display: flex;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             border-radius: 24px;
@@ -79,17 +79,23 @@
         .form-side {
             flex: 1.2; padding: 50px;
             position: relative;
-            overflow-y: auto; /* Permite scroll se o form for grande */
+            overflow-y: auto;
             max-height: 700px;
         }
         
-        /* Custom Scrollbar for form side */
         .form-side::-webkit-scrollbar { width: 6px; }
         .form-side::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
         .form-side::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 
         .logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
-        .logo-area svg { width: 32px; height: 32px; fill: var(--primary); filter: drop-shadow(0 0 5px rgba(0,102,255,0.5)); }
+        
+        /* LOGO CUSTOMIZADA */
+        .logo-area svg { 
+            width: 45px; height: 45px; 
+            fill: var(--text-main); 
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); 
+        }
+
         .logo-text { font-weight: 700; letter-spacing: 1.5px; font-size: 1.1rem; color: #fff; }
 
         .form-container { transition: opacity 0.4s ease, transform 0.4s ease; }
@@ -98,7 +104,6 @@
         h2 { font-size: 1.8rem; margin-bottom: 8px; color: white; }
         .sub-text { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; display: block; }
 
-        /* Estilo dos Inputs */
         .input-group { margin-bottom: 20px; position: relative; }
         
         .input-group label {
@@ -116,33 +121,17 @@
             transition: 0.3s;
         }
 
-        /* Estilo para Textarea */
-        textarea.form-input {
-            resize: vertical;
-            min-height: 100px;
-        }
+        textarea.form-input { resize: vertical; min-height: 100px; }
         textarea.form-input ~ label { top: 25px; } 
+        select.form-input { appearance: none; color: white; }
+        select.form-input option { background: #1e293b; color: white; }
 
-        /* Estilo para Select */
-        select.form-input {
-            appearance: none;
-            color: white;
-        }
-        select.form-input option {
-            background: #1e293b;
-            color: white;
-        }
-
-        /* Foco e Preenchido */
-        .form-input:focus, 
-        .form-input:not(:placeholder-shown) {
-            border-color: var(--primary);
-            background: rgba(0, 102, 255, 0.03);
+        .form-input:focus, .form-input:not(:placeholder-shown) {
+            border-color: var(--primary); background: rgba(0, 102, 255, 0.03);
             box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
         }
 
-        .form-input:focus ~ label, 
-        .form-input:not(:placeholder-shown) ~ label {
+        .form-input:focus ~ label, .form-input:not(:placeholder-shown) ~ label {
             top: 0; font-size: 0.75rem; color: var(--primary); background: #131518;
             padding: 2px 6px; border-radius: 4px;
         }
@@ -154,53 +143,39 @@
             color: white; font-weight: 600; font-size: 1rem;
             cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px -5px rgba(0, 102, 255, 0.4);
         }
-
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(0, 102, 255, 0.6); }
 
         .switch-text { margin-top: 25px; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
         .switch-btn { color: var(--cyan); cursor: pointer; font-weight: 600; text-decoration: none; margin-left: 5px; transition: 0.3s; }
         .switch-btn:hover { color: white; text-shadow: 0 0 10px var(--cyan); }
 
-        /* Área de Suporte (WhatsApp) */
         .support-area {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
+            margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;
         }
         .support-link {
-            display: inline-flex; align-items: center; gap: 8px;
-            color: var(--text-muted); font-size: 0.85rem; text-decoration: none;
-            transition: 0.3s;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid transparent;
+            display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.85rem; text-decoration: none;
+            transition: 0.3s; padding: 8px 16px; border-radius: 20px; border: 1px solid transparent;
         }
-        .support-link:hover {
-            color: white;
-            border-color: rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
-        }
+        .support-link:hover { color: white; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); }
         .icon-whatsapp { color: #25D366; }
 
-        /* Área de Benefícios no Registro */
         .benefits-card {
-            background: rgba(0, 240, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
+            background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 12px; padding: 20px; margin-bottom: 25px;
         }
         .benefits-title { font-size: 0.95rem; font-weight: 600; color: var(--cyan); margin-bottom: 10px; display: block; }
         .benefits-list { list-style: none; }
-        .benefits-list li { 
-            display: flex; align-items: start; gap: 10px; 
-            font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px; 
+        .benefits-list li { display: flex; align-items: start; gap: 10px; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px; }
+        
+        /* CORREÇÃO DO ICONE GRANDE */
+        .check-icon { 
+            width: 20px !important; 
+            height: 20px !important; 
+            min-width: 20px; 
+            color: var(--cyan); 
+            margin-top: 2px; 
         }
-        .benefits-list li:last-child { margin-bottom: 0; }
-        .check-icon { color: var(--cyan); min-width: 16px; margin-top: 2px; }
 
-        /* Notification Toast */
         .toast {
             position: fixed; top: 20px; right: 20px;
             background: rgba(16, 185, 129, 0.9); backdrop-filter: blur(10px);
@@ -222,7 +197,13 @@
 
         <div class="form-side">
             <div class="logo-area">
-                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="50 50 400 400" preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)">
+                        <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 c94 -83 195 -172 222 -196 l50 -45 126 -1 127 0 58 68 c32 37 78 87 101 112 23 25 54 61 68 80 14 18 31 37 37 42 7 4 -86 8 -207 8 l-220 0 -75 70 c-41 39 -90 82 -107 96 l-33 26 0 369 0 369 335 2 335 3 -33 35 c-18 19 -52 60 -76 90 -25 30 -49 60 -55 65 -6 6 -28 31 -49 58 l-38 47 -363 0 c-199 0 -366 -3 -369 -7z"></path>
+                        <path d="M2416 3903 c32 -38 61 -70 64 -73 6 -5 262 -300 304 -350 40 -49 141 -165 146 -170 3 -3 22 -25 42 -50 l37 -46 -92 -105 c-95 -110 -446 -520 -530 -621 l-49 -58 200 0 199 0 99 117 c54 65 122 142 149 173 130 146 410 480 410 489 0 10 -29 45 -179 220 -54 64 -110 130 -124 146 -14 17 -53 62 -86 100 -34 39 -74 86 -90 105 -16 19 -60 70 -98 113 l-70 77 -195 0 -195 0 58 -67z"></path>
+                        <path d="M3300 3564 c0 -3 44 -60 98 -125 53 -66 117 -144 141 -174 l43 -54 -146 -170 c-80 -94 -146 -173 -146 -176 0 -3 33 -5 74 -5 l74 0 154 168 c84 92 157 170 162 173 4 4 7 11 5 17 -2 5 -74 87 -159 181 l-155 171 -72 0 c-40 0 -73 -3 -73 -6z"></path>
+                    </g>
+                </svg>
                 <span class="logo-text">INTEGRUX</span>
             </div>
 
@@ -260,18 +241,9 @@
                 <div class="benefits-card">
                     <span class="benefits-title">Por que escolher a Integrux?</span>
                     <ul class="benefits-list">
-                        <li>
-                            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            Dashboards em tempo real para tomada de decisão ágil.
-                        </li>
-                        <li>
-                            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            Integração total via API com seus sistemas legados.
-                        </li>
-                        <li>
-                            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            Segurança de dados padrão bancário.
-                        </li>
+                        <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Dashboards em tempo real para tomada de decisão ágil.</li>
+                        <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Integração total via API com seus sistemas legados.</li>
+                        <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Segurança de dados padrão bancário.</li>
                     </ul>
                 </div>
                 
@@ -286,7 +258,6 @@
                             <label>CNPJ</label>
                         </div>
                     </div>
-
                     <div style="display: flex; gap: 15px;">
                         <div class="input-group" style="flex: 1;">
                             <input type="text" id="regContact" class="form-input" placeholder=" " required>
@@ -297,12 +268,10 @@
                             <label>WhatsApp / Contato</label>
                         </div>
                     </div>
-
                     <div class="input-group">
                         <input type="email" id="regEmail" class="form-input" placeholder=" " required>
                         <label>E-mail Corporativo</label>
                     </div>
-
                     <div class="input-group">
                         <select id="regSector" class="form-input" required style="padding-top: 16px;">
                             <option value="" disabled selected></option>
@@ -315,12 +284,10 @@
                         </select>
                         <label>Setor de Atuação</label>
                     </div>
-
                     <div class="input-group">
                         <textarea id="regNeeds" class="form-input" placeholder=" "></textarea>
                         <label>Quais são seus maiores desafios hoje?</label>
                     </div>
-
                     <button type="submit" class="btn-submit">Solicitar Proposta & Acesso</button>
                 </form>
 
@@ -341,46 +308,28 @@
         function toggleForm() {
             const login = document.getElementById('loginSection');
             const register = document.getElementById('registerSection');
-            
-            if (login.classList.contains('hidden')) {
-                login.classList.remove('hidden');
-                register.classList.add('hidden');
-            } else {
-                login.classList.add('hidden');
-                register.classList.remove('hidden');
-            }
+            if (login.classList.contains('hidden')) { login.classList.remove('hidden'); register.classList.add('hidden'); } 
+            else { login.classList.add('hidden'); register.classList.remove('hidden'); }
         }
 
-        // Lógica de Registro Completa
         document.getElementById('regForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Coleta de dados expandida
             const companyData = {
                 id: Date.now(),
-                companyName: document.getElementById('regName').value,
+                name: document.getElementById('regName').value,
                 cnpj: document.getElementById('regCnpj').value,
-                contactPerson: document.getElementById('regContact').value,
-                phone: document.getElementById('regPhone').value,
-                email: document.getElementById('regEmail').value,
-                sector: document.getElementById('regSector').value,
-                painPoints: document.getElementById('regNeeds').value,
+                contact: document.getElementById('regContact').value,
                 date: new Date().toLocaleDateString('pt-BR'),
-                status: 'lead_qualificado' 
+                status: 'lead_qualificado', 
+                siteEnabled: false
             };
+            
+            let leads = JSON.parse(localStorage.getItem('integrux_leads')) || [];
+            leads.push(companyData);
+            localStorage.setItem('integrux_leads', JSON.stringify(leads));
 
-            // Salva array no localStorage
-            let companies = JSON.parse(localStorage.getItem('integrux_leads')) || [];
-            companies.push(companyData);
-            localStorage.setItem('integrux_leads', JSON.stringify(companies));
-
-            // Log para debug (opcional)
-            console.log("Novo Lead Cadastrado:", companyData);
-
-            // Feedback visual
             const toast = document.getElementById('toast');
             toast.classList.add('show');
-            
             setTimeout(() => {
                 toast.classList.remove('show');
                 toggleForm();
