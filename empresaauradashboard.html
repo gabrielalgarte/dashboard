@@ -12,7 +12,7 @@
             --rose-dark: #D8A9A6;   
             --rose-med: #E2BFBC;
             --rose-light: #ebd4d2;
-            --bg-body: #f5eae9;
+            --bg-body: #f9f4f4; /* Fundo levemente mais claro */
             --white: #ffffff;
             --text-main: #4a4a4a;
             --text-logo: #1a1a1a;   
@@ -20,6 +20,7 @@
             --success: #6bbb6b;
             --warning: #f0ad4e;
             --info: #17a2b8;
+            --shadow-soft: 0 10px 30px rgba(216, 169, 166, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,106 +36,131 @@
 
         /* --- Sidebar --- */
         .sidebar {
-            width: 260px; background: var(--white); color: var(--text-main);
-            display: flex; flex-direction: column; padding: 2rem;
-            transition: 0.3s; box-shadow: 5px 0 15px rgba(216, 169, 166, 0.15);
-            border-right: 1px solid rgba(0,0,0,0.05);
+            width: 270px; background: var(--white); color: var(--text-main);
+            display: flex; flex-direction: column; padding: 2.5rem 2rem;
+            transition: 0.3s; box-shadow: 5px 0 20px rgba(0,0,0,0.02);
+            border-right: 1px solid rgba(0,0,0,0.04);
             z-index: 10;
         }
 
         .brand {
-            font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700;
-            margin-bottom: 3rem; color: var(--text-logo); letter-spacing: -1px;
+            font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700;
+            margin-bottom: 3.5rem; color: var(--text-logo); letter-spacing: -0.5px;
             display: flex; align-items: baseline;
         }
         .brand span { color: var(--rose-dark); font-size: 3rem; line-height: 0; margin-left: 2px; }
 
         .menu a {
-            display: flex; align-items: center; gap: 12px; cursor: pointer;
-            color: #888; text-decoration: none; padding: 1rem;
-            font-size: 0.9rem; font-weight: 500; transition: 0.3s;
-            border-radius: 12px; margin-bottom: 0.5rem;
+            display: flex; align-items: center; gap: 14px; cursor: pointer;
+            color: #777; text-decoration: none; padding: 1rem;
+            font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease;
+            border-radius: 12px; margin-bottom: 0.8rem;
         }
-        .menu a:hover, .menu a.active { background: #fff5f5; color: var(--rose-dark); }
+        .menu a:hover, .menu a.active { background: #fff0f0; color: var(--rose-dark); transform: translateX(5px); }
         .menu i { width: 20px; text-align: center; font-size: 1.1rem; }
 
         /* --- Conteúdo --- */
-        .main-content { flex: 1; padding: 2.5rem; overflow-y: auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
-        .header h1 { font-weight: 600; color: var(--text-logo); letter-spacing: -0.5px; }
+        .main-content { flex: 1; padding: 3rem; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .header h1 { font-weight: 600; color: var(--text-logo); letter-spacing: -0.5px; font-size: 1.8rem; }
 
         .card {
-            background: var(--white); border-radius: 16px; padding: 2rem;
-            box-shadow: 0 5px 20px rgba(216, 169, 166, 0.1); margin-bottom: 2rem;
-            border: 1px solid white;
+            background: var(--white); border-radius: 16px; padding: 2.5rem;
+            box-shadow: var(--shadow-soft); margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.8);
         }
 
         h2 { 
-            margin-bottom: 1.5rem; font-weight: 600; font-size: 1.2rem;
+            margin-bottom: 1.5rem; font-weight: 600; font-size: 1.3rem;
             color: var(--text-logo); border-bottom: 1px solid var(--bg-body);
-            padding-bottom: 0.8rem;
+            padding-bottom: 1rem;
         }
 
         /* Views (Tabs) */
-        .view-section { display: none; animation: fadeIn 0.5s; }
+        .view-section { display: none; animation: fadeIn 0.4s ease-out; }
         .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Formulário e Tabela */
+        /* Formulários */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         .form-full { grid-column: span 2; }
-        label { font-size: 0.85rem; font-weight: 600; color: #666; margin-bottom: 0.5rem; display: block; }
+        label { font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 0.6rem; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
         input, select, textarea {
-            width: 100%; padding: 0.9rem; border: 1px solid #eee;
-            border-radius: 8px; font-family: inherit; background: #fcfcfc;
-            outline: none; transition: 0.3s; color: #555;
+            width: 100%; padding: 1rem; border: 1px solid #eee;
+            border-radius: 10px; font-family: inherit; background: #fcfcfc;
+            outline: none; transition: 0.3s; color: #555; font-size: 0.9rem;
         }
-        input:focus, select:focus, textarea:focus { border-color: var(--rose-dark); background: #fff; }
+        input:focus, select:focus, textarea:focus { border-color: var(--rose-dark); background: #fff; box-shadow: 0 0 0 3px rgba(216, 169, 166, 0.1); }
 
-        button.btn-add {
+        /* Botões */
+        button.btn-add, button.btn-save {
             background: var(--rose-dark); color: var(--white); border: none;
-            padding: 0.9rem 2rem; border-radius: 8px; cursor: pointer;
+            padding: 1rem 2rem; border-radius: 10px; cursor: pointer;
             font-weight: 600; transition: 0.3s; text-transform: uppercase;
             font-size: 0.8rem; letter-spacing: 1px; width: 100%;
+            box-shadow: 0 4px 15px rgba(216, 169, 166, 0.4);
         }
-        button.btn-add:hover { background: #c29592; transform: translateY(-2px); }
+        button.btn-add:hover, button.btn-save:hover { background: #c29592; transform: translateY(-2px); }
 
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 0.5rem; min-width: 800px; }
-        th { text-align: left; padding: 1rem; color: #999; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
-        td { background: #fff; padding: 1.2rem 1rem; border-top: 1px solid #f9f9f9; border-bottom: 1px solid #f9f9f9; font-size: 0.9rem; vertical-align: middle; color: #555; }
-        td:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
-        td:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+        /* Tabelas */
+        .table-container { overflow-x: auto; border-radius: 12px; border: 1px solid #f0f0f0; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { text-align: left; padding: 1.2rem; background: #fafafa; color: #888; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #eee; }
+        td { background: #fff; padding: 1.2rem; border-bottom: 1px solid #f9f9f9; font-size: 0.9rem; vertical-align: middle; color: #555; transition: 0.2s; }
+        tr:hover td { background: #fdfdfd; }
         
-        .product-thumb { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; margin-right: 10px; vertical-align: middle; }
+        .product-thumb { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-right: 12px; vertical-align: middle; }
         
-        .tag { padding: 0.4rem 1rem; border-radius: 30px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
-        .tag-skin { background: #eaf6ff; color: #6db3e4; }
-        .tag-roupas { background: #fbf0f8; color: #cc8bb6; }
-        .tag-make { background: #fff0eb; color: #e49982; }
-        .tag-frag { background: #fffbe6; color: #d4b106; }
-
-        /* Badges de Usuário */
-        .role-badge { padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
-        .role-admin { background: var(--rose-dark); color: white; }
-        .role-client { background: #eee; color: #666; }
+        /* Badges e Status */
+        .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .role-admin { background: #efe1df; color: #8e5652; border: 1px solid #e2bfbc; }
+        .role-client { background: #f5f5f5; color: #777; border: 1px solid #eee; }
         
-        .status-dot { height: 10px; width: 10px; background-color: #bbb; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .status-active { background-color: var(--success); }
-        .status-blocked { background-color: var(--danger); }
+        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .status-active { background-color: var(--success); box-shadow: 0 0 0 3px #e6ffea; }
+        .status-blocked { background-color: var(--danger); box-shadow: 0 0 0 3px #ffe6e6; }
 
         /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .stat-card { background: white; padding: 1.5rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .stat-icon { width: 50px; height: 50px; background: #fff5f5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--rose-dark); font-size: 1.2rem; }
-        .stat-info h3 { font-size: 1.5rem; font-weight: 700; color: var(--text-logo); margin: 0; }
-        .stat-info p { color: #888; font-size: 0.8rem; margin: 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+        .stat-card { background: white; padding: 2rem; border-radius: 16px; display: flex; align-items: center; gap: 1.5rem; box-shadow: var(--shadow-soft); transition: 0.3s; border: 1px solid #fff; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-icon { width: 60px; height: 60px; background: #fff5f5; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--rose-dark); font-size: 1.5rem; }
+        .stat-info h3 { font-size: 1.8rem; font-weight: 700; color: var(--text-logo); margin: 0; line-height: 1.1; }
+        .stat-info p { color: #999; font-size: 0.85rem; margin: 5px 0 0 0; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* Ticket Styles */
-        .ticket-card { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .btn-action { padding: 0.5rem 0.8rem; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer; transition: 0.3s; font-size: 0.75rem; color: #666; margin-left: 5px; }
-        .btn-action:hover { background: #f9f9f9; border-color: var(--rose-dark); color: var(--rose-dark); }
+        /* Ações e Tickets */
+        .action-group { display: flex; gap: 8px; }
+        .btn-icon { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #eee; background: white; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; color: #777; font-size: 0.9rem; }
+        .btn-icon:hover { background: var(--rose-dark); color: white; border-color: var(--rose-dark); }
+        .btn-icon.delete:hover { background: var(--danger); border-color: var(--danger); }
+
+        .ticket-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .ticket-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        /* --- MODAL DE EDIÇÃO PROFISSIONAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(40, 40, 40, 0.6); z-index: 2000; display: none;
+            backdrop-filter: blur(8px); justify-content: center; align-items: center;
+        }
+        .modal-overlay.open { display: flex; animation: fadeModal 0.3s; }
         
+        .modal-box {
+            background: #fff; padding: 3rem; width: 600px; max-width: 90%;
+            border-radius: 20px; position: relative;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee; }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text-logo); margin: 0; border: none; padding: 0; }
+        .close-modal { cursor: pointer; font-size: 1.5rem; color: #aaa; transition: 0.3s; }
+        .close-modal:hover { color: var(--rose-dark); }
+        
+        .btn-delete-account {
+            background: transparent; border: 1px solid var(--danger); color: var(--danger);
+            margin-top: 1rem; width: auto; padding: 0.8rem 1.5rem;
+        }
+        .btn-delete-account:hover { background: var(--danger); color: white; transform: none; }
+
         @media (max-width: 900px) {
             body { flex-direction: column; height: auto; }
             .sidebar { width: 100%; padding: 1.5rem; flex-direction: row; justify-content: space-between; align-items: center; overflow-x: auto; }
@@ -155,7 +181,7 @@
             <a onclick="switchTab('clients')" id="menu-clients" class="active"><i class="fas fa-users"></i> <span>Clientes</span></a>
             <a onclick="switchTab('products')" id="menu-products"><i class="fas fa-box"></i> <span>Estoque</span></a>
             <a onclick="switchTab('support')" id="menu-support"><i class="fas fa-comments"></i> <span>Atendimento</span></a>
-            <a href="index.html" target="_blank"><i class="fas fa-store"></i> <span>Ver Loja</span></a>
+            <a href="empresaaura.html" target="_blank"><i class="fas fa-store"></i> <span>Ver Loja</span></a>
             <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Sair</span></a>
         </nav>
     </div>
@@ -164,11 +190,14 @@
         <div class="header">
             <div>
                 <h1 id="page-title">Gestão de Clientes</h1>
-                <p id="page-subtitle" style="color: #999; font-size: 0.9rem;">Controle de usuários e permissões.</p>
+                <p id="page-subtitle" style="color: #999; font-size: 0.9rem;">Controle de usuários e dados cadastrais.</p>
             </div>
-            <div style="background: var(--white); padding: 0.5rem 1.2rem; border-radius: 30px; color: #555; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
-                <img src="https://ui-avatars.com/api/?name=Maria&background=D8A9A6&color=fff" style="width: 30px; height: 30px; border-radius: 50%;">
-                <span>Admin: <strong>Maria</strong></span>
+            <div style="background: var(--white); padding: 0.6rem 1.4rem; border-radius: 40px; color: #555; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-soft);">
+                <img src="https://ui-avatars.com/api/?name=Maria&background=D8A9A6&color=fff" style="width: 35px; height: 35px; border-radius: 50%;">
+                <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                    <span style="font-weight: 700; color: var(--text-logo);">Maria</span>
+                    <span style="font-size: 0.7rem; color: #999;">Master Admin</span>
+                </div>
             </div>
         </div>
 
@@ -190,19 +219,22 @@
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="color: var(--warning); background: #fff5e6;"><i class="fas fa-crown"></i></div>
+                    <div class="stat-icon" style="color: #d4b106; background: #fffbe6;"><i class="fas fa-wallet"></i></div>
                     <div class="stat-info">
-                        <h3 id="vip-users">0</h3>
-                        <p>Clientes VIP</p>
+                        <h3 id="total-revenue">R$ 0,00</h3>
+                        <p>Faturamento Total</p>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
                     <h2>Base de Clientes</h2>
-                    <input type="text" id="searchClient" placeholder="Buscar por nome..." onkeyup="renderClients()" 
-                           style="width: 250px; padding: 0.6rem; border-radius: 20px; border: 1px solid #ddd;">
+                    <div style="position: relative;">
+                        <input type="text" id="searchClient" placeholder="Buscar por nome..." onkeyup="renderClients()" 
+                               style="width: 280px; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 30px; border: 1px solid #e0e0e0;">
+                        <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #ccc;"></i>
+                    </div>
                 </div>
                 <div class="table-container">
                     <table>
@@ -210,11 +242,10 @@
                             <tr>
                                 <th>Cliente</th>
                                 <th>Email</th>
-                                <th>Cadastro</th>
                                 <th>Cargo</th>
                                 <th>Total Gasto</th>
                                 <th>Status</th>
-                                <th>Ações</th>
+                                <th style="text-align: right;">Gerenciar</th>
                             </tr>
                         </thead>
                         <tbody id="clientsTableBody"></tbody>
@@ -270,7 +301,7 @@
                                 <th>Produto / Descrição</th>
                                 <th>Categoria</th>
                                 <th>Preço</th>
-                                <th>Ações</th>
+                                <th style="text-align: right;">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody"></tbody>
@@ -283,9 +314,9 @@
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <h2>Tickets de Clientes</h2>
-                    <button class="btn-action" onclick="loadTickets()"><i class="fas fa-sync-alt"></i> Atualizar</button>
+                    <button class="btn-add" style="width: auto;" onclick="loadTickets()"><i class="fas fa-sync-alt"></i> Atualizar</button>
                 </div>
-                <div id="tickets-container">
+                <div id="tickets-container" style="margin-top: 2rem;">
                     <p style="color: #999;">Carregando solicitações...</p>
                 </div>
             </div>
@@ -293,18 +324,61 @@
 
     </div>
 
+    <div class="modal-overlay" id="edit-client-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Cadastro</h3>
+                <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            </div>
+            <form id="editClientForm">
+                <input type="hidden" id="editIndex">
+                <div class="form-grid">
+                    <div class="form-full">
+                        <label>Nome Completo</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="form-full">
+                        <label>Email de Contato</label>
+                        <input type="email" id="editEmail" required>
+                    </div>
+                    <div class="form-full">
+                        <label>Endereço de Entrega (Novo)</label>
+                        <input type="text" id="editAddress" placeholder="Rua, Número, Bairro...">
+                    </div>
+                    <div>
+                        <label>Total Gasto (R$)</label>
+                        <input type="number" id="editSpent" step="0.01">
+                    </div>
+                    <div>
+                        <label>Status da Conta</label>
+                        <select id="editStatus">
+                            <option value="active">Ativa</option>
+                            <option value="blocked">Bloqueada</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem; align-items: center;">
+                    <button type="button" onclick="saveClientData()" class="btn-save">Salvar Alterações</button>
+                    <button type="button" onclick="deleteClient()" class="btn-save btn-delete-account" title="Ação Irreversível">
+                        <i class="fas fa-trash-alt"></i> Excluir Conta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // --- 1. DADOS INICIAIS MOCKADOS DE CLIENTES ---
-        // Se não houver usuários no sistema, cria alguns para a Maria gerenciar
+        // --- 1. DADOS INICIAIS ---
         function initUsers() {
             let users = JSON.parse(localStorage.getItem('auraUsers'));
             if (!users || users.length === 0) {
                 users = [
-                    { id: 1, name: "Maria", email: "maria@auraskin.com", role: "admin", status: "active", spent: 0, date: "01/01/2023" },
-                    { id: 2, name: "Ana Silva", email: "ana.silva@email.com", role: "customer", status: "active", spent: 450.90, date: "15/05/2024" },
-                    { id: 3, name: "Beatriz Costa", email: "bia.costa@email.com", role: "customer", status: "active", spent: 1290.00, date: "20/06/2024" },
-                    { id: 4, name: "Carla Dias", email: "carla.dias@email.com", role: "customer", status: "blocked", spent: 0, date: "10/07/2024" },
-                    { id: 5, name: "Fernanda Lima", email: "fer.lima@email.com", role: "customer", status: "active", spent: 89.90, date: "02/08/2024" }
+                    { id: 1, name: "Maria", email: "maria@auraskin.com", role: "admin", status: "active", spent: 0, date: "01/01/2023", address: "Matriz Aura" },
+                    { id: 2, name: "Ana Silva", email: "ana.silva@email.com", role: "customer", status: "active", spent: 450.90, date: "15/05/2024", address: "Rua das Flores, 123" },
+                    { id: 3, name: "Beatriz Costa", email: "bia.costa@email.com", role: "customer", status: "active", spent: 1290.00, date: "20/06/2024", address: "Av. Paulista, 1000 - Apt 40" },
+                    { id: 4, name: "Carla Dias", email: "carla.dias@email.com", role: "customer", status: "blocked", spent: 0, date: "10/07/2024", address: "Sem endereço" },
+                    { id: 5, name: "Fernanda Lima", email: "fer.lima@email.com", role: "customer", status: "active", spent: 89.90, date: "02/08/2024", address: "Rua Verde, 45" }
                 ];
                 localStorage.setItem('auraUsers', JSON.stringify(users));
             }
@@ -320,7 +394,7 @@
                 document.getElementById('menu-clients').classList.add('active');
                 document.getElementById('view-clients').classList.add('active');
                 document.getElementById('page-title').innerText = "Gestão de Clientes";
-                document.getElementById('page-subtitle').innerText = "Controle de usuários e permissões.";
+                document.getElementById('page-subtitle').innerText = "Controle de usuários e dados cadastrais.";
                 renderClients();
             } else if(tab === 'products') {
                 document.getElementById('menu-products').classList.add('active');
@@ -339,92 +413,135 @@
 
         function logout() {
             if(confirm("Deseja realmente sair do painel?")) {
-                window.location.href = "index.html"; 
+                window.location.href = "empresaaura.html"; 
             }
         }
 
-        // --- 3. LÓGICA DE CLIENTES (NOVO) ---
+        // --- 3. GESTÃO DE CLIENTES (PROFISSIONAL) ---
+        let currentEditIndex = null;
+
         function renderClients() {
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const tbody = document.getElementById('clientsTableBody');
             const search = document.getElementById('searchClient').value.toLowerCase();
             
+            // Cálculos Financeiros
+            let totalRevenue = users.reduce((acc, user) => acc + (parseFloat(user.spent) || 0), 0);
+            
             // Atualizar Stats
             document.getElementById('total-users').innerText = users.length;
             document.getElementById('active-users').innerText = users.filter(u => u.status === 'active').length;
-            document.getElementById('vip-users').innerText = users.filter(u => u.spent > 500).length; // Regra VIP > 500 reais
+            document.getElementById('total-revenue').innerText = totalRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
             tbody.innerHTML = '';
 
             users.forEach((user, index) => {
                 if(!user.name.toLowerCase().includes(search)) return;
 
-                // Bloqueia edição do próprio admin principal
                 const isMe = (user.name === 'Maria'); 
                 
                 const statusDot = user.status === 'active' ? 'status-active' : 'status-blocked';
                 const statusLabel = user.status === 'active' ? 'Ativo' : 'Bloqueado';
                 const roleClass = user.role === 'admin' ? 'role-admin' : 'role-client';
-                const avatarUrl = `https://ui-avatars.com/api/?name=${user.name}&background=random`;
+                const avatarUrl = `https://ui-avatars.com/api/?name=${user.name}&background=random&color=fff`;
 
                 // Botões de Ação
                 let actionsHtml = '';
                 if(!isMe) {
-                    // Botão Promover/Rebaixar
-                    if(user.role === 'customer') {
-                        actionsHtml += `<button onclick="changeRole(${index}, 'admin')" class="btn-action" title="Tornar Admin"><i class="fas fa-user-shield"></i></button>`;
-                    } else {
-                        actionsHtml += `<button onclick="changeRole(${index}, 'customer')" class="btn-action" title="Remover Admin"><i class="fas fa-user"></i></button>`;
-                    }
-
-                    // Botão Bloquear/Desbloquear
-                    if(user.status === 'active') {
-                        actionsHtml += `<button onclick="toggleStatus(${index})" class="btn-action" style="color:var(--danger)" title="Bloquear"><i class="fas fa-ban"></i></button>`;
-                    } else {
-                        actionsHtml += `<button onclick="toggleStatus(${index})" class="btn-action" style="color:var(--success)" title="Ativar"><i class="fas fa-check"></i></button>`;
-                    }
+                    actionsHtml = `
+                        <div class="action-group" style="justify-content: flex-end;">
+                            <button onclick="openEditModal(${index})" class="btn-icon" title="Editar Cadastro"><i class="fas fa-pen"></i></button>
+                        </div>
+                    `;
                 } else {
-                    actionsHtml = `<span style="font-size:0.7rem; color:#999;">Conta Principal</span>`;
+                    actionsHtml = `<span style="font-size:0.7rem; color:#ccc; font-style:italic; display:block; text-align:right;">Conta Master</span>`;
                 }
 
                 const row = `
                     <tr>
                         <td>
-                            <img src="${avatarUrl}" class="product-thumb">
-                            <strong>${user.name}</strong>
+                            <div style="display:flex; align-items:center;">
+                                <img src="${avatarUrl}" class="product-thumb">
+                                <div>
+                                    <strong style="display:block; color:var(--text-main);">${user.name}</strong>
+                                    <span style="font-size:0.75rem; color:#999;">ID: ${user.id}</span>
+                                </div>
+                            </div>
                         </td>
                         <td>${user.email}</td>
-                        <td style="font-size:0.8rem">${user.date}</td>
-                        <td><span class="role-badge ${roleClass}">${user.role}</span></td>
-                        <td style="font-weight:600;">R$ ${user.spent.toFixed(2)}</td>
-                        <td><span class="status-dot ${statusDot}"></span>${statusLabel}</td>
-                        <td>
-                            <div style="display:flex;">${actionsHtml}</div>
-                        </td>
+                        <td><span class="role-badge ${roleClass}">${user.role === 'admin' ? 'Admin' : 'Cliente'}</span></td>
+                        <td style="font-weight:600; color:var(--text-main);">R$ ${parseFloat(user.spent).toFixed(2)}</td>
+                        <td><div style="display:flex; align-items:center;"><span class="status-dot ${statusDot}"></span>${statusLabel}</div></td>
+                        <td>${actionsHtml}</td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
             });
         }
 
-        function changeRole(index, newRole) {
-            let users = JSON.parse(localStorage.getItem('auraUsers'));
-            if(confirm(`Tem certeza que deseja alterar o cargo de ${users[index].name} para ${newRole.toUpperCase()}?`)) {
-                users[index].role = newRole;
-                localStorage.setItem('auraUsers', JSON.stringify(users));
-                renderClients();
-            }
+        // --- FUNÇÕES DO MODAL DE EDIÇÃO ---
+        function openEditModal(index) {
+            currentEditIndex = index;
+            const users = JSON.parse(localStorage.getItem('auraUsers'));
+            const user = users[index];
+
+            document.getElementById('editName').value = user.name;
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editAddress').value = user.address || "";
+            document.getElementById('editSpent').value = user.spent;
+            document.getElementById('editStatus').value = user.status;
+
+            document.getElementById('edit-client-modal').classList.add('open');
         }
 
-        function toggleStatus(index) {
+        function closeEditModal() {
+            document.getElementById('edit-client-modal').classList.remove('open');
+            currentEditIndex = null;
+        }
+
+        function saveClientData() {
+            if(currentEditIndex === null) return;
+
             let users = JSON.parse(localStorage.getItem('auraUsers'));
-            const newStatus = users[index].status === 'active' ? 'blocked' : 'active';
-            const actionName = newStatus === 'active' ? 'desbloquear' : 'bloquear';
             
-            if(confirm(`Deseja realmente ${actionName} o acesso de ${users[index].name}?`)) {
-                users[index].status = newStatus;
+            // Atualiza dados
+            users[currentEditIndex].name = document.getElementById('editName').value;
+            users[currentEditIndex].email = document.getElementById('editEmail').value;
+            users[currentEditIndex].address = document.getElementById('editAddress').value;
+            users[currentEditIndex].spent = parseFloat(document.getElementById('editSpent').value) || 0;
+            users[currentEditIndex].status = document.getElementById('editStatus').value;
+
+            localStorage.setItem('auraUsers', JSON.stringify(users));
+            
+            closeEditModal();
+            renderClients();
+            alert("Cadastro atualizado com sucesso.");
+        }
+
+        function deleteClient() {
+            if(currentEditIndex === null) return;
+            
+            // Simulação de verificação de sessão (Aqui assumimos que quem vê o painel é Maria, 
+            // mas em um sistema real checaríamos o token/sessão do backend).
+            // Para garantir a lógica pedida:
+            
+            const adminUser = JSON.parse(localStorage.getItem('auraUsers')).find(u => u.name === 'Maria');
+            // Num sistema real, pegaríamos o currentUser da sessão. Vamos simular que o Admin logado é Maria.
+            const currentUser = "Maria"; // Hardcoded para a lógica pedida
+
+            if (currentUser !== "Maria") {
+                alert("Apenas a Admin Master Maria tem permissão para excluir contas definitivamente.");
+                return;
+            }
+
+            if(confirm("ATENÇÃO: Você está prestes a excluir este cadastro permanentemente do sistema.\n\nDeseja continuar?")) {
+                let users = JSON.parse(localStorage.getItem('auraUsers'));
+                users.splice(currentEditIndex, 1);
                 localStorage.setItem('auraUsers', JSON.stringify(users));
+                
+                closeEditModal();
                 renderClients();
+                alert("Cliente removido do banco de dados.");
             }
         }
 
@@ -438,7 +555,7 @@
             const displayProducts = [...products].reverse(); 
 
             if(displayProducts.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999;">Nenhum produto cadastrado.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999; padding: 2rem;">Nenhum produto cadastrado.</td></tr>';
                 return;
             }
 
@@ -451,12 +568,12 @@
 
                 const row = `
                     <tr>
-                        <td><img src="${product.img}" class="product-thumb" style="border-radius:8px;" alt="img" onerror="this.src='https://via.placeholder.com/50'"></td>
+                        <td><img src="${product.img}" class="product-thumb" alt="img" onerror="this.src='https://via.placeholder.com/50'"></td>
                         <td><strong>${product.name}</strong><br><span style="font-size:0.8rem; color:#888;">${product.desc}</span></td>
                         <td><span class="tag ${tagClass}">${product.category}</span></td>
                         <td>R$ ${parseFloat(product.price).toFixed(2)}</td>
-                        <td>
-                            <button onclick="deleteProduct(${originalIndex})" class="btn-action" style="color:var(--danger); border-color:var(--danger);" title="Remover da Loja"><i class="fas fa-trash"></i></button>
+                        <td style="text-align: right;">
+                            <button onclick="deleteProduct(${originalIndex})" class="btn-icon delete" title="Remover da Loja" style="margin-left:auto;"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -501,19 +618,24 @@
             tickets.reverse().forEach((ticket, index) => {
                 const realIndex = tickets.length - 1 - index;
                 let statusBadge = ticket.status === 'Pendente' ? 'status-pendente' : 'status-resolvido';
-                let btnAction = ticket.status === 'Pendente' 
-                    ? `<button onclick="resolveTicket(${realIndex})" class="btn-action" style="color:var(--success); border-color:var(--success);"><i class="fas fa-check"></i> Marcar Resolvido</button>`
-                    : `<span style="font-size:0.8rem; color:var(--success);"><i class="fas fa-check-circle"></i> Concluído</span>`;
+                
+                // Botão de ação
+                let actionBtn = '';
+                if(ticket.status === 'Pendente') {
+                    actionBtn = `<button onclick="resolveTicket(${realIndex})" class="btn-icon" style="color:var(--success); border-color:var(--success); width:auto; padding:0 10px;" title="Marcar Resolvido"><i class="fas fa-check"></i></button>`;
+                } else {
+                    actionBtn = `<i class="fas fa-check-double" style="color:var(--success);"></i>`;
+                }
 
                 const card = `
                     <div class="ticket-card" style="border-left: 4px solid ${ticket.status === 'Pendente' ? 'var(--warning)' : 'var(--success)'}">
                         <div class="ticket-info">
-                            <h4><i class="fas fa-user" style="color:#ccc; margin-right:5px;"></i> ${ticket.user} <span class="status-badge ${statusBadge}">${ticket.status}</span></h4>
-                            <p style="margin-top:5px; font-style:italic;">"${ticket.message}"</p>
-                            <div class="ticket-meta"><i class="far fa-clock"></i> ${ticket.date}</div>
+                            <h4><i class="fas fa-user" style="color:#ddd; margin-right:8px;"></i> ${ticket.user} <span class="role-badge" style="background:${ticket.status === 'Pendente' ? '#fff5e6' : '#e6ffea'}; color:${ticket.status === 'Pendente' ? '#f0ad4e' : '#6bbb6b'}; margin-left:10px;">${ticket.status}</span></h4>
+                            <p style="margin-top:8px; font-style:italic; color:#666;">"${ticket.message}"</p>
+                            <div class="ticket-meta" style="margin-top:10px; font-size:0.75rem; color:#aaa;"><i class="far fa-clock"></i> ${ticket.date}</div>
                         </div>
                         <div class="ticket-actions">
-                             ${btnAction}
+                             ${actionBtn}
                         </div>
                     </div>
                 `;
