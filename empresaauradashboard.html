@@ -1,188 +1,752 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Dashboard Admin | Aura</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     
+
     <style>
+
         :root {
+
             --rose-primary: #D8A9A6; 
+
             --rose-secondary: #E2BFBC;
+
             --rose-light: #fdf2f0;
+
             --bg-body: #f4f7f6; 
+
             --white: #ffffff;
+
             --text-main: #4a4a4a; 
+
             --danger: #e74c3c; 
+
             --success: #27ae60; 
+
             --warning: #f1c40f;
+
             --glass: rgba(255, 255, 255, 0.90);
+
         }
+
+
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         
+
         body { 
+
             font-family: 'Montserrat', sans-serif; 
+
             background: var(--bg-body); 
+
             color: var(--text-main);
+
             display: flex; 
+
             height: 100vh; 
+
             overflow: hidden; 
+
         }
+
+
 
         /* --- SIDEBAR --- */
+
         .sidebar { 
+
             width: 260px; background: var(--white); display: flex; flex-direction: column; 
+
             padding: 2rem 1.5rem; border-right: 1px solid #eee; flex-shrink: 0;
+
         }
+
         
+
         .brand { 
+
             font-family: 'Playfair Display', serif; 
+
             font-size: 2rem; 
+
             font-weight: 700; 
+
             color: var(--text-main); 
+
             text-align: center; 
+
             margin-bottom: 3rem; 
+
         }
+
         .brand span { color: var(--rose-primary); font-style: italic; }
 
+
+
         .menu a { 
+
             display: flex; align-items: center; gap: 12px; padding: 12px; 
+
             color: #666; text-decoration: none; border-radius: 10px; margin-bottom: 5px; cursor: pointer; transition: 0.3s;
+
         }
+
         .menu a:hover { background: #fafafa; color: var(--rose-primary); }
+
         .menu a.active { background: var(--rose-light); color: var(--rose-primary); font-weight: 600; }
 
+
+
         /* --- MAIN CONTENT --- */
+
         .main-content { flex: 1; padding: 2rem; overflow-y: auto; background: #f8fafb; }
+
         
+
         /* CARDS */
+
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+
         .card-stat { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; border-left: 5px solid var(--rose-primary); }
+
         
+
         /* RELÓGIO */
+
         .card-clock { 
+
             background: linear-gradient(135deg, var(--rose-primary) 0%, var(--rose-secondary) 100%); 
+
             color: white; 
+
             border: none; 
+
             justify-content: space-between;
+
         }
+
         .clock-time { font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif; }
+
         .clock-date { font-size: 0.8rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
 
+
+
         .panel { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+
         .table-responsive { width: 100%; overflow-x: auto; }
+
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
+
         th { text-align: left; padding: 12px; color: #999; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid #eee; }
+
         td { padding: 12px; font-size: 0.85rem; border-bottom: 1px solid #f9f9f9; color: #444; }
 
+
+
         .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+
         .status-active { background: #eafbf0; color: var(--success); }
+
         .status-blocked { background: #fdeaea; color: var(--danger); }
+
         
+
         .product-thumb { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
 
+
+
         /* --- SUPORTE / CHAT UI --- */
+
         .ticket-list { display: flex; flex-direction: column; gap: 15px; }
+
         
+
         .ticket-card { 
+
             background: white; border: 1px solid #eee; border-radius: 12px; padding: 20px; 
+
             display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
+
             position: relative; overflow: hidden;
+
         }
+
         .ticket-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-2px); }
+
         
+
         /* Estilos de Status do Ticket */
+
         .ticket-card.status-pendente { border-left: 5px solid var(--warning); background: #fffdf5; }
+
         .ticket-card.status-andamento { border-left: 5px solid var(--success); }
-        .ticket-card.status-arquivado { border-left: 5px solid #95a5a6; opacity: 0.9; background: #fcfcfc; }
+
+        .ticket-card.status-arquivado { border-left: 5px solid #ccc; opacity: 0.8; }
+
+
 
         .ticket-info h4 { margin-bottom: 5px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+
         .ticket-msg-preview { font-size: 0.85rem; color: #777; max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
+
         
+
         .ticket-actions { display: flex; gap: 10px; align-items: center; }
+
         
+
         /* Botão Aceitar */
+
         .btn-accept {
+
             background: var(--success); color: white; border: none; padding: 8px 16px; 
+
             border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; 
+
             display: flex; align-items: center; gap: 5px; transition: 0.3s;
+
             animation: pulse 2s infinite;
+
         }
+
         .btn-accept:hover { background: #219150; }
+
         
+
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
+
+
         .btn-open-chat {
+
             background: var(--rose-primary); color: white; border: none; padding: 8px 16px; 
+
             border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; 
+
             display: flex; align-items: center; gap: 5px; transition: 0.3s;
+
         }
+
+
 
         .btn-icon { width: 35px; height: 35px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+
         .btn-archive { background: #eee; color: #666; }
+
         .btn-archive:hover { background: #ddd; }
+
         .btn-delete { background: #ffeaea; color: var(--danger); }
+
         .btn-delete:hover { background: var(--danger); color: white; }
 
+
+
         /* MODAIS */
+
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+
         .modal-overlay.open { display: flex; }
+
         .modal-box { background: white; padding: 2rem; border-radius: 15px; width: 500px; max-width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
+
         
+
         input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat', sans-serif; outline: none; }
+
         input:focus, textarea:focus { border-color: var(--rose-primary); }
 
+
+
         .btn-primary { background: var(--rose-primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 500; }
+
         .btn-primary:hover { opacity: 0.9; }
 
+
+
         /* CHAT HISTORICO MODAL */
+
         .chat-history-box { 
+
             height: 300px; overflow-y: auto; background: #f9f9f9; border-radius: 8px; padding: 15px; 
+
             margin-bottom: 15px; border: 1px solid #eee; display: flex; flex-direction: column; gap: 10px; 
+
         }
+
         .msg-bubble { max-width: 80%; padding: 10px; border-radius: 10px; font-size: 0.9rem; }
+
         .msg-client { align-self: flex-start; background: white; border: 1px solid #ddd; border-bottom-left-radius: 0; }
+
         .msg-admin { align-self: flex-end; background: var(--rose-secondary); color: #444; border-bottom-right-radius: 0; }
+
         
+
         /* TOAST */
+
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+
         .toast { background: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-left: 4px solid var(--rose-primary); margin-bottom: 10px; animation: slideIn 0.3s ease; }
+
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
+
+
     </style>
+
 </head>
+
 <body>
+
+
 
     <div class="toast-container" id="toast-container"></div>
 
+
+
     <div class="sidebar">
+
         <div class="brand">Aura<span>.</span></div>
+
         <nav class="menu">
+
             <a onclick="switchTab('clients')" id="menu-clients" class="active"><i class="fas fa-users"></i> Clientes</a>
+
             <a onclick="switchTab('products')" id="menu-products"><i class="fas fa-boxes"></i> Estoque</a>
+
             <a onclick="switchTab('support')" id="menu-support">
+
                 <i class="fas fa-comments"></i> Suporte 
+
                 <span id="support-badge" style="background:var(--warning); color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:auto; display:none">Novo</span>
+
             </a>
+
             <a href="empresaaura.html" target="_blank" style="margin-top:auto; color:var(--rose-primary)"><i class="fas fa-external-link-alt"></i> Ir para Loja</a>
+
         </nav>
+
     </div>
 
+
+
     <div class="main-content">
+
         
+
         <div id="view-clients" class="view-section active">
+
             <div class="stats-grid">
+
                 <div class="card-stat">
+
                     <i class="fas fa-user-friends fa-2x" style="color:var(--rose-primary)"></i>
+
                     <div><h3 id="count-clients">0</h3><p>Clientes Totais</p></div>
+
                 </div>
+
                 <div class="card-stat card-clock" id="clock-card">
+
                     <div>
+
                         <div class="clock-time" id="digital-clock">00:00</div>
+
                         <div class="clock-date" id="date-display">...</div>
+
+                    </div>
+
+                    <i class="far fa-clock fa-2x" style="opacity:0.5"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="panel">
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
+
+                    <h2>Base de Clientes</h2>
+
+                    <input type="text" id="searchClient" placeholder="Pesquisar nome..." onkeyup="renderClients()" style="width:250px; margin:0">
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Nome</th>
+
+                                <th>Email</th>
+
+                                <th>Total Gasto</th>
+
+                                <th>Status</th>
+
+                                <th style="text-align:right">Ações</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="clientsTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div id="view-products" class="view-section" style="display:none">
+
+            <div class="panel">
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
+
+                    <h2>Gerenciar Estoque</h2>
+
+                    <button class="btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Adicionar Produto</button>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Imagem</th>
+
+                                <th>Produto</th>
+
+                                <th>Categoria</th>
+
+                                <th>Preço</th>
+
+                                <th>Estoque</th>
+
+                                <th style="text-align:right">Editar</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="stockTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div id="view-support" class="view-section" style="display:none">
+
+            <div class="panel">
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+
+                    <h2>Painel de Atendimento</h2>
+
+                    <div style="display:flex; gap:10px">
+
+                        <button onclick="renderTickets('active')" style="background:none; border:none; color:#444; cursor:pointer; font-weight:600">Ativos</button>
+
+                        <button onclick="renderTickets('archived')" style="background:none; border:none; color:#999; cursor:pointer">Arquivados</button>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div id="tickets-container" class="ticket-list"></div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div class="modal-overlay" id="client-modal">
+
+        <div class="modal-box">
+
+            <h3>Editar Cliente</h3>
+
+            <input type="hidden" id="editIndex">
+
+            <label>Nome Completo</label><input type="text" id="editName">
+
+            <label>Email</label><input type="email" id="editEmail">
+
+            <label>Função</label>
+
+            <select id="editRole">
+
+                <option value="customer">Cliente</option>
+
+                <option value="admin">Administrador</option>
+
+            </select>
+
+            <label>Status da Conta</label>
+
+            <select id="editStatus">
+
+                <option value="active">ATIVO</option>
+
+                <option value="blocked">BLOQUEADO</option>
+
+            </select>
+
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+
+                <button class="btn-primary" onclick="saveClient()">Salvar Alterações</button>
+
+                <button onclick="document.getElementById('client-modal').classList.remove('open')" style="background:none; border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer">Cancelar</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="modal-overlay" id="product-modal">
+
+        <div class="modal-box">
+
+            <h3 id="prod-modal-title">Novo Produto</h3>
+
+            <input type="hidden" id="prodIndex">
+
+            <label>Nome do Produto</label><input type="text" id="pName">
+
+            <label>Descrição</label><textarea id="pDesc" rows="2"></textarea>
+
+            <div style="display:flex; gap:10px">
+
+                <div style="flex:1"><label>Preço (R$)</label><input type="number" id="pPrice" step="0.01"></div>
+
+                <div style="flex:1"><label>Qtd. Estoque</label><input type="number" id="pQty"></div>
+
+            </div>
+
+            <label>Categoria</label>
+
+            <select id="pCat">
+
+                <option>Fragrâncias & Body</option><option>Skin Care</option><option>Roupas</option><option>Maquiagem</option>
+
+            </select>
+
+            <label>URL da Imagem</label><input type="text" id="Img">
+
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+
+                <button class="btn-primary" onclick="saveProduct()">Salvar Produto</button>
+
+                <button onclick="document.getElementById('product-modal').classList.remove('open')" style="background:none; border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer">Cancelar</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="modal-overlay" id="chat-modal">
+
+        <div class="modal-box" style="width:600px">
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+
+                <h3 style="color:var(--rose-primary)"><i class="fas fa-comment-dots"></i> <span id="chat-client-name">Cliente</span></h3>
+
+                <i class="fas fa-times" onclick="document.getElementById('chat-modal').classList.remove('open')" style="cursor:pointer; color:#999"></i>
+
+            </div>
+
+            <div class="chat-history-box" id="admin-chat-history"></div>
+
+            <div style="display:flex; gap:10px;">
+
+                <input type="text" id="adminReplyInput" placeholder="Digite sua resposta..." style="margin:0; flex:1">
+
+                <button class="btn-primary" onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i></button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        let currentTicketId = null;
+
+        let showingArchived = false;
+
+
+
+        // --- RELÓGIO ---
+
+        function updateClock() {
+
+            const now = new Date();
+
+            const hours = String(now.getHours()).padStart(2, '0');
+
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            document.getElementById('digital-clock').innerText = `${hours}:${minutes}`;
+
+            const options = { weekday: 'short', day: 'numeric', month: 'long' };
+
+            document.getElementById('date-display').innerText = now.toLocaleDateString('pt-BR', options);
+
+        }
+
+        setInterval(updateClock, 1000);
+
+        updateClock();
+
+
+
+        function showToast(msg) {
+
+            const box = document.createElement('div');
+
+            box.className = 'toast';
+
+            box.innerHTML = `<i class="fas fa-check-circle" style="color:var(--success)"></i> ${msg}`;
+
+            document.getElementById('toast-container').appendChild(box);
+
+            setTimeout(() => box.remove(), 3000);
+
+        }
+
+
+
+        function switchTab(tab) {
+
+            document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
+
+            document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
+
+            document.getElementById('view-' + tab).style.display = 'block';
+
+            document.getElementById('menu-' + tab).classList.add('active');
+
+            
+
+            if(tab === 'clients') renderClients();
+
+            if(tab === 'products') renderStock();
+
+            if(tab === 'support') renderTickets('active');
+
+        }
+
+
+
+        // --- CLIENTES ---
+
+        function renderClients() {
+
+            const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
+
+            const tbody = document.getElementById('clientsTableBody');
+
+            const search = document.getElementById('searchClient').value.toLowerCase();
+
+            tbody.innerHTML = '';
+
+            users.forEach((u, i) => {
+
+                if(!u.name.toLowerCase().includes(search)) return;
+
+                const statusLabel = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
+
+                const statusClass = u.status === 'active' ? 'status-active' : 'status-blocked';
+
+                tbody.innerHTML += `
+
+                    <tr>
+
+                        <td><b>${u.name}</b></td>
+
+                        <td>${u.email}</td>
+
+                        <td style="color:var(--success)"><b>R$ ${parseFloat(u.spent || 0).toFixed(2)}</b></td>
+
+                        <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+
+                        <td style="text-align:right">
+
+                            <button onclick="openClientEdit(${i})" style="border:none; background:transparent; cursor:pointer; color:#666"><i class="fas fa-edit"></i></button>
+
+                        </td>
+
+                    </tr>`;
+
+            });
+
+            document.getElementById('count-clients').innerText = users.length;
+
+        }
+
+
+
+        function openClientEdit(i) {
+
+            const u = JSON.parse(localStorage.getItem('auraUsers'))[i];
+
+            document.getElementById('editIndex').value = i;
+
+            document.getElementById('editName').value = u.name;
+
+ div>
                     </div>
                     <i class="far fa-clock fa-2x" style="opacity:0.5"></i>
                 </div>
