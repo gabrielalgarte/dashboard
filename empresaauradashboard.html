@@ -38,7 +38,6 @@
             padding: 2rem 1.5rem; border-right: 1px solid #eee; flex-shrink: 0;
         }
         
-        /* LOGO IGUAL AO SITE */
         .brand { 
             font-family: 'Playfair Display', serif; 
             font-size: 2rem; 
@@ -63,7 +62,7 @@
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .card-stat { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; border-left: 5px solid var(--rose-primary); }
         
-        /* RELÓGIO ESTILIZADO */
+        /* RELÓGIO */
         .card-clock { 
             background: linear-gradient(135deg, var(--rose-primary) 0%, var(--rose-secondary) 100%); 
             color: white; 
@@ -79,13 +78,10 @@
         th { text-align: left; padding: 12px; color: #999; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid #eee; }
         td { padding: 12px; font-size: 0.85rem; border-bottom: 1px solid #f9f9f9; color: #444; }
 
-        /* BADGES */
         .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
         .status-active { background: #eafbf0; color: var(--success); }
         .status-blocked { background: #fdeaea; color: var(--danger); }
-        .status-pending { background: #fff8e1; color: var(--warning); }
-        .status-archived { background: #eee; color: #888; }
-
+        
         .product-thumb { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
 
         /* --- SUPORTE / CHAT UI --- */
@@ -98,16 +94,34 @@
         }
         .ticket-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-2px); }
         
-        .ticket-card.unread { border-left: 5px solid var(--rose-primary); background: #fffbfb; }
-        .ticket-card.read { border-left: 5px solid #ccc; }
+        /* Estilos de Status do Ticket */
+        .ticket-card.status-pendente { border-left: 5px solid var(--warning); background: #fffdf5; }
+        .ticket-card.status-andamento { border-left: 5px solid var(--success); }
+        .ticket-card.status-arquivado { border-left: 5px solid #ccc; opacity: 0.8; }
 
         .ticket-info h4 { margin-bottom: 5px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
         .ticket-msg-preview { font-size: 0.85rem; color: #777; max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
         
-        .ticket-actions { display: flex; gap: 10px; }
+        .ticket-actions { display: flex; gap: 10px; align-items: center; }
+        
+        /* Botão Aceitar */
+        .btn-accept {
+            background: var(--success); color: white; border: none; padding: 8px 16px; 
+            border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; 
+            display: flex; align-items: center; gap: 5px; transition: 0.3s;
+            animation: pulse 2s infinite;
+        }
+        .btn-accept:hover { background: #219150; }
+        
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        .btn-open-chat {
+            background: var(--rose-primary); color: white; border: none; padding: 8px 16px; 
+            border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; 
+            display: flex; align-items: center; gap: 5px; transition: 0.3s;
+        }
+
         .btn-icon { width: 35px; height: 35px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .btn-reply { background: var(--rose-primary); color: white; }
-        .btn-reply:hover { background: #c59693; }
         .btn-archive { background: #eee; color: #666; }
         .btn-archive:hover { background: #ddd; }
         .btn-delete { background: #ffeaea; color: var(--danger); }
@@ -146,13 +160,12 @@
 
     <div class="sidebar">
         <div class="brand">Aura<span>.</span></div>
-        
         <nav class="menu">
             <a onclick="switchTab('clients')" id="menu-clients" class="active"><i class="fas fa-users"></i> Clientes</a>
             <a onclick="switchTab('products')" id="menu-products"><i class="fas fa-boxes"></i> Estoque</a>
             <a onclick="switchTab('support')" id="menu-support">
                 <i class="fas fa-comments"></i> Suporte 
-                <span id="support-badge" style="background:var(--danger); color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:auto; display:none">Novo</span>
+                <span id="support-badge" style="background:var(--warning); color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:auto; display:none">Novo</span>
             </a>
             <a href="index.html" target="_blank" style="margin-top:auto; color:var(--rose-primary)"><i class="fas fa-external-link-alt"></i> Ir para Loja</a>
         </nav>
@@ -224,15 +237,14 @@
         <div id="view-support" class="view-section" style="display:none">
             <div class="panel">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
-                    <h2>Solicitações de Suporte</h2>
+                    <h2>Painel de Atendimento</h2>
                     <div style="display:flex; gap:10px">
-                        <button onclick="renderTickets('all')" style="background:none; border:none; color:#666; cursor:pointer; font-weight:600">Todos</button>
+                        <button onclick="renderTickets('active')" style="background:none; border:none; color:#444; cursor:pointer; font-weight:600">Ativos</button>
                         <button onclick="renderTickets('archived')" style="background:none; border:none; color:#999; cursor:pointer">Arquivados</button>
                     </div>
                 </div>
                 
-                <div id="tickets-container" class="ticket-list">
-                    </div>
+                <div id="tickets-container" class="ticket-list"></div>
             </div>
         </div>
 
@@ -289,9 +301,7 @@
                 <h3 style="color:var(--rose-primary)"><i class="fas fa-comment-dots"></i> <span id="chat-client-name">Cliente</span></h3>
                 <i class="fas fa-times" onclick="document.getElementById('chat-modal').classList.remove('open')" style="cursor:pointer; color:#999"></i>
             </div>
-            
             <div class="chat-history-box" id="admin-chat-history"></div>
-            
             <div style="display:flex; gap:10px;">
                 <input type="text" id="adminReplyInput" placeholder="Digite sua resposta..." style="margin:0; flex:1">
                 <button class="btn-primary" onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i></button>
@@ -309,14 +319,12 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('digital-clock').innerText = `${hours}:${minutes}`;
-            
             const options = { weekday: 'short', day: 'numeric', month: 'long' };
             document.getElementById('date-display').innerText = now.toLocaleDateString('pt-BR', options);
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- TOAST ---
         function showToast(msg) {
             const box = document.createElement('div');
             box.className = 'toast';
@@ -325,7 +333,6 @@
             setTimeout(() => box.remove(), 3000);
         }
 
-        // --- NAVEGAÇÃO ---
         function switchTab(tab) {
             document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
@@ -334,23 +341,19 @@
             
             if(tab === 'clients') renderClients();
             if(tab === 'products') renderStock();
-            if(tab === 'support') renderTickets('all');
+            if(tab === 'support') renderTickets('active');
         }
 
-        // --- CLIENTES ---
+        // --- CLIENTES & ESTOQUE (Mesma lógica) ---
         function renderClients() {
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const tbody = document.getElementById('clientsTableBody');
             const search = document.getElementById('searchClient').value.toLowerCase();
             tbody.innerHTML = '';
-
             users.forEach((u, i) => {
                 if(!u.name.toLowerCase().includes(search)) return;
-                
-                // Tradução visual
                 const statusLabel = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
                 const statusClass = u.status === 'active' ? 'status-active' : 'status-blocked';
-                
                 tbody.innerHTML += `
                     <tr>
                         <td><b>${u.name}</b></td>
@@ -388,7 +391,6 @@
             renderClients();
         }
 
-        // --- ESTOQUE ---
         function renderStock() {
             const stock = JSON.parse(localStorage.getItem('auraStock')) || [];
             const tbody = document.getElementById('stockTableBody');
@@ -445,12 +447,11 @@
             renderStock();
         }
 
-        // --- SUPORTE / CHAT (LÓGICA REFORÇADA) ---
+        // --- SUPORTE / CHAT (NOVO FLUXO) ---
         
-        // Loop de atualização para pegar mensagens novas em tempo real
         setInterval(() => {
             if(document.getElementById('view-support').style.display === 'block') {
-                renderTickets(showingArchived ? 'archived' : 'all');
+                renderTickets(showingArchived ? 'archived' : 'active');
             }
             checkNewMessagesBadge();
         }, 2000);
@@ -468,44 +469,60 @@
             
             showingArchived = (filter === 'archived');
             
-            // Filtra: se filter == 'archived', mostra só os Resolvidos/Arquivados. 
-            // Se filter == 'all', mostra Pendentes e Respondidos.
             const filteredTickets = tickets.filter(t => {
                 if(filter === 'archived') return t.status === 'Resolvido' || t.status === 'Arquivado';
                 return t.status !== 'Resolvido' && t.status !== 'Arquivado';
             });
 
             if(filteredTickets.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:#999">Nenhuma solicitação ${filter === 'archived' ? 'arquivada' : 'pendente'}.</div>`;
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#999">Nenhum chamado encontrado.</div>`;
                 return;
             }
 
             filteredTickets.forEach(t => {
                 const lastMsg = t.messages[t.messages.length - 1];
-                const isUnread = t.status === 'Pendente';
-                
-                // Formatação da data da última msg
                 const date = new Date(lastMsg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                // Determina classe visual baseada no status
+                let statusClass = '';
+                let buttonHtml = '';
 
+                if (t.status === 'Pendente') {
+                    statusClass = 'status-pendente';
+                    // BOTÃO ACEITAR (Só aparece se for pendente)
+                    buttonHtml = `
+                        <button class="btn-accept" onclick="acceptTicket(${t.id})">
+                            <i class="fas fa-check"></i> ACEITAR
+                        </button>`;
+                } else if (t.status === 'Em Andamento' || t.status === 'Respondido') {
+                    statusClass = 'status-andamento';
+                    // BOTÃO ABRIR CHAT (Se já foi aceito)
+                    buttonHtml = `
+                        <button class="btn-open-chat" onclick="openChatModal(${t.id})">
+                            <i class="fas fa-comments"></i> BATE-PAPO
+                        </button>`;
+                } else {
+                    statusClass = 'status-arquivado';
+                }
+
+                // Renderiza o card
                 container.innerHTML += `
-                    <div class="ticket-card ${isUnread ? 'unread' : 'read'}">
+                    <div class="ticket-card ${statusClass}">
                         <div class="ticket-info">
-                            <h4>${t.user} <span style="font-size:0.7rem; color:#999; font-weight:400">${date}</span></h4>
+                            <h4>${t.user} <span style="font-size:0.7rem; color:#999; font-weight:400; margin-left:10px">${date}</span></h4>
                             <div class="ticket-msg-preview">
-                                <i class="fas fa-reply" style="transform: rotate(180deg); font-size:0.7rem"></i> 
+                                ${t.status === 'Pendente' ? '<span style="color:var(--warning); font-weight:bold; font-size:0.7rem; margin-right:5px">[NOVO]</span>' : ''}
                                 ${lastMsg.text}
                             </div>
                         </div>
                         <div class="ticket-actions">
-                            <button class="btn-icon btn-reply" onclick="openChatModal(${t.id})" title="Responder">
-                                <i class="fas fa-comment"></i>
-                            </button>
+                            ${buttonHtml}
                             ${filter !== 'archived' ? 
-                                `<button class="btn-icon btn-archive" onclick="archiveTicket(${t.id})" title="Arquivar/Concluir">
+                                `<button class="btn-icon btn-archive" onclick="archiveTicket(${t.id})" title="Arquivar">
                                     <i class="fas fa-archive"></i>
                                 </button>` : ''
                             }
-                            <button class="btn-icon btn-delete" onclick="deleteTicket(${t.id})" title="Excluir Definitivamente">
+                            <button class="btn-icon btn-delete" onclick="deleteTicket(${t.id})" title="Excluir">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -513,11 +530,29 @@
             });
         }
 
+        // FUNÇÃO DE ACEITAR CHAMADO
+        function acceptTicket(id) {
+            let tickets = JSON.parse(localStorage.getItem('auraTickets'));
+            const idx = tickets.findIndex(x => x.id === id);
+            if(idx > -1) {
+                tickets[idx].status = 'Em Andamento';
+                // Adiciona mensagem automática do sistema
+                tickets[idx].messages.push({
+                    sender: 'Sistema',
+                    text: 'Um atendente entrou na conversa.',
+                    timestamp: Date.now()
+                });
+                localStorage.setItem('auraTickets', JSON.stringify(tickets));
+                showToast("Chamado aceito! Abrindo chat...");
+                // Abre o chat imediatamente após aceitar
+                openChatModal(id);
+            }
+        }
+
         function openChatModal(id) {
             currentTicketId = id;
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const t = tickets.find(x => x.id === id);
-            
             document.getElementById('chat-client-name').innerText = t.user;
             renderChatHistory(t);
             document.getElementById('chat-modal').classList.add('open');
@@ -527,9 +562,10 @@
             const box = document.getElementById('admin-chat-history');
             box.innerHTML = '';
             ticket.messages.forEach(m => {
-                // Mensagens do Sistema não aparecem no histórico visual rápido
-                if(m.sender === 'Sistema') return;
-
+                if(m.sender === 'Sistema') {
+                     box.innerHTML += `<div style="text-align:center; font-size:0.75rem; color:#999; margin:5px 0"><i>${m.text}</i></div>`;
+                     return;
+                }
                 const isMe = m.sender === 'Admin';
                 box.innerHTML += `
                     <div class="msg-bubble ${isMe ? 'msg-admin' : 'msg-client'}">
@@ -554,42 +590,35 @@
                     text: txt,
                     timestamp: Date.now()
                 });
-                tickets[idx].status = 'Respondido'; // Atualiza status
+                tickets[idx].status = 'Em Andamento'; // Mantém em andamento
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                
                 input.value = '';
                 renderChatHistory(tickets[idx]);
-                renderTickets(showingArchived ? 'archived' : 'all');
             }
         }
 
         function archiveTicket(id) {
-            if(!confirm("Arquivar este atendimento? O cliente verá como encerrado.")) return;
+            if(!confirm("Arquivar este atendimento?")) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets'));
             const idx = tickets.findIndex(x => x.id === id);
             if(idx > -1) {
                 tickets[idx].status = 'Arquivado';
-                tickets[idx].messages.push({
-                    sender: 'Sistema',
-                    text: 'Atendimento arquivado pelo suporte.',
-                    timestamp: Date.now()
-                });
+                tickets[idx].messages.push({ sender: 'Sistema', text: 'Arquivado pelo suporte.', timestamp: Date.now() });
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                showToast("Chat arquivado.");
-                renderTickets('all');
+                showToast("Arquivado.");
+                renderTickets('active');
             }
         }
 
         function deleteTicket(id) {
-            if(!confirm("Tem certeza? Isso apagará todo o histórico dessa conversa.")) return;
+            if(!confirm("Excluir este histórico permanentemente?")) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets'));
             const newTickets = tickets.filter(x => x.id !== id);
             localStorage.setItem('auraTickets', JSON.stringify(newTickets));
-            showToast("Conversa excluída.");
-            renderTickets(showingArchived ? 'archived' : 'all');
+            showToast("Excluído.");
+            renderTickets(showingArchived ? 'archived' : 'active');
         }
 
-        // Inicialização
         renderClients();
     </script>
 </body>
