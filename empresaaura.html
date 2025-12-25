@@ -9,11 +9,11 @@
     
     <style>
         :root {
-            --rose-primary: #D8A9A6;    
+            --rose-primary: #D8A9A6;     
             --rose-secondary: #E2BFBC; 
-            --rose-border: #ebd4d2;       
-            --bg-body: #f5eae9;         
-            --text-dark: #4a4a4a;         
+            --rose-border: #ebd4d2;        
+            --bg-body: #f5eae9;          
+            --text-dark: #4a4a4a;          
             --text-light: #ffffff;
             --glass: rgba(255, 255, 255, 0.90);
             --danger: #e74c3c;
@@ -388,6 +388,31 @@
         let cart = [];
         let chatInterval = null;
 
+        // --- SISTEMA DE PRESENÇA (ONLINE) ---
+        // Se estiver logado, avisa o sistema que está online a cada 5 segundos
+        setInterval(() => {
+            if(currentUser) {
+                let presence = JSON.parse(localStorage.getItem('auraPresence')) || {};
+                presence[currentUser.username] = Date.now();
+                localStorage.setItem('auraPresence', JSON.stringify(presence));
+            }
+        }, 5000);
+
+        // --- ATUALIZAÇÃO EM TEMPO REAL (EVENT LISTENER) ---
+        // Isso garante que o cliente veja a resposta do Admin instantaneamente
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'auraTickets') {
+                const win = document.getElementById('chat-window');
+                if (win.classList.contains('open')) {
+                    renderChat();
+                }
+            }
+            // Se o admin alterar produtos, atualiza a grade
+            if (e.key === 'auraStock') {
+                renderProducts();
+            }
+        });
+
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -571,8 +596,13 @@
 
         function toggleChat() { 
             const win = document.getElementById('chat-window'); win.classList.toggle('open');
-            if(win.classList.contains('open')) { renderChat(); if(!chatInterval) chatInterval = setInterval(renderChat, 3000); } 
-            else { if(chatInterval) { clearInterval(chatInterval); chatInterval = null; } }
+            if(win.classList.contains('open')) { 
+                renderChat(); 
+                // Mantemos o polling como fallback, mas o event listener cuida do tempo real
+                if(!chatInterval) chatInterval = setInterval(renderChat, 3000); 
+            } else { 
+                if(chatInterval) { clearInterval(chatInterval); chatInterval = null; } 
+            }
         }
 
         function renderChat() {
