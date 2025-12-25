@@ -17,11 +17,34 @@
             --text-light: #ffffff;
             --glass: rgba(255, 255, 255, 0.90);
             --danger: #e74c3c;
+            --success: #27ae60;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-body); color: var(--text-dark); overflow-x: hidden; line-height: 1.6; }
+
+        /* --- TOAST NOTIFICATIONS (NOVO) --- */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { 
+            background: white; min-width: 280px; padding: 15px 20px; border-radius: 8px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px;
+            animation: slideInRight 0.5s ease forwards; border-left: 5px solid #ccc;
+        }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.info { border-left-color: var(--rose-primary); }
+        
+        .toast i { font-size: 1.2rem; }
+        .toast.success i { color: var(--success); }
+        .toast.error i { color: var(--danger); }
+        .toast.info i { color: var(--rose-primary); }
+
+        .toast-content h4 { font-size: 0.9rem; margin-bottom: 2px; font-weight: 600; }
+        .toast-content p { font-size: 0.8rem; color: #666; margin: 0; }
+
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateX(50px); } }
 
         /* --- LAYOUT --- */
         .top-bar { background-color: var(--rose-primary); color: var(--text-light); text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; }
@@ -83,34 +106,25 @@
         .chat-footer button { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--rose-primary); color: white; cursor: pointer; }
         
         .btn-close-chat-user { 
-            width: 100%; 
-            background: #ff4757; 
-            color: white; 
-            border: none; 
-            padding: 8px; 
-            border-radius: 6px; 
-            font-size: 0.7rem; 
-            font-weight: 700; 
-            cursor: pointer; 
-            text-transform: uppercase;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
+            width: 100%; background: #ff4757; color: white; border: none; padding: 8px; border-radius: 6px; 
+            font-size: 0.7rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; 
+            display: flex; align-items: center; justify-content: center; gap: 5px;
         }
         .btn-close-chat-user:hover { background: #ff6b81; }
 
-        .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; }
-        .bubble-me { align-self: flex-end; background: #e7ffdb; }
-        .bubble-admin { align-self: flex-start; background: white; }
+        .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; }
+        /* Mensagem do cliente (direita, verde claro) */
+        .bubble-me { align-self: flex-end; background: #e7ffdb; color: #333; border-bottom-right-radius: 0; }
+        /* Mensagem do admin (esquerda, branco) */
+        .bubble-admin { align-self: flex-start; background: white; border: 1px solid #eee; border-bottom-left-radius: 0; }
+        /* Mensagem do sistema (centro) */
+        .bubble-sys { align-self: center; background: transparent; font-size: 0.75rem; color: #888; border: none; font-style: italic; }
 
         /* --- MODALS & AUTH --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; }
         .modal-box { background: #fff; padding: 2rem; width: 400px; border-radius: 8px; position: relative; }
 
-        /* Abas de Login/Registro */
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #eee; }
         .auth-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-weight: 500; color: #999; border-bottom: 2px solid transparent; transition: 0.3s; }
         .auth-tab.active { color: var(--rose-primary); border-bottom: 2px solid var(--rose-primary); }
@@ -128,6 +142,8 @@
     </style>
 </head>
 <body>
+
+    <div class="toast-container" id="toast-container"></div>
 
     <div class="top-bar">FRETE GRÁTIS PARA COMPRAS ACIMA DE R$ 299,00</div>
 
@@ -229,15 +245,57 @@
             <div style="display:flex; justify-content:space-between; margin-bottom:10px">
                 <b>Total:</b> <span id="cart-total">R$ 0,00</span>
             </div>
-            <button style="width:100%; background:var(--rose-primary); color:white; border:none; padding:12px; cursor:pointer">FINALIZAR</button>
+            <button style="width:100%; background:var(--rose-primary); color:white; border:none; padding:12px; cursor:pointer" onclick="checkout()">FINALIZAR</button>
         </div>
     </div>
 
     <script>
         let currentUser = null; 
         let cart = [];
+        let chatInterval = null; // Para controlar a atualização do chat
+
+        // --- SISTEMA DE TOAST (NOTIFICAÇÕES MODERNAS) ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+
+            toast.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <div class="toast-content">
+                    <h4>${type === 'success' ? 'Sucesso' : type === 'error' ? 'Atenção' : 'Info'}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+
+            // Remove após 3 segundos
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // --- PRODUTOS ---
+        // Popula produtos de exemplo se estiver vazio (apenas para teste inicial)
+        function seedDatabase() {
+            if(!localStorage.getItem('auraStock')) {
+                const starters = [
+                    { name: "Perfume Aura Rose", category: "Fragrâncias & Body", price: 189.90, qty: 10, img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=400" },
+                    { name: "Sérum Facial Glow", category: "Skin Care", price: 89.90, qty: 50, img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=400" },
+                    { name: "Vestido Linho Off", category: "Roupas", price: 299.00, qty: 5, img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=400" }
+                ];
+                localStorage.setItem('auraStock', JSON.stringify(starters));
+            }
+        }
 
         function renderProducts() {
+            seedDatabase();
             const products = JSON.parse(localStorage.getItem('auraStock')) || [];
             const grids = {
                 'Fragrâncias & Body': document.getElementById('grid-fragrancias'),
@@ -254,7 +312,7 @@
                 grids[p.category].innerHTML += `
                     <div class="product-card">
                         <div class="product-img-wrapper">
-                            <img src="${p.img || 'https://via.placeholder.com/400'}">
+                            <img src="${p.img || 'https://via.placeholder.com/400'}" onerror="this.src='https://via.placeholder.com/400'">
                             <button class="add-cart-btn" onclick="addToCart(${i})">Adicionar</button>
                         </div>
                         <div class="product-info">
@@ -264,11 +322,16 @@
                     </div>`;
             });
 
-            // Ativa seções
             if(document.getElementById('section-fragrancias')) catsActive['Fragrâncias & Body'] ? document.getElementById('section-fragrancias').classList.add('active') : null;
             if(document.getElementById('section-skin')) catsActive['Skin Care'] ? document.getElementById('section-skin').classList.add('active') : null;
             if(document.getElementById('section-roupas')) catsActive['Roupas'] ? document.getElementById('section-roupas').classList.add('active') : null;
             if(document.getElementById('section-make')) catsActive['Maquiagem'] ? document.getElementById('section-make').classList.add('active') : null;
+        }
+
+        function filterProducts() {
+            // Implementação simples de busca poderia vir aqui
+            // Por enquanto, apenas recarrega para simplificar
+            renderProducts(); 
         }
 
         // --- AUTH SYSTEM ---
@@ -277,17 +340,16 @@
                 if(confirm("Deseja sair da sua conta?")) { 
                     currentUser = null; 
                     updateUserUI(); 
+                    showToast("Você saiu da conta.", "info");
                 } 
             } else {
                 document.getElementById('login-modal').classList.add('open'); 
-                // Reset para aba de login sempre que abrir
                 switchAuthTab('login');
             }
         }
 
         function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
         
-        // Alternar Abas
         function switchAuthTab(tab) {
             const loginForm = document.getElementById('login-section');
             const regForm = document.getElementById('register-section');
@@ -307,170 +369,255 @@
             }
         }
 
-        // Lógica de Login
+        // Login Handler
         document.getElementById('userLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const emailInput = document.getElementById('uName').value.trim();
             const passInput = document.getElementById('uPass').value.trim();
 
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-            
-            // Busca usuário (suporta email antigo ou novo sistema)
             const user = users.find(u => u.email === emailInput && u.password === passInput);
             
             if(user) {
-                if(user.status === 'blocked') return alert("Conta bloqueada. Contate o suporte.");
+                if(user.status === 'blocked') {
+                    showToast("Conta bloqueada. Contate o suporte.", "error");
+                    return;
+                }
                 currentUser = user; 
                 updateUserUI(); 
                 closeModals();
-                // Limpa campos
+                showToast(`Bem-vindo de volta, ${user.name}!`, "success");
                 document.getElementById('uName').value = '';
                 document.getElementById('uPass').value = '';
             } else {
-                alert("Email ou senha incorretos.");
+                showToast("Email ou senha incorretos.", "error");
             }
         });
 
-        // Lógica de Cadastro (Novo)
+        // Register Handler
         document.getElementById('userRegisterForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            
             const name = document.getElementById('regName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const pass = document.getElementById('regPass').value.trim();
 
-            if(!name || !email || !pass) return alert("Preencha os campos obrigatórios.");
+            if(!name || !email || !pass) return showToast("Preencha os campos obrigatórios.", "error");
 
             let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-
-            // Verificar se email já existe
             const exists = users.find(u => u.email === email);
             if(exists) {
-                alert("Este e-mail já possui cadastro. Tente fazer login.");
+                showToast("Este e-mail já possui cadastro.", "info");
                 return;
             }
 
             const newUser = {
                 name: name,
-                email: email, // Usado como login
+                email: email,
                 password: pass,
                 phone: phone,
-                role: 'customer', // Padrão
+                role: 'customer',
                 status: 'active',
-                joined: new Date().toLocaleDateString()
+                joined: new Date().toLocaleDateString(),
+                spent: 0,
+                history: []
             };
 
             users.push(newUser);
             localStorage.setItem('auraUsers', JSON.stringify(users));
 
-            alert("Cadastro realizado com sucesso! Bem-vindo(a) à Aura.");
-            
-            // Auto-login
+            showToast("Cadastro realizado com sucesso!", "success");
             currentUser = newUser;
             updateUserUI();
             closeModals();
-
-            // Limpa form
             document.getElementById('userRegisterForm').reset();
         });
 
         function updateUserUI() {
             const display = document.getElementById('user-display'), adminBtn = document.getElementById('adminBtn');
             if(currentUser) {
-                // Pega o primeiro nome apenas para exibição
                 const firstName = currentUser.name.split(' ')[0];
                 display.innerHTML = `<i class="fas fa-user-check"></i> ${firstName}`;
-                
-                // Botão Admin só aparece se role não for customer
                 adminBtn.style.display = (currentUser.role && currentUser.role !== 'customer') ? 'inline-block' : 'none';
             } else {
                 display.innerHTML = `<i class="far fa-user"></i> Login`;
                 adminBtn.style.display = 'none';
             }
-            // Recarrega chat para atualizar nome do usuário
+            // Se o chat estiver aberto, atualiza para mostrar histórico
             if(document.getElementById('chat-window').classList.contains('open')) renderChat();
         }
 
-        // --- CHAT ---
+        // --- CHAT SYSTEM (SINCRONIZADO) ---
         function toggleChat() { 
             const win = document.getElementById('chat-window');
             win.classList.toggle('open');
-            if(win.classList.contains('open')) renderChat();
+            
+            if(win.classList.contains('open')) {
+                renderChat();
+                // Inicia polling para buscar respostas do admin a cada 3s
+                if(!chatInterval) chatInterval = setInterval(renderChat, 3000);
+            } else {
+                // Para o polling para economizar recurso
+                if(chatInterval) { clearInterval(chatInterval); chatInterval = null; }
+            }
         }
 
         function renderChat() {
-            const body = document.getElementById('chat-body-content'), footer = document.getElementById('chat-footer-content');
+            const body = document.getElementById('chat-body-content');
+            const footer = document.getElementById('chat-footer-content');
+            
             if(!currentUser) {
                 body.innerHTML = '<div style="text-align:center;padding:20px;color:#999"><i class="fas fa-lock" style="font-size:2rem;margin-bottom:10px"></i><br>Faça login ou cadastre-se para falar com nosso suporte.</div>';
-                footer.style.display = 'none'; return;
+                footer.style.display = 'none'; 
+                return;
             }
+            
             footer.style.display = 'block';
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            
+            // Procura ticket ativo (não resolvido)
             const myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            
             body.innerHTML = '';
             
             if(myTicket) {
+                // Verifica se foi resolvido recentemente em outra aba
+                if(myTicket.status === 'Resolvido') {
+                    body.innerHTML = '<div class="bubble bubble-sys">Atendimento encerrado.</div>';
+                    document.getElementById('chatMsg').disabled = true;
+                    return;
+                }
+                
+                document.getElementById('chatMsg').disabled = false;
+
                 myTicket.messages.forEach(m => {
-                    const isMe = m.sender === currentUser.name;
-                    body.innerHTML += `<div class="bubble ${isMe ? 'bubble-me' : 'bubble-admin'}"><b>${m.sender}:</b><br>${m.text}</div>`;
+                    let bubbleClass = 'bubble-admin'; // Admin (Esquerda)
+                    if(m.sender === currentUser.name) bubbleClass = 'bubble-me'; // Eu (Direita)
+                    if(m.sender === 'Sistema') bubbleClass = 'bubble-sys'; // Sistema (Centro)
+
+                    body.innerHTML += `
+                        <div class="bubble ${bubbleClass}">
+                            ${m.sender !== 'Sistema' && m.sender !== currentUser.name ? `<b>${m.sender}:</b><br>` : ''}
+                            ${m.text}
+                        </div>`;
                 });
-                // Auto scroll para o final
-                body.scrollTop = body.scrollHeight;
             } else {
                 body.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px">Olá, ' + currentUser.name + '! Como podemos ajudar hoje?</p>';
+                document.getElementById('chatMsg').disabled = false;
             }
+            // Auto scroll para o final
+            body.scrollTop = body.scrollHeight;
         }
 
         function sendSupportMessage() {
-            const msg = document.getElementById('chatMsg').value; if(!msg) return;
+            if(!currentUser) return showToast("Faça login primeiro.", "error");
+            
+            const input = document.getElementById('chatMsg');
+            const msg = input.value; 
+            if(!msg) return;
+
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
             const msgObj = { sender: currentUser.name, text: msg, timestamp: Date.now() };
             
             if(myTicket) { 
                 myTicket.messages.push(msgObj); 
-                myTicket.status = 'Pendente'; 
+                myTicket.status = 'Pendente'; // Avisa admin que tem novidade
             } else { 
-                tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); 
+                // Cria novo ticket
+                tickets.push({ 
+                    id: Date.now(), 
+                    user: currentUser.name, 
+                    status: 'Pendente', 
+                    messages: [msgObj] 
+                }); 
             }
             
             localStorage.setItem('auraTickets', JSON.stringify(tickets));
-            document.getElementById('chatMsg').value = ''; 
+            input.value = ''; 
             renderChat();
         }
 
         function endChat() {
+            if(!currentUser) return;
             if(!confirm("Deseja encerrar este atendimento agora?")) return;
+            
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            
             if(myTicket) {
                 myTicket.status = 'Resolvido';
                 myTicket.messages.push({ sender: 'Sistema', text: 'Atendimento encerrado pelo cliente.', timestamp: Date.now() });
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                alert("Chat encerrado."); toggleChat();
+                showToast("Chat encerrado.", "success");
+                toggleChat();
             }
         }
 
         // --- CART ---
         function openCart() { document.getElementById('cart-sidebar').classList.add('open'); }
         function closeCart() { document.getElementById('cart-sidebar').classList.remove('open'); }
+        
         function addToCart(i) {
             const p = JSON.parse(localStorage.getItem('auraStock'))[i];
-            cart.push(p); updateCartUI(); openCart();
+            cart.push(p); 
+            updateCartUI(); 
+            openCart();
+            showToast(`${p.name} adicionado à sacola!`, "success");
         }
+        
         function updateCartUI() {
             const cont = document.getElementById('cart-items-container');
             cont.innerHTML = ''; let total = 0;
             cart.forEach((item, i) => {
                 total += parseFloat(item.price);
-                cont.innerHTML += `<div class="cart-item"><img src="${item.img}"><div><p>${item.name}</p><b>R$ ${item.price}</b></div></div>`;
+                cont.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}" onerror="this.src='https://via.placeholder.com/60'">
+                        <div>
+                            <p style="font-size:0.85rem; font-weight:600">${item.name}</p>
+                            <span style="color:var(--rose-primary)">R$ ${parseFloat(item.price).toFixed(2)}</span>
+                        </div>
+                    </div>`;
             });
             document.getElementById('cart-total').innerText = "R$ " + total.toFixed(2);
             document.getElementById('cart-count').innerText = cart.length;
-            document.getElementById('cart-count').classList.add('show');
+            if(cart.length > 0) document.getElementById('cart-count').classList.add('show');
         }
 
+        function checkout() {
+            if(cart.length === 0) return showToast("Sua sacola está vazia.", "info");
+            if(!currentUser) {
+                showToast("Faça login para finalizar a compra.", "error");
+                openLoginModal();
+                return;
+            }
+            
+            // Simulação de compra
+            let total = 0;
+            cart.forEach(i => total += parseFloat(i.price));
+            
+            // Atualiza dados do usuário
+            let users = JSON.parse(localStorage.getItem('auraUsers'));
+            let userIdx = users.findIndex(u => u.email === currentUser.email);
+            
+            if(userIdx > -1) {
+                users[userIdx].spent = (users[userIdx].spent || 0) + total;
+                if(!users[userIdx].history) users[userIdx].history = [];
+                users[userIdx].history.push({ date: new Date(), items: cart, total: total });
+                localStorage.setItem('auraUsers', JSON.stringify(users));
+                
+                // Atualiza sessão atual
+                currentUser = users[userIdx];
+            }
+
+            cart = [];
+            updateCartUI();
+            closeCart();
+            showToast("Compra realizada com sucesso! Obrigado.", "success");
+        }
+
+        // Init
         renderProducts();
     </script>
 </body>
