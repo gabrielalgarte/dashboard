@@ -14,110 +14,73 @@
             --bg-body: #f4f7f6; 
             --white: #ffffff;
             --text-main: #2c3e50; 
-            --text-light: #95a5a6;
             --danger: #e74c3c; 
             --success: #27ae60; 
-            --warning: #f39c12;
-            --shadow-soft: 0 5px 20px rgba(0,0,0,0.03);
-            --shadow-hover: 0 10px 25px rgba(216, 169, 166, 0.15);
+            --vip-gold: linear-gradient(135deg, #d4af37 0%, #f9e29c 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* FIXAÇÃO DA TELA SEM SCROLL NO BODY */
         body { 
             font-family: 'Montserrat', sans-serif; 
             background: var(--bg-body); 
             display: flex; 
             height: 100vh; 
-            color: var(--text-main); 
             overflow: hidden; 
         }
 
-        /* SIDEBAR (Mobile Friendly) */
+        /* SIDEBAR */
         .sidebar { 
-            width: 270px; background: var(--white); display: flex; flex-direction: column; 
-            padding: 2.5rem 2rem; border-right: 1px solid rgba(0,0,0,0.05); z-index: 10; 
-            box-shadow: 5px 0 30px rgba(0,0,0,0.02);
+            width: 260px; background: var(--white); display: flex; flex-direction: column; 
+            padding: 2rem 1.5rem; border-right: 1px solid #eee; flex-shrink: 0;
         }
-        .brand { 
-            font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; 
-            margin-bottom: 3.5rem; color: #1a1a1a; letter-spacing: -1px;
-        }
-        .brand span { color: var(--rose-dark); }
-        
+        .brand { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 3rem; text-align: center; }
         .menu a { 
-            display: flex; align-items: center; gap: 14px; padding: 1rem; 
-            color: #666; text-decoration: none; border-radius: 12px; 
-            margin-bottom: 0.8rem; transition: 0.3s; cursor: pointer; font-weight: 500;
+            display: flex; align-items: center; gap: 12px; padding: 12px; 
+            color: #666; text-decoration: none; border-radius: 10px; margin-bottom: 5px; cursor: pointer;
         }
-        .menu a:hover, .menu a.active { background: var(--rose-light); color: var(--rose-dark); transform: translateX(5px); }
-        .menu i { width: 20px; text-align: center; }
+        .menu a.active { background: var(--rose-light); color: var(--rose-dark); font-weight: 600; }
 
-        /* CONTENT AREA (Full Height) */
-        .main-content { flex: 1; padding: 3rem; overflow-y: auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
-        .header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: #1a1a1a; }
+        /* ÁREA PRINCIPAL */
+        .main-content { flex: 1; padding: 2rem; overflow-y: auto; background: #f8fafb; }
         
-        /* CARDS & PANELS */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
-        .card-stat { 
-            background: var(--white); padding: 1.8rem; border-radius: 16px; 
-            box-shadow: var(--shadow-soft); display: flex; align-items: center; gap: 1.2rem; 
-        }
-        .icon-box { width: 55px; height: 55px; background: var(--rose-light); color: var(--rose-dark); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+        /* CARDS */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card-stat { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; }
         
-        /* TABLE CONTAINER (TELA CHEIA SOLICITADA) */
-        .panel { 
-            background: var(--white); border-radius: 16px; padding: 2.5rem; 
-            box-shadow: var(--shadow-soft); margin-bottom: 2rem; 
-            /* Se quiser garantir que ocupe todo o espaço disponível, pode usar flex-grow se container for flex, mas aqui deixamos fluir com overflow-y do main-content */
-        }
-        
-        table { width: 100%; border-collapse: separate; border-spacing: 0 0.5rem; min-width: 900px; }
-        th { text-align: left; padding: 1rem 1.5rem; color: #999; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
-        td { background: #fff; padding: 1.2rem 1.5rem; font-size: 0.9rem; vertical-align: middle; border-top: 1px solid #f8f8f8; border-bottom: 1px solid #f8f8f8; color: #555; }
-        td:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-left: 1px solid #f8f8f8; }
-        td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-right: 1px solid #f8f8f8; }
-        
-        /* BUTTONS & BADGES */
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+        /* ESTILO VIP ESPECIAL */
+        .card-vip { background: var(--vip-gold) !important; color: #5c4b00; border: 1px solid #c5a028; }
+        .card-vip i { color: #5c4b00; }
+
+        /* TABELAS */
+        .panel { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .table-responsive { width: 100%; overflow-x: auto; } /* Scroll apenas se necessário em mobile */
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { text-align: left; padding: 12px; color: #999; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid #eee; }
+        td { padding: 12px; font-size: 0.85rem; border-bottom: 1px solid #f9f9f9; color: #444; }
+
+        /* BADGES */
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
         .status-active { background: #eafbf0; color: var(--success); }
         .status-blocked { background: #fdeaea; color: var(--danger); }
+
+        /* ESTOQUE - FOTOS PEQUENAS */
+        .product-thumb { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
+        .desc-cell { max-width: 200px; color: #888; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* MODAIS */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: white; padding: 2rem; border-radius: 15px; width: 500px; max-width: 90%; }
         
-        .role-badge { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #666; background: #eee; padding: 4px 10px; border-radius: 6px; }
-        .role-dona { background: #2c3e50; color: #fff; }
-        .role-gerente { background: var(--rose-dark); color: #fff; }
-        .role-vendedor { background: #fff5e6; color: var(--warning); }
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .btn-primary { background: var(--rose-dark); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        .btn-danger { background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
 
-        .btn-action { width: 34px; height: 34px; border-radius: 8px; border: 1px solid #eee; background: white; cursor: pointer; color: #777; transition: 0.2s; margin-left: 6px; }
-        .btn-action:hover { background: var(--rose-dark); color: white; border-color: var(--rose-dark); }
-        .btn-action.delete:hover { background: var(--danger); border-color: var(--danger); }
-        
-        .btn-primary { background: var(--rose-dark); color: white; padding: 0.9rem 2rem; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .btn-primary:hover { background: #c29592; transform: translateY(-2px); }
-
-        /* MODALS */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(40, 40, 40, 0.6); z-index: 2000; display: none; backdrop-filter: blur(5px); justify-content: center; align-items: center; }
-        .modal-overlay.open { display: flex; animation: fadeModal 0.3s; }
-        .modal-box { background: white; width: 550px; max-width: 90%; padding: 2.5rem; border-radius: 20px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
-        .close-btn-x { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 50%; background: #f5f5f5; color: #777; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
-        .close-btn-x:hover { background: var(--danger); color: white; }
-
-        input, select { width: 100%; padding: 0.9rem 1.2rem; border: 1px solid #e0e0e0; border-radius: 10px; margin-bottom: 1.2rem; outline: none; background: #fafafa; }
-        label { font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; display: block; color: #555; text-transform: uppercase; }
-
-        .view-section { display: none; }
-        .view-section.active { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* RESPONSIVIDADE (TELA CHEIA MOBILE) */
-        @media (max-width: 900px) {
-            body { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 1.5rem; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-            .brand { margin-bottom: 0; font-size: 1.5rem; }
-            .menu span { display: none; }
-            .main-content { padding: 1.5rem; }
-            table { min-width: 600px; } /* Permite scroll horizontal na tabela */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid #eee; }
         }
     </style>
 </head>
@@ -126,64 +89,41 @@
     <div class="sidebar">
         <div class="brand">Aura<span>.</span></div>
         <nav class="menu">
-            <a onclick="switchTab('clients')" id="menu-clients" class="active"><i class="fas fa-users"></i> <span>Clientes</span></a>
-            <a onclick="switchTab('products')" id="menu-products"><i class="fas fa-boxes"></i> <span>Estoque</span></a>
-            <a onclick="switchTab('support')" id="menu-support"><i class="fas fa-comments"></i> <span>Suporte</span></a>
-            <a href="empresaaura.html" target="_blank"><i class="fas fa-external-link-alt"></i> <span>Ver Site</span></a>
-            <a onclick="alert('Saindo do sistema...')" style="margin-top: auto; color: var(--danger);"><i class="fas fa-sign-out-alt"></i> <span>Sair</span></a>
+            <a onclick="switchTab('clients')" id="menu-clients" class="active"><i class="fas fa-users"></i> Clientes</a>
+            <a onclick="switchTab('products')" id="menu-products"><i class="fas fa-boxes"></i> Estoque</a>
+            <a onclick="switchTab('support')" id="menu-support"><i class="fas fa-comments"></i> Suporte</a>
+            <a href="empresaaura.html" target="_blank"><i class="fas fa-external-link-alt"></i> Ver Site</a>
         </nav>
     </div>
 
     <div class="main-content">
-        <div class="header">
-            <div>
-                <h1 id="page-title">Painel Geral</h1>
-                <p style="color:#888; font-size: 0.9rem;">Visão geral do sistema e gerenciamento.</p>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; background: white; padding: 8px 16px; border-radius: 30px; box-shadow: var(--shadow-soft);">
-                <img src="https://ui-avatars.com/api/?name=Maria&background=D8A9A6&color=fff" style="width: 38px; height: 38px; border-radius: 50%;">
-                <div style="line-height: 1.2;">
-                    <span style="display: block; font-weight: 700; font-size: 0.9rem;">Maria</span>
-                    <span style="font-size: 0.75rem; color: #999;">Administradora</span>
-                </div>
-            </div>
-        </div>
-
         <div id="view-clients" class="view-section active">
             <div class="stats-grid">
                 <div class="card-stat">
-                    <div class="icon-box"><i class="fas fa-users"></i></div>
-                    <div class="stat-text"><h3>0</h3><p>Clientes Cadastrados</p></div>
+                    <i class="fas fa-user-friends fa-2x" style="color:var(--rose-dark)"></i>
+                    <div><h3 id="count-clients">0</h3><p>Total Clientes</p></div>
                 </div>
-                <div class="card-stat">
-                    <div class="icon-box" style="background: #eafbf0; color: #2ecc71;"><i class="fas fa-wallet"></i></div>
-                    <div class="stat-text"><h3 id="total-rev">R$ 0,00</h3><p>Receita Total</p></div>
-                </div>
-                <div class="card-stat">
-                    <div class="icon-box" style="background: #fff8e1; color: #f1c40f;"><i class="fas fa-star"></i></div>
-                    <div class="stat-text"><h3 id="vip-count">0</h3><p>Clientes VIP</p></div>
+                <div class="card-stat card-vip">
+                    <i class="fas fa-crown fa-2x"></i>
+                    <div><h3 id="vip-count">0</h3><p>Clientes VIP</p></div>
                 </div>
             </div>
 
             <div class="panel">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
                     <h2>Base de Clientes</h2>
-                    <div style="position: relative;">
-                        <input type="text" id="searchClient" placeholder="Buscar cliente..." onkeyup="renderClients()" style="width: 280px; margin:0; padding-left: 40px; border-radius: 25px;">
-                        <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #ccc;"></i>
-                    </div>
+                    <input type="text" id="searchClient" placeholder="Pesquisar..." onkeyup="renderClients()" style="width:200px; margin:0">
                 </div>
-                <div style="overflow-x: auto;">
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>Cliente</th>
+                                <th>Nome</th>
                                 <th>Email</th>
-                                <th>Itens Comprados</th>
-                                <th>Gasto Total</th>
+                                <th>Compras</th>
+                                <th>Total Gasto</th>
                                 <th>Status</th>
-                                <th>Cargo</th>
-                                <th style="text-align: right;">Ações</th>
+                                <th style="text-align:right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="clientsTableBody"></tbody>
@@ -192,22 +132,23 @@
             </div>
         </div>
 
-        <div id="view-products" class="view-section">
+        <div id="view-products" class="view-section" style="display:none">
             <div class="panel">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
-                    <h2>Controle de Estoque</h2>
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
+                    <h2>Estoque de Produtos</h2>
                     <button class="btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Novo Produto</button>
                 </div>
-                <div style="overflow-x: auto;">
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>SKU</th>
-                                <th>Produto</th>
+                                <th>Foto</th>
+                                <th>Produto / SKU</th>
+                                <th>Descrição</th>
                                 <th>Categoria</th>
-                                <th>Preço Unit.</th>
-                                <th>Quantidade</th>
-                                <th style="text-align: right;">Ações</th>
+                                <th>Preço</th>
+                                <th>Qtd</th>
+                                <th style="text-align:right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="stockTableBody"></tbody>
@@ -216,143 +157,86 @@
             </div>
         </div>
 
-        <div id="view-support" class="view-section">
+        <div id="view-support" class="view-section" style="display:none">
             <div class="panel">
-                <h2>Chamados de Suporte</h2>
-                <p style="color:#888; font-size:0.9rem;">Tickets inativos por 5 min são encerrados automaticamente.</p>
-                <div id="tickets-list" style="margin-top: 1.5rem;"></div>
+                <h2>Chamados em Aberto</h2>
+                <div id="tickets-list" style="margin-top:1rem"></div>
             </div>
         </div>
-
     </div>
 
     <div class="modal-overlay" id="client-modal">
         <div class="modal-box">
-            <div class="close-btn-x" onclick="closeClientModal()"><i class="fas fa-times"></i></div>
-            <h2 style="margin-bottom: 2rem; color: var(--rose-dark);">Editar Cliente</h2>
-            <form id="editClientForm">
-                <input type="hidden" id="editIndex">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div style="grid-column: span 2;">
-                        <label>Nome Completo</label><input type="text" id="editName">
-                    </div>
-                    <div style="grid-column: span 2;">
-                        <label>Email de Contato</label><input type="email" id="editEmail">
-                    </div>
-                    <div>
-                        <label>Cargo (Permissão)</label>
-                        <select id="editRole">
-                            <option value="customer">Cliente</option>
-                            <option value="vendedor">Vendedor(a)</option>
-                            <option value="gerente">Gerente</option>
-                            <option value="dona">Dona</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Status da Conta</label>
-                        <select id="editStatus">
-                            <option value="active">Ativo</option>
-                            <option value="blocked">Bloqueado</option>
-                        </select>
-                    </div>
-                    <div style="grid-column: span 2;">
-                         <label>Ajuste de Saldo (R$)</label><input type="number" id="editSpent" step="0.01">
-                    </div>
-                </div>
-                <div style="margin-top: 1rem; text-align: right;">
-                    <button type="button" class="btn-primary" onclick="saveClient()">Salvar Alterações</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="history-modal">
-        <div class="modal-box">
-            <div class="close-btn-x" onclick="closeHistoryModal()"><i class="fas fa-times"></i></div>
-            <h2 id="history-title" style="margin-bottom: 0.5rem; color: var(--rose-dark);">Histórico</h2>
-            <p id="history-subtitle" style="color: #888; margin-bottom: 1.5rem; font-size: 0.9rem;"></p>
-            <div class="history-list" id="history-content"></div>
+            <h3>Editar Cliente</h3>
+            <input type="hidden" id="editIndex">
+            <label>Nome</label><input type="text" id="editName">
+            <label>Email</label><input type="email" id="editEmail">
+            <label>Cargo no Sistema</label>
+            <select id="editRole">
+                <option value="customer">Cliente</option>
+                <option value="vendedor">Vendedor(a)</option>
+                <option value="gerente">Gerente</option>
+                <option value="dona">Dona</option>
+            </select>
+            <label>Status</label>
+            <select id="editStatus">
+                <option value="active">ATIVO</option>
+                <option value="blocked">BLOQUEADO</option>
+            </select>
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+                <button class="btn-primary" onclick="saveClient()">Salvar</button>
+                <button onclick="document.getElementById('client-modal').classList.remove('open')">Cancelar</button>
+            </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="product-modal">
         <div class="modal-box">
-            <div class="close-btn-x" onclick="closeProductModal()"><i class="fas fa-times"></i></div>
-            <h2 id="prod-modal-title" style="margin-bottom: 2rem; color: var(--rose-dark);">Novo Produto</h2>
-            <form id="prodForm">
-                <input type="hidden" id="prodIndex"> 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div><label>Nome do Produto</label><input type="text" id="pName" required></div>
-                    <div><label>SKU (Código)</label><input type="text" id="pSku" placeholder="Ex: AUR-001"></div>
-                </div>
-                <label>Categoria</label>
-                <select id="pCat">
-                    <option>Fragrâncias & Body</option><option>Skin Care</option><option>Roupas</option><option>Maquiagem</option>
-                </select>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div><label>Preço (R$)</label><input type="number" id="pPrice" step="0.01" required></div>
-                    <div><label>Quantidade Estoque</label><input type="number" id="pQty" required></div>
-                </div>
-                <label>URL da Imagem</label><input type="text" id="pImg">
-                <div style="margin-top: 1rem; text-align: right;">
-                    <button type="button" class="btn-primary" onclick="saveProduct()">Salvar Produto</button>
-                </div>
-            </form>
+            <h3 id="prod-modal-title">Novo Produto</h3>
+            <input type="hidden" id="prodIndex">
+            <label>Nome</label><input type="text" id="pName">
+            <label>Descrição Curta</label><textarea id="pDesc" rows="2"></textarea>
+            <div style="display:flex; gap:10px">
+                <div style="flex:1"><label>Preço</label><input type="number" id="pPrice" step="0.01"></div>
+                <div style="flex:1"><label>Estoque</label><input type="number" id="pQty"></div>
+            </div>
+            <label>Categoria</label>
+            <select id="pCat">
+                <option>Fragrâncias & Body</option><option>Skin Care</option><option>Roupas</option><option>Maquiagem</option>
+            </select>
+            <label>URL Imagem</label><input type="text" id="pImg">
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+                <button class="btn-primary" onclick="saveProduct()">Salvar Produto</button>
+                <button onclick="document.getElementById('product-modal').classList.remove('open')">Voltar</button>
+            </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="chat-modal">
-        <div class="modal-box" style="height: 600px; display: flex; flex-direction: column;">
-            <div class="close-btn-x" onclick="closeChatModal()"><i class="fas fa-times"></i></div>
-            <h2 id="chat-user-title" style="margin-bottom: 1rem; color: var(--rose-dark);">Chat</h2>
-            <div class="chat-container">
-                <div class="chat-history" id="chat-history"></div>
-                <div class="chat-input">
-                    <input type="text" id="replyInput" placeholder="Digite sua resposta..." style="margin:0; border-radius: 20px;">
-                    <button class="btn-primary" style="width:auto; margin:0; padding: 0 1.5rem;" onclick="sendReply()"><i class="fas fa-paper-plane"></i></button>
-                </div>
+    <div class="modal-overlay" id="close-chat-modal">
+        <div class="modal-box">
+            <h3>Encerrar Atendimento</h3>
+            <p>Por qual motivo deseja encerrar este chat?</p>
+            <select id="closeReason">
+                <option value="Solucionado">Problema Solucionado</option>
+                <option value="Sem Resposta">Cliente não respondeu (Inatividade)</option>
+                <option value="Transferido">Transferido para outro setor</option>
+                <option value="Outros">Outros</option>
+            </select>
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+                <button class="btn-danger" onclick="confirmEndChat()">Encerrar Agora</button>
+                <button onclick="document.getElementById('close-chat-modal').classList.remove('open')">Cancelar</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURAÇÃO E DADOS ---
-        const LOGGED_USER = "Maria"; 
-
-        function initData() {
-            // 1. Estoque
-            let stock = JSON.parse(localStorage.getItem('auraStock'));
-            if(!stock) {
-                 stock = [{ name: "Sérum Glow", sku: "SKIN-001", category: "Skin Care", price: 129.90, qty: 50, img: "" }];
-                 localStorage.setItem('auraStock', JSON.stringify(stock));
-            }
-
-            // 2. Usuários
-            let users = JSON.parse(localStorage.getItem('auraUsers'));
-            if(!users) {
-                users = [
-                    { name: "Ana Silva", email: "ana@email.com", status: "active", spent: 209.80, role: "customer", history: [] },
-                    { name: "Carlos Souza", email: "carlos@email.com", status: "blocked", spent: 0, role: "customer", history: [] }
-                ];
-                localStorage.setItem('auraUsers', JSON.stringify(users));
-            } else {
-                // Migração segura: Se não tiver 'role', define como 'customer'
-                users = users.map(u => {
-                    if(!u.role) u.role = 'customer';
-                    if(!u.history) u.history = [];
-                    return u;
-                });
-                localStorage.setItem('auraUsers', JSON.stringify(users));
-            }
-        }
-        initData();
+        let currentTicketId = null;
 
         function switchTab(tab) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.menu a').forEach(el => el.classList.remove('active'));
-            document.getElementById('view-'+tab).classList.add('active');
-            document.getElementById('menu-'+tab).classList.add('active');
-            
+            document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
+            document.getElementById('view-' + tab).style.display = 'block';
+            document.getElementById('menu-' + tab).classList.add('active');
             if(tab === 'clients') renderClients();
             if(tab === 'products') renderStock();
             if(tab === 'support') renderTickets();
@@ -363,84 +247,43 @@
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const tbody = document.getElementById('clientsTableBody');
             const search = document.getElementById('searchClient').value.toLowerCase();
-            let total = 0, vips = 0;
-
             tbody.innerHTML = '';
+            let vips = 0;
+
             users.forEach((u, i) => {
-                total += parseFloat(u.spent) || 0;
-                if((parseFloat(u.spent) || 0) > 500) vips++;
-                if(!u.name.toLowerCase().includes(search) && !u.email.toLowerCase().includes(search)) return;
-
-                const unitsBought = u.history ? u.history.length : 0;
+                if(!u.name.toLowerCase().includes(search)) return;
+                const isVip = u.spent > 500;
+                if(isVip) vips++;
                 
-                // Botão de Excluir: Só Maria (Dona) vê
-                let deleteBtn = (LOGGED_USER === 'Maria' && u.name !== 'Maria') 
-                    ? `<button class="btn-action delete" onclick="deleteClient(${i})" title="Excluir"><i class="fas fa-trash-alt"></i></button>` 
-                    : '';
-
-                // Badge de Cargo
-                let roleBadge = `<span class="role-badge role-vendedor">${u.role}</span>`;
-                if(u.role === 'customer') roleBadge = `<span class="role-badge" style="background:#eee; color:#666;">Cliente</span>`;
-                if(u.role === 'dona') roleBadge = `<span class="role-badge role-dona">Dona</span>`;
-                if(u.role === 'gerente') roleBadge = `<span class="role-badge role-gerente">Gerente</span>`;
+                // Tradução do Status
+                const statusPT = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
 
                 tbody.innerHTML += `
                     <tr>
-                        <td><strong>${u.name}</strong></td>
+                        <td><b>${u.name}</b></td>
                         <td>${u.email}</td>
-                        <td style="padding-left: 2rem;"><strong>${unitsBought}</strong></td>
-                        <td><span class="clickable-amount" onclick="openHistoryModal(${i})">R$ ${parseFloat(u.spent).toFixed(2)}</span></td>
-                        <td><span class="status-badge ${u.status === 'active' ? 'status-active' : 'status-blocked'}">${u.status}</span></td>
-                        <td>${roleBadge}</td>
-                        <td style="text-align: right;">
-                            <button class="btn-action" onclick="openClientModal(${i})" title="Editar"><i class="fas fa-pen"></i></button>
-                            ${deleteBtn}
+                        <td>${u.history ? u.history.length : 0} itens</td>
+                        <td style="color:var(--success)"><b>R$ ${parseFloat(u.spent || 0).toFixed(2)}</b></td>
+                        <td><span class="status-badge ${u.status === 'active' ? 'status-active' : 'status-blocked'}">${statusPT}</span></td>
+                        <td style="text-align:right">
+                            <button class="btn-primary" style="padding:5px 10px" onclick="openClientEdit(${i})"><i class="fas fa-edit"></i></button>
                         </td>
-                    </tr>
-                `;
+                    </tr>`;
             });
-
-            document.querySelector('.stat-text h3').innerText = users.length;
-            document.getElementById('total-rev').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('count-clients').innerText = users.length;
             document.getElementById('vip-count').innerText = vips;
         }
 
-        // --- MODAL DE HISTÓRICO ---
-        function openHistoryModal(index) {
-            const user = JSON.parse(localStorage.getItem('auraUsers'))[index];
-            const container = document.getElementById('history-content');
-            document.getElementById('history-title').innerText = `Histórico: ${user.name}`;
-            document.getElementById('history-subtitle').innerText = `Total gasto: R$ ${parseFloat(user.spent).toFixed(2)}`;
-            container.innerHTML = '';
-
-            if(!user.history || user.history.length === 0) {
-                container.innerHTML = '<p style="text-align:center; padding: 2rem; color:#999;">Nenhuma compra registrada.</p>';
-            } else {
-                user.history.forEach(item => {
-                    container.innerHTML += `
-                        <div class="history-item">
-                            <div class="h-info"><h4>${item.item}</h4><p>${item.desc} • ${item.date}</p></div>
-                            <div class="h-price">R$ ${parseFloat(item.price).toFixed(2)}</div>
-                        </div>`;
-                });
-            }
-            document.getElementById('history-modal').classList.add('open');
-        }
-        function closeHistoryModal() { document.getElementById('history-modal').classList.remove('open'); }
-
-        // --- MODAL DE EDIÇÃO ---
-        function openClientModal(i) {
+        function openClientEdit(i) {
             const u = JSON.parse(localStorage.getItem('auraUsers'))[i];
             document.getElementById('editIndex').value = i;
             document.getElementById('editName').value = u.name;
             document.getElementById('editEmail').value = u.email;
-            document.getElementById('editRole').value = u.role || 'customer';
+            document.getElementById('editRole').value = u.role;
             document.getElementById('editStatus').value = u.status;
-            document.getElementById('editSpent').value = u.spent;
             document.getElementById('client-modal').classList.add('open');
         }
-        function closeClientModal() { document.getElementById('client-modal').classList.remove('open'); }
-        
+
         function saveClient() {
             const i = document.getElementById('editIndex').value;
             let users = JSON.parse(localStorage.getItem('auraUsers'));
@@ -448,19 +291,9 @@
             users[i].email = document.getElementById('editEmail').value;
             users[i].role = document.getElementById('editRole').value;
             users[i].status = document.getElementById('editStatus').value;
-            users[i].spent = parseFloat(document.getElementById('editSpent').value);
             localStorage.setItem('auraUsers', JSON.stringify(users));
-            closeClientModal();
+            document.getElementById('client-modal').classList.remove('open');
             renderClients();
-        }
-
-        function deleteClient(i) {
-            if(confirm("ATENÇÃO: Deseja realmente excluir este cliente do sistema?")) {
-                let users = JSON.parse(localStorage.getItem('auraUsers'));
-                users.splice(i, 1);
-                localStorage.setItem('auraUsers', JSON.stringify(users));
-                renderClients();
-            }
         }
 
         // --- ESTOQUE ---
@@ -469,112 +302,89 @@
             const tbody = document.getElementById('stockTableBody');
             tbody.innerHTML = '';
             stock.forEach((p, i) => {
-                const qty = p.qty !== undefined ? parseInt(p.qty) : 0;
-                let qtyClass = qty > 0 ? 'qty-positive' : 'qty-negative';
                 tbody.innerHTML += `
                     <tr>
-                        <td style="font-family:'Courier New', monospace; color:#666;">${p.sku || 'N/A'}</td>
-                        <td><div style="display:flex; align-items:center;"><img src="${p.img}" class="product-thumb" onerror="this.src='https://via.placeholder.com/40'"><span style="font-weight:600; color:#333;">${p.name}</span></div></td>
+                        <td><img src="${p.img}" class="product-thumb" onerror="this.src='https://via.placeholder.com/50'"></td>
+                        <td><b>${p.name}</b><br><small style="color:#999">SKU: ${p.sku || 'N/A'}</small></td>
+                        <td class="desc-cell">${p.description || 'Sem descrição...'}</td>
                         <td>${p.category}</td>
-                        <td>R$ ${parseFloat(p.price).toFixed(2)}</td>
-                        <td><span class="qty-badge ${qtyClass}">${qty} un.</span></td>
-                        <td style="text-align: right;"><button class="btn-action" onclick="openProductModal(${i})"><i class="fas fa-pen"></i></button><button class="btn-action delete" onclick="deleteProduct(${i})"><i class="fas fa-trash-alt"></i></button></td>
+                        <td>R$ ${p.price}</td>
+                        <td><b style="color:${p.qty < 5 ? 'red' : 'inherit'}">${p.qty} un.</b></td>
+                        <td style="text-align:right">
+                            <button class="btn-primary" style="padding:5px 10px" onclick="openProductModal(${i})"><i class="fas fa-pen"></i></button>
+                        </td>
                     </tr>`;
             });
         }
 
-        // --- SUPORTE / CHAT AUTOMATIZADO (ROBÔ) ---
-        let currentTicketIndex = null;
-
-        // Robô: Verifica a cada 60s se algum ticket expirou (5 min sem resposta)
-        setInterval(checkChatTimeout, 60000);
-
-        function checkChatTimeout() {
-            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            let changed = false;
-            const now = Date.now();
-            const TIMEOUT_MS = 5 * 60 * 1000; // 5 minutos
-
-            tickets.forEach(ticket => {
-                if (ticket.status !== 'Resolvido' && ticket.status !== 'Encerrado por Inatividade' && ticket.messages && ticket.messages.length > 0) {
-                    const lastMsg = ticket.messages[ticket.messages.length - 1];
-                    // Verifica se a última mensagem tem timestamp
-                    if (lastMsg.timestamp) {
-                        if (now - lastMsg.timestamp > TIMEOUT_MS) {
-                            ticket.status = 'Encerrado por Inatividade';
-                            ticket.messages.push({
-                                sender: 'Sistema',
-                                text: 'Este atendimento foi encerrado automaticamente por falta de atividade.',
-                                timestamp: now
-                            });
-                            changed = true;
-                        }
-                    }
-                }
-            });
-
-            if (changed) {
-                localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                if (document.getElementById('view-support').classList.contains('active')) renderTickets();
+        function openProductModal(i = null) {
+            if(i !== null) {
+                const p = JSON.parse(localStorage.getItem('auraStock'))[i];
+                document.getElementById('prodIndex').value = i;
+                document.getElementById('pName').value = p.name;
+                document.getElementById('pDesc').value = p.description || '';
+                document.getElementById('pPrice').value = p.price;
+                document.getElementById('pQty').value = p.qty;
+                document.getElementById('pCat').value = p.category;
+                document.getElementById('pImg').value = p.img;
+                document.getElementById('prod-modal-title').innerText = "Editar Produto";
+            } else {
+                document.getElementById('prodForm')?.reset();
+                document.getElementById('prodIndex').value = "";
+                document.getElementById('prod-modal-title').innerText = "Novo Produto";
             }
+            document.getElementById('product-modal').classList.add('open');
         }
 
+        function saveProduct() {
+            const i = document.getElementById('prodIndex').value;
+            let stock = JSON.parse(localStorage.getItem('auraStock')) || [];
+            const newP = {
+                name: document.getElementById('pName').value,
+                description: document.getElementById('pDesc').value,
+                price: document.getElementById('pPrice').value,
+                qty: document.getElementById('pQty').value,
+                category: document.getElementById('pCat').value,
+                img: document.getElementById('pImg').value
+            };
+            if(i === "") stock.push(newP); else stock[i] = newP;
+            localStorage.setItem('auraStock', JSON.stringify(stock));
+            document.getElementById('product-modal').classList.remove('open');
+            renderStock();
+        }
+
+        // --- SUPORTE ---
         function renderTickets() {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const list = document.getElementById('tickets-list');
             list.innerHTML = '';
-            
-            if(tickets.length === 0) { list.innerHTML = '<p style="color:#999; text-align:center; padding:2rem;">Nenhum chamado aberto.</p>'; return; }
-
-            tickets.forEach((t, i) => {
-                const lastMsg = t.messages ? t.messages[t.messages.length - 1].text : (t.message || "Sem mensagem");
-                
+            tickets.filter(t => t.status !== 'Resolvido').forEach(t => {
                 list.innerHTML += `
-                    <div style="background:white; padding:1.5rem; border:1px solid #eee; border-radius:12px; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-                        <div style="display:flex; gap: 15px; align-items:center;">
-                             <div style="width:40px; height:40px; background:#f0f0f0; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#888;"><i class="fas fa-user"></i></div>
-                            <div>
-                                <h4 style="margin:0; color:#333;">${t.user} <span style="font-size:0.75rem; background:#fff5e6; color:#f39c12; padding:2px 8px; border-radius:4px;">${t.status}</span></h4>
-                                <p style="font-size:0.9rem; color:#666; margin-top:5px; max-width:400px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg}</p>
-                            </div>
+                    <div style="background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center">
+                        <div>
+                            <b>${t.user}</b> - <small>${t.status}</small>
+                            <p style="font-size:0.8rem; color:#666">${t.messages[t.messages.length-1].text}</p>
                         </div>
-                        <button class="btn-primary" style="width:auto; padding:0.6rem 1.2rem; font-size:0.8rem;" onclick="openChat(${i})"><i class="fas fa-comments"></i> Responder</button>
-                    </div>
-                `;
+                        <button class="btn-danger" onclick="openEndChatModal('${t.id}')">Encerrar</button>
+                    </div>`;
             });
         }
 
-        function openChat(i) {
-            currentTicketIndex = i;
-            const t = JSON.parse(localStorage.getItem('auraTickets'))[i];
-            document.getElementById('chat-user-title').innerText = "Chat com " + t.user;
-            document.getElementById('chat-modal').classList.add('open');
-            renderChatHistory(t);
-        }
-        function closeChatModal() { document.getElementById('chat-modal').classList.remove('open'); currentTicketIndex = null; }
-
-        function renderChatHistory(ticket) {
-            const box = document.getElementById('chat-history');
-            box.innerHTML = '';
-            let msgs = ticket.messages || [{ sender: ticket.user, text: ticket.message }];
-            msgs.forEach(m => {
-                const isAdmin = m.sender === 'Admin' || m.sender === 'Maria';
-                box.innerHTML += `<div class="bubble ${isAdmin ? 'bubble-admin' : 'bubble-client'}"><strong>${m.sender}</strong><br>${m.text}</div>`;
-            });
-            box.scrollTop = box.scrollHeight;
+        function openEndChatModal(id) {
+            currentTicketId = id;
+            document.getElementById('close-chat-modal').classList.add('open');
         }
 
-        function sendReply() {
-            const txt = document.getElementById('replyInput').value;
-            if(!txt) return;
-            let tickets = JSON.parse(localStorage.getItem('auraTickets'));
-            let ticket = tickets[currentTicketIndex];
-            if(!ticket.messages) ticket.messages = [{sender: ticket.user, text: ticket.message}];
-            ticket.messages.push({ sender: LOGGED_USER, text: txt, timestamp: Date.now() });
-            ticket.status = "Respondido";
-            localStorage.setItem('auraTickets', JSON.stringify(tickets));
-            document.getElementById('replyInput').value = '';
-            renderChatHistory(ticket);
+        function confirmEndChat() {
+            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            const reason = document.getElementById('closeReason').value;
+            const t = tickets.find(x => x.id == currentTicketId);
+            if(t) {
+                t.status = 'Resolvido';
+                t.messages.push({ sender: 'Admin', text: `Atendimento encerrado. Motivo: ${reason}`, timestamp: Date.now() });
+                localStorage.setItem('auraTickets', JSON.stringify(tickets));
+            }
+            document.getElementById('close-chat-modal').classList.remove('open');
             renderTickets();
         }
 
