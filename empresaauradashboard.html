@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin | Aura</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
-            --rose-dark: #D8A9A6; 
+            --rose-primary: #D8A9A6; 
+            --rose-secondary: #E2BFBC;
             --rose-light: #fdf2f0;
             --bg-body: #f4f7f6; 
             --white: #ffffff;
-            --text-main: #2c3e50; 
+            --text-main: #4a4a4a; 
             --danger: #e74c3c; 
             --success: #27ae60; 
-            --vip-gold: linear-gradient(135deg, #d4af37 0%, #f9e29c 100%);
+            --warning: #f1c40f;
+            --glass: rgba(255, 255, 255, 0.90);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,32 +26,53 @@
         body { 
             font-family: 'Montserrat', sans-serif; 
             background: var(--bg-body); 
+            color: var(--text-main);
             display: flex; 
             height: 100vh; 
             overflow: hidden; 
         }
 
-        /* SIDEBAR */
+        /* --- SIDEBAR --- */
         .sidebar { 
             width: 260px; background: var(--white); display: flex; flex-direction: column; 
             padding: 2rem 1.5rem; border-right: 1px solid #eee; flex-shrink: 0;
         }
-        .brand { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 3rem; text-align: center; }
+        
+        /* LOGO IGUAL AO SITE */
+        .brand { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem; 
+            font-weight: 700; 
+            color: var(--text-main); 
+            text-align: center; 
+            margin-bottom: 3rem; 
+        }
+        .brand span { color: var(--rose-primary); font-style: italic; }
+
         .menu a { 
             display: flex; align-items: center; gap: 12px; padding: 12px; 
             color: #666; text-decoration: none; border-radius: 10px; margin-bottom: 5px; cursor: pointer; transition: 0.3s;
         }
-        .menu a:hover { background: #fafafa; }
-        .menu a.active { background: var(--rose-light); color: var(--rose-dark); font-weight: 600; }
+        .menu a:hover { background: #fafafa; color: var(--rose-primary); }
+        .menu a.active { background: var(--rose-light); color: var(--rose-primary); font-weight: 600; }
 
-        /* MAIN CONTENT */
+        /* --- MAIN CONTENT --- */
         .main-content { flex: 1; padding: 2rem; overflow-y: auto; background: #f8fafb; }
         
-        /* CARDS & TABLES */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .card-stat { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; }
-        .card-vip { background: var(--vip-gold) !important; color: #5c4b00; border: 1px solid #c5a028; }
+        /* CARDS */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card-stat { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; border-left: 5px solid var(--rose-primary); }
         
+        /* RELÓGIO ESTILIZADO */
+        .card-clock { 
+            background: linear-gradient(135deg, var(--rose-primary) 0%, var(--rose-secondary) 100%); 
+            color: white; 
+            border: none; 
+            justify-content: space-between;
+        }
+        .clock-time { font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif; }
+        .clock-date { font-size: 0.8rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+
         .panel { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .table-responsive { width: 100%; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
@@ -60,43 +83,60 @@
         .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
         .status-active { background: #eafbf0; color: var(--success); }
         .status-blocked { background: #fdeaea; color: var(--danger); }
+        .status-pending { background: #fff8e1; color: var(--warning); }
+        .status-archived { background: #eee; color: #888; }
 
         .product-thumb { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
+
+        /* --- SUPORTE / CHAT UI --- */
+        .ticket-list { display: flex; flex-direction: column; gap: 15px; }
+        
+        .ticket-card { 
+            background: white; border: 1px solid #eee; border-radius: 12px; padding: 20px; 
+            display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .ticket-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-2px); }
+        
+        .ticket-card.unread { border-left: 5px solid var(--rose-primary); background: #fffbfb; }
+        .ticket-card.read { border-left: 5px solid #ccc; }
+
+        .ticket-info h4 { margin-bottom: 5px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .ticket-msg-preview { font-size: 0.85rem; color: #777; max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
+        
+        .ticket-actions { display: flex; gap: 10px; }
+        .btn-icon { width: 35px; height: 35px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-reply { background: var(--rose-primary); color: white; }
+        .btn-reply:hover { background: #c59693; }
+        .btn-archive { background: #eee; color: #666; }
+        .btn-archive:hover { background: #ddd; }
+        .btn-delete { background: #ffeaea; color: var(--danger); }
+        .btn-delete:hover { background: var(--danger); color: white; }
 
         /* MODAIS */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
         .modal-overlay.open { display: flex; }
         .modal-box { background: white; padding: 2rem; border-radius: 15px; width: 500px; max-width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
         
-        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat', sans-serif; }
-        .btn-primary { background: var(--rose-dark); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat', sans-serif; outline: none; }
+        input:focus, textarea:focus { border-color: var(--rose-primary); }
+
+        .btn-primary { background: var(--rose-primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 500; }
         .btn-primary:hover { opacity: 0.9; }
-        .btn-danger { background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
 
-        /* --- TOAST NOTIFICATIONS (NOVO) --- */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-        .toast { 
-            background: white; min-width: 300px; padding: 15px 20px; border-radius: 8px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px;
-            animation: slideInLeft 0.5s ease forwards; border-left: 5px solid #ccc;
+        /* CHAT HISTORICO MODAL */
+        .chat-history-box { 
+            height: 300px; overflow-y: auto; background: #f9f9f9; border-radius: 8px; padding: 15px; 
+            margin-bottom: 15px; border: 1px solid #eee; display: flex; flex-direction: column; gap: 10px; 
         }
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.info { border-left-color: var(--rose-dark); }
-        .toast-content h4 { font-size: 0.9rem; margin-bottom: 2px; }
-        .toast-content p { font-size: 0.8rem; color: #666; }
-        @keyframes slideInLeft { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes fadeOut { to { opacity: 0; transform: translateX(50px); } }
-
-        /* --- CHAT NO ADMIN --- */
-        .ticket-item { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid transparent; transition: 0.2s; }
-        .ticket-item:hover { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .ticket-item.new-msg { border-left-color: var(--rose-dark); background: #fff5f5; }
+        .msg-bubble { max-width: 80%; padding: 10px; border-radius: 10px; font-size: 0.9rem; }
+        .msg-client { align-self: flex-start; background: white; border: 1px solid #ddd; border-bottom-left-radius: 0; }
+        .msg-admin { align-self: flex-end; background: var(--rose-secondary); color: #444; border-bottom-right-radius: 0; }
         
-        .chat-history { height: 300px; overflow-y: auto; background: #f4f7f6; border-radius: 8px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; border: 1px solid #eee; }
-        .admin-msg { align-self: flex-end; background: var(--rose-dark); color: white; padding: 8px 12px; border-radius: 12px 12px 0 12px; max-width: 80%; font-size: 0.9rem; }
-        .client-msg { align-self: flex-start; background: white; border: 1px solid #ddd; padding: 8px 12px; border-radius: 12px 12px 12px 0; max-width: 80%; font-size: 0.9rem; }
-        .sys-msg { align-self: center; font-size: 0.75rem; color: #999; margin: 5px 0; font-style: italic; }
+        /* TOAST */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+        .toast { background: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-left: 4px solid var(--rose-primary); margin-bottom: 10px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
     </style>
 </head>
@@ -106,31 +146,39 @@
 
     <div class="sidebar">
         <div class="brand">Aura<span>.</span></div>
+        
         <nav class="menu">
             <a onclick="switchTab('clients')" id="menu-clients" class="active"><i class="fas fa-users"></i> Clientes</a>
             <a onclick="switchTab('products')" id="menu-products"><i class="fas fa-boxes"></i> Estoque</a>
-            <a onclick="switchTab('support')" id="menu-support"><i class="fas fa-comments"></i> Suporte <span id="support-badge" style="background:var(--danger); color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:auto; display:none">!</span></a>
-            <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Ver Loja</a>
+            <a onclick="switchTab('support')" id="menu-support">
+                <i class="fas fa-comments"></i> Suporte 
+                <span id="support-badge" style="background:var(--danger); color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:auto; display:none">Novo</span>
+            </a>
+            <a href="index.html" target="_blank" style="margin-top:auto; color:var(--rose-primary)"><i class="fas fa-external-link-alt"></i> Ir para Loja</a>
         </nav>
     </div>
 
     <div class="main-content">
+        
         <div id="view-clients" class="view-section active">
             <div class="stats-grid">
                 <div class="card-stat">
-                    <i class="fas fa-user-friends fa-2x" style="color:var(--rose-dark)"></i>
-                    <div><h3 id="count-clients">0</h3><p>Total Clientes</p></div>
+                    <i class="fas fa-user-friends fa-2x" style="color:var(--rose-primary)"></i>
+                    <div><h3 id="count-clients">0</h3><p>Clientes Totais</p></div>
                 </div>
-                <div class="card-stat card-vip">
-                    <i class="fas fa-crown fa-2x"></i>
-                    <div><h3 id="vip-count">0</h3><p>Clientes VIP</p></div>
+                <div class="card-stat card-clock" id="clock-card">
+                    <div>
+                        <div class="clock-time" id="digital-clock">00:00</div>
+                        <div class="clock-date" id="date-display">...</div>
+                    </div>
+                    <i class="far fa-clock fa-2x" style="opacity:0.5"></i>
                 </div>
             </div>
 
             <div class="panel">
                 <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
                     <h2>Base de Clientes</h2>
-                    <input type="text" id="searchClient" placeholder="Pesquisar..." onkeyup="renderClients()" style="width:200px; margin:0">
+                    <input type="text" id="searchClient" placeholder="Pesquisar nome..." onkeyup="renderClients()" style="width:250px; margin:0">
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -152,19 +200,19 @@
         <div id="view-products" class="view-section" style="display:none">
             <div class="panel">
                 <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
-                    <h2>Estoque de Produtos</h2>
-                    <button class="btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Novo Produto</button>
+                    <h2>Gerenciar Estoque</h2>
+                    <button class="btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Adicionar Produto</button>
                 </div>
                 <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>Foto</th>
+                                <th>Imagem</th>
                                 <th>Produto</th>
                                 <th>Categoria</th>
                                 <th>Preço</th>
-                                <th>Qtd</th>
-                                <th style="text-align:right">Ações</th>
+                                <th>Estoque</th>
+                                <th style="text-align:right">Editar</th>
                             </tr>
                         </thead>
                         <tbody id="stockTableBody"></tbody>
@@ -176,33 +224,39 @@
         <div id="view-support" class="view-section" style="display:none">
             <div class="panel">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
-                    <h2>Chamados em Aberto</h2>
-                    <button class="btn-primary" onclick="renderTickets()" style="font-size:0.8rem"><i class="fas fa-sync"></i> Atualizar</button>
+                    <h2>Solicitações de Suporte</h2>
+                    <div style="display:flex; gap:10px">
+                        <button onclick="renderTickets('all')" style="background:none; border:none; color:#666; cursor:pointer; font-weight:600">Todos</button>
+                        <button onclick="renderTickets('archived')" style="background:none; border:none; color:#999; cursor:pointer">Arquivados</button>
+                    </div>
                 </div>
-                <div id="tickets-list"></div>
+                
+                <div id="tickets-container" class="ticket-list">
+                    </div>
             </div>
         </div>
+
     </div>
 
     <div class="modal-overlay" id="client-modal">
         <div class="modal-box">
             <h3>Editar Cliente</h3>
             <input type="hidden" id="editIndex">
-            <label>Nome</label><input type="text" id="editName">
+            <label>Nome Completo</label><input type="text" id="editName">
             <label>Email</label><input type="email" id="editEmail">
-            <label>Cargo</label>
+            <label>Função</label>
             <select id="editRole">
                 <option value="customer">Cliente</option>
                 <option value="admin">Administrador</option>
             </select>
-            <label>Status</label>
+            <label>Status da Conta</label>
             <select id="editStatus">
                 <option value="active">ATIVO</option>
                 <option value="blocked">BLOQUEADO</option>
             </select>
             <div style="display:flex; gap:10px; justify-content:flex-end">
-                <button class="btn-primary" onclick="saveClient()">Salvar</button>
-                <button onclick="document.getElementById('client-modal').classList.remove('open')">Cancelar</button>
+                <button class="btn-primary" onclick="saveClient()">Salvar Alterações</button>
+                <button onclick="document.getElementById('client-modal').classList.remove('open')" style="background:none; border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer">Cancelar</button>
             </div>
         </div>
     </div>
@@ -211,80 +265,64 @@
         <div class="modal-box">
             <h3 id="prod-modal-title">Novo Produto</h3>
             <input type="hidden" id="prodIndex">
-            <label>Nome</label><input type="text" id="pName">
-            <label>Descrição Curta</label><textarea id="pDesc" rows="2"></textarea>
+            <label>Nome do Produto</label><input type="text" id="pName">
+            <label>Descrição</label><textarea id="pDesc" rows="2"></textarea>
             <div style="display:flex; gap:10px">
-                <div style="flex:1"><label>Preço</label><input type="number" id="pPrice" step="0.01"></div>
-                <div style="flex:1"><label>Estoque</label><input type="number" id="pQty"></div>
+                <div style="flex:1"><label>Preço (R$)</label><input type="number" id="pPrice" step="0.01"></div>
+                <div style="flex:1"><label>Qtd. Estoque</label><input type="number" id="pQty"></div>
             </div>
             <label>Categoria</label>
             <select id="pCat">
                 <option>Fragrâncias & Body</option><option>Skin Care</option><option>Roupas</option><option>Maquiagem</option>
             </select>
-            <label>URL Imagem</label><input type="text" id="pImg">
+            <label>URL da Imagem</label><input type="text" id="pImg">
             <div style="display:flex; gap:10px; justify-content:flex-end">
-                <button class="btn-primary" onclick="saveProduct()">Salvar</button>
-                <button onclick="document.getElementById('product-modal').classList.remove('open')">Cancelar</button>
+                <button class="btn-primary" onclick="saveProduct()">Salvar Produto</button>
+                <button onclick="document.getElementById('product-modal').classList.remove('open')" style="background:none; border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer">Cancelar</button>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="chat-modal">
         <div class="modal-box" style="width:600px">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px">
-                <h3>Atendimento: <span id="chat-client-name"></span></h3>
-                <span onclick="document.getElementById('chat-modal').classList.remove('open')" style="cursor:pointer">&times;</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+                <h3 style="color:var(--rose-primary)"><i class="fas fa-comment-dots"></i> <span id="chat-client-name">Cliente</span></h3>
+                <i class="fas fa-times" onclick="document.getElementById('chat-modal').classList.remove('open')" style="cursor:pointer; color:#999"></i>
             </div>
             
-            <div class="chat-history" id="admin-chat-history"></div>
+            <div class="chat-history-box" id="admin-chat-history"></div>
             
-            <div style="display:flex; gap:10px; margin-bottom:15px">
-                <input type="text" id="adminReplyInput" placeholder="Digite sua resposta..." style="margin:0">
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="adminReplyInput" placeholder="Digite sua resposta..." style="margin:0; flex:1">
                 <button class="btn-primary" onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i></button>
-            </div>
-
-            <div style="border-top:1px solid #eee; padding-top:15px">
-                <label style="font-size:0.8rem; font-weight:bold; color:#666">Encerrar Chat</label>
-                <div style="display:flex; gap:10px">
-                    <select id="closeReason" style="margin:0">
-                        <option value="Solucionado">Problema Solucionado</option>
-                        <option value="Inatividade">Cliente não respondeu</option>
-                        <option value="Transferido">Transferido</option>
-                    </select>
-                    <button class="btn-danger" onclick="confirmEndChat()">Encerrar</button>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
         let currentTicketId = null;
+        let showingArchived = false;
 
-        // --- SISTEMA DE TOAST (NOTIFICAÇÕES) ---
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+        // --- RELÓGIO ---
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('digital-clock').innerText = `${hours}:${minutes}`;
             
-            let icon = 'info-circle';
-            if (type === 'success') icon = 'check-circle';
-            if (type === 'error') icon = 'exclamation-circle';
+            const options = { weekday: 'short', day: 'numeric', month: 'long' };
+            document.getElementById('date-display').innerText = now.toLocaleDateString('pt-BR', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-            toast.innerHTML = `
-                <i class="fas fa-${icon}" style="font-size:1.5rem; color:inherit"></i>
-                <div class="toast-content">
-                    <h4>${type === 'success' ? 'Sucesso' : type === 'error' ? 'Erro' : 'Aviso'}</h4>
-                    <p>${message}</p>
-                </div>
-            `;
-            
-            container.appendChild(toast);
-
-            // Remove após 3 segundos
-            setTimeout(() => {
-                toast.style.animation = 'fadeOut 0.5s ease forwards';
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
+        // --- TOAST ---
+        function showToast(msg) {
+            const box = document.createElement('div');
+            box.className = 'toast';
+            box.innerHTML = `<i class="fas fa-check-circle" style="color:var(--success)"></i> ${msg}`;
+            document.getElementById('toast-container').appendChild(box);
+            setTimeout(() => box.remove(), 3000);
         }
 
         // --- NAVEGAÇÃO ---
@@ -293,9 +331,10 @@
             document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
             document.getElementById('view-' + tab).style.display = 'block';
             document.getElementById('menu-' + tab).classList.add('active');
+            
             if(tab === 'clients') renderClients();
             if(tab === 'products') renderStock();
-            if(tab === 'support') renderTickets();
+            if(tab === 'support') renderTickets('all');
         }
 
         // --- CLIENTES ---
@@ -304,26 +343,26 @@
             const tbody = document.getElementById('clientsTableBody');
             const search = document.getElementById('searchClient').value.toLowerCase();
             tbody.innerHTML = '';
-            let vips = 0;
 
             users.forEach((u, i) => {
                 if(!u.name.toLowerCase().includes(search)) return;
-                const isVip = u.spent > 500;
-                if(isVip) vips++;
+                
+                // Tradução visual
+                const statusLabel = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
+                const statusClass = u.status === 'active' ? 'status-active' : 'status-blocked';
                 
                 tbody.innerHTML += `
                     <tr>
                         <td><b>${u.name}</b></td>
                         <td>${u.email}</td>
                         <td style="color:var(--success)"><b>R$ ${parseFloat(u.spent || 0).toFixed(2)}</b></td>
-                        <td><span class="status-badge ${u.status === 'active' ? 'status-active' : 'status-blocked'}">${u.status}</span></td>
+                        <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
                         <td style="text-align:right">
-                            <button class="btn-primary" style="padding:5px 10px" onclick="openClientEdit(${i})"><i class="fas fa-edit"></i></button>
+                            <button onclick="openClientEdit(${i})" style="border:none; background:transparent; cursor:pointer; color:#666"><i class="fas fa-edit"></i></button>
                         </td>
                     </tr>`;
             });
             document.getElementById('count-clients').innerText = users.length;
-            document.getElementById('vip-count').innerText = vips;
         }
 
         function openClientEdit(i) {
@@ -345,7 +384,7 @@
             users[i].status = document.getElementById('editStatus').value;
             localStorage.setItem('auraUsers', JSON.stringify(users));
             document.getElementById('client-modal').classList.remove('open');
-            showToast('Cliente atualizado com sucesso!', 'success');
+            showToast('Cliente atualizado!');
             renderClients();
         }
 
@@ -360,10 +399,10 @@
                         <td><img src="${p.img}" class="product-thumb"></td>
                         <td><b>${p.name}</b></td>
                         <td>${p.category}</td>
-                        <td>R$ ${p.price}</td>
-                        <td><b style="color:${p.qty < 5 ? 'red' : 'inherit'}">${p.qty}</b></td>
+                        <td>R$ ${parseFloat(p.price).toFixed(2)}</td>
+                        <td><b style="color:${p.qty < 5 ? 'var(--danger)' : 'inherit'}">${p.qty}</b></td>
                         <td style="text-align:right">
-                            <button class="btn-primary" style="padding:5px 10px" onclick="openProductModal(${i})"><i class="fas fa-pen"></i></button>
+                            <button onclick="openProductModal(${i})" style="border:none; background:transparent; cursor:pointer; color:#666"><i class="fas fa-pen"></i></button>
                         </td>
                     </tr>`;
             });
@@ -402,53 +441,74 @@
             if(i === "") stock.push(newP); else stock[i] = newP;
             localStorage.setItem('auraStock', JSON.stringify(stock));
             document.getElementById('product-modal').classList.remove('open');
-            showToast('Produto salvo no estoque!', 'success');
+            showToast('Estoque atualizado!');
             renderStock();
         }
 
-        // --- SUPORTE (MODIFICADO) ---
+        // --- SUPORTE / CHAT (LÓGICA REFORÇADA) ---
         
-        // Função que roda a cada 3 segundos para buscar novas mensagens
+        // Loop de atualização para pegar mensagens novas em tempo real
         setInterval(() => {
-            // Só atualiza se a aba de suporte estiver aberta ou para notificar badge
-            checkNewMessages();
             if(document.getElementById('view-support').style.display === 'block') {
-                renderTickets();
+                renderTickets(showingArchived ? 'archived' : 'all');
             }
-        }, 3000);
+            checkNewMessagesBadge();
+        }, 2000);
 
-        function checkNewMessages() {
+        function checkNewMessagesBadge() {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            const active = tickets.some(t => t.status === 'Pendente');
-            document.getElementById('support-badge').style.display = active ? 'inline-block' : 'none';
+            const hasNew = tickets.some(t => t.status === 'Pendente');
+            document.getElementById('support-badge').style.display = hasNew ? 'inline-block' : 'none';
         }
 
-        function renderTickets() {
+        function renderTickets(filter) {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            const list = document.getElementById('tickets-list');
-            list.innerHTML = '';
+            const container = document.getElementById('tickets-container');
+            container.innerHTML = '';
             
-            const activeTickets = tickets.filter(t => t.status !== 'Resolvido');
+            showingArchived = (filter === 'archived');
             
-            if(activeTickets.length === 0) {
-                list.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px">Nenhum chamado pendente.</p>';
+            // Filtra: se filter == 'archived', mostra só os Resolvidos/Arquivados. 
+            // Se filter == 'all', mostra Pendentes e Respondidos.
+            const filteredTickets = tickets.filter(t => {
+                if(filter === 'archived') return t.status === 'Resolvido' || t.status === 'Arquivado';
+                return t.status !== 'Resolvido' && t.status !== 'Arquivado';
+            });
+
+            if(filteredTickets.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#999">Nenhuma solicitação ${filter === 'archived' ? 'arquivada' : 'pendente'}.</div>`;
                 return;
             }
 
-            activeTickets.forEach(t => {
-                const lastMsg = t.messages[t.messages.length-1];
-                list.innerHTML += `
-                    <div class="ticket-item ${t.status === 'Pendente' ? 'new-msg' : ''}">
-                        <div>
-                            <div style="display:flex; align-items:center; gap:10px">
-                                <b>${t.user}</b> 
-                                <span class="status-badge ${t.status === 'Pendente' ? 'status-blocked' : 'status-active'}">${t.status}</span>
+            filteredTickets.forEach(t => {
+                const lastMsg = t.messages[t.messages.length - 1];
+                const isUnread = t.status === 'Pendente';
+                
+                // Formatação da data da última msg
+                const date = new Date(lastMsg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                container.innerHTML += `
+                    <div class="ticket-card ${isUnread ? 'unread' : 'read'}">
+                        <div class="ticket-info">
+                            <h4>${t.user} <span style="font-size:0.7rem; color:#999; font-weight:400">${date}</span></h4>
+                            <div class="ticket-msg-preview">
+                                <i class="fas fa-reply" style="transform: rotate(180deg); font-size:0.7rem"></i> 
+                                ${lastMsg.text}
                             </div>
-                            <p style="font-size:0.8rem; color:#666; margin-top:5px; max-width:500px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
-                                <i class="fas fa-reply" style="transform:rotate(180deg)"></i> ${lastMsg.text}
-                            </p>
                         </div>
-                        <button class="btn-primary" onclick="openChatModal(${t.id})">Atender</button>
+                        <div class="ticket-actions">
+                            <button class="btn-icon btn-reply" onclick="openChatModal(${t.id})" title="Responder">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                            ${filter !== 'archived' ? 
+                                `<button class="btn-icon btn-archive" onclick="archiveTicket(${t.id})" title="Arquivar/Concluir">
+                                    <i class="fas fa-archive"></i>
+                                </button>` : ''
+                            }
+                            <button class="btn-icon btn-delete" onclick="deleteTicket(${t.id})" title="Excluir Definitivamente">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>`;
             });
         }
@@ -464,66 +524,73 @@
         }
 
         function renderChatHistory(ticket) {
-            const historyDiv = document.getElementById('admin-chat-history');
-            historyDiv.innerHTML = '';
+            const box = document.getElementById('admin-chat-history');
+            box.innerHTML = '';
             ticket.messages.forEach(m => {
-                let cssClass = 'client-msg';
-                if(m.sender === 'Admin' || m.sender === 'Sistema') cssClass = 'admin-msg';
-                if(m.sender === 'Sistema') cssClass = 'sys-msg';
+                // Mensagens do Sistema não aparecem no histórico visual rápido
+                if(m.sender === 'Sistema') return;
 
-                historyDiv.innerHTML += `
-                    <div class="${cssClass}">
-                        ${m.sender !== 'Sistema' ? `<b>${m.sender}</b><br>` : ''}
+                const isMe = m.sender === 'Admin';
+                box.innerHTML += `
+                    <div class="msg-bubble ${isMe ? 'msg-admin' : 'msg-client'}">
+                        <b>${m.sender}</b><br>
                         ${m.text}
                     </div>`;
             });
-            historyDiv.scrollTop = historyDiv.scrollHeight;
+            box.scrollTop = box.scrollHeight;
         }
 
         function sendAdminReply() {
-            const txt = document.getElementById('adminReplyInput').value;
+            const input = document.getElementById('adminReplyInput');
+            const txt = input.value;
             if(!txt) return;
 
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            const tIndex = tickets.findIndex(x => x.id === currentTicketId);
+            const idx = tickets.findIndex(x => x.id === currentTicketId);
             
-            if(tIndex > -1) {
-                tickets[tIndex].messages.push({
+            if(idx > -1) {
+                tickets[idx].messages.push({
                     sender: 'Admin',
                     text: txt,
                     timestamp: Date.now()
                 });
-                tickets[tIndex].status = 'Respondido'; // Muda status para o cliente saber
+                tickets[idx].status = 'Respondido'; // Atualiza status
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
                 
-                document.getElementById('adminReplyInput').value = '';
-                renderChatHistory(tickets[tIndex]);
+                input.value = '';
+                renderChatHistory(tickets[idx]);
+                renderTickets(showingArchived ? 'archived' : 'all');
             }
         }
 
-        function confirmEndChat() {
-            const reason = document.getElementById('closeReason').value;
-            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            const tIndex = tickets.findIndex(x => x.id === currentTicketId);
-
-            if(tIndex > -1) {
-                tickets[tIndex].status = 'Resolvido';
-                tickets[tIndex].messages.push({ 
-                    sender: 'Sistema', 
-                    text: `Atendimento encerrado pelo suporte. Motivo: ${reason}`, 
-                    timestamp: Date.now() 
+        function archiveTicket(id) {
+            if(!confirm("Arquivar este atendimento? O cliente verá como encerrado.")) return;
+            let tickets = JSON.parse(localStorage.getItem('auraTickets'));
+            const idx = tickets.findIndex(x => x.id === id);
+            if(idx > -1) {
+                tickets[idx].status = 'Arquivado';
+                tickets[idx].messages.push({
+                    sender: 'Sistema',
+                    text: 'Atendimento arquivado pelo suporte.',
+                    timestamp: Date.now()
                 });
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                
-                showToast('Atendimento encerrado.', 'success');
-                document.getElementById('chat-modal').classList.remove('open');
-                renderTickets();
+                showToast("Chat arquivado.");
+                renderTickets('all');
             }
         }
 
-        // Init
+        function deleteTicket(id) {
+            if(!confirm("Tem certeza? Isso apagará todo o histórico dessa conversa.")) return;
+            let tickets = JSON.parse(localStorage.getItem('auraTickets'));
+            const newTickets = tickets.filter(x => x.id !== id);
+            localStorage.setItem('auraTickets', JSON.stringify(newTickets));
+            showToast("Conversa excluída.");
+            renderTickets(showingArchived ? 'archived' : 'all');
+        }
+
+        // Inicialização
         renderClients();
-        checkNewMessages();
     </script>
 </body>
 </html>
