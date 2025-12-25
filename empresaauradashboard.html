@@ -97,7 +97,7 @@
         /* Estilos de Status do Ticket */
         .ticket-card.status-pendente { border-left: 5px solid var(--warning); background: #fffdf5; }
         .ticket-card.status-andamento { border-left: 5px solid var(--success); }
-        .ticket-card.status-arquivado { border-left: 5px solid #ccc; opacity: 0.8; }
+        .ticket-card.status-arquivado { border-left: 5px solid #95a5a6; opacity: 0.9; background: #fcfcfc; }
 
         .ticket-info h4 { margin-bottom: 5px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
         .ticket-msg-preview { font-size: 0.85rem; color: #777; max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
@@ -184,6 +184,201 @@
                         <div class="clock-time" id="digital-clock">00:00</div>
                         <div class="clock-date" id="date-display">...</div>
                     </div>
+                    <i class="far fa-clock fa-2x" style="opacity:0.5"></i>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
+                    <h2>Base de Clientes</h2>
+                    <input type="text" id="searchClient" placeholder="Pesquisar nome..." onkeyup="renderClients()" style="width:250px; margin:0">
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Total Gasto</th>
+                                <th>Status</th>
+                                <th style="text-align:right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-products" class="view-section" style="display:none">
+            <div class="panel">
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
+                    <h2>Gerenciar Estoque</h2>
+                    <button class="btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Adicionar Produto</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Imagem</th>
+                                <th>Produto</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Estoque</th>
+                                <th style="text-align:right">Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-support" class="view-section" style="display:none">
+            <div class="panel">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+                    <h2>Painel de Atendimento</h2>
+                    <div style="display:flex; gap:10px">
+                        <button onclick="renderTickets('active')" style="background:none; border:none; color:#444; cursor:pointer; font-weight:600">Ativos</button>
+                        <button onclick="renderTickets('archived')" style="background:none; border:none; color:#999; cursor:pointer">Histórico / Arquivados</button>
+                    </div>
+                </div>
+                
+                <div id="tickets-container" class="ticket-list"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="client-modal">
+        <div class="modal-box">
+            <h3>Editar Cliente</h3>
+            <input type="hidden" id="editIndex">
+            <label>Nome Completo</label><input type="text" id="editName">
+            <label>Email</label><input type="email" id="editEmail">
+            <label>Função</label>
+            <select id="editRole">
+                <option value="customer">Cliente</option>
+                <option value="admin">Administrador</option>
+            </select>
+            <label>Status da Conta</label>
+            <select id="editStatus">
+                <option value="active">ATIVO</option>
+                <option value="blocked">BLOQUEADO</option>
+            </select>
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+                <button class="btn-primary" onclick="saveClient()">Salvar Alterações</button>
+                <button onclick="document.getElementById('client-modal').classList.remove('open')" style="background:none; border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-box">
+            <h3 id="prod-modal-title">Novo Produto</h3>
+            <input type="hidden" id="prodIndex">
+            <label>Nome do Produto</label><input type="text" id="pName">
+            <label>Descrição</label><textarea id="pDesc" rows="2"></textarea>
+            <div style="display:flex; gap:10px">
+                <div style="flex:1"><label>Preço (R$)</label><input type="number" id="pPrice" step="0.01"></div>
+                <div style="flex:1"><label>Qtd. Estoque</label><input type="number" id="pQty"></div>
+            </div>
+            <label>Categoria</label>
+            <select id="pCat">
+                <option>Fragrâncias & Body</option><option>Skin Care</option><option>Roupas</option><option>Maquiagem</option>
+            </select>
+            <label>URL da Imagem</label><input type="text" id="pImg">
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+                <button class="btn-primary" onclick="saveProduct()">Salvar Produto</button>
+                <button onclick="document.getElementById('product-modal').classList.remove('open')" style="background:none; border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="chat-modal">
+        <div class="modal-box" style="width:600px">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+                <h3 style="color:var(--rose-primary)"><i class="fas fa-comment-dots"></i> <span id="chat-client-name">Cliente</span></h3>
+                <i class="fas fa-times" onclick="document.getElementById('chat-modal').classList.remove('open')" style="cursor:pointer; color:#999"></i>
+            </div>
+            <div class="chat-history-box" id="admin-chat-history"></div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="adminReplyInput" placeholder="Digite sua resposta..." style="margin:0; flex:1">
+                <button class="btn-primary" id="btnSendReply" onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTicketId = null;
+        let showingArchived = false;
+
+        // --- RELÓGIO ---
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('digital-clock').innerText = `${hours}:${minutes}`;
+            const options = { weekday: 'short', day: 'numeric', month: 'long' };
+            document.getElementById('date-display').innerText = now.toLocaleDateString('pt-BR', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function showToast(msg) {
+            const box = document.createElement('div');
+            box.className = 'toast';
+            box.innerHTML = `<i class="fas fa-check-circle" style="color:var(--success)"></i> ${msg}`;
+            document.getElementById('toast-container').appendChild(box);
+            setTimeout(() => box.remove(), 3000);
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
+            document.getElementById('view-' + tab).style.display = 'block';
+            document.getElementById('menu-' + tab).classList.add('active');
+            
+            if(tab === 'clients') renderClients();
+            if(tab === 'products') renderStock();
+            if(tab === 'support') renderTickets('active');
+        }
+
+        // --- CLIENTES ---
+        function renderClients() {
+            const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
+            const tbody = document.getElementById('clientsTableBody');
+            const search = document.getElementById('searchClient').value.toLowerCase();
+            tbody.innerHTML = '';
+            users.forEach((u, i) => {
+                if(!u.name.toLowerCase().includes(search)) return;
+                const statusLabel = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
+                const statusClass = u.status === 'active' ? 'status-active' : 'status-blocked';
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${u.name}</b></td>
+                        <td>${u.email}</td>
+                        <td style="color:var(--success)"><b>R$ ${parseFloat(u.spent || 0).toFixed(2)}</b></td>
+                        <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+                        <td style="text-align:right">
+                            <button onclick="openClientEdit(${i})" style="border:none; background:transparent; cursor:pointer; color:#666"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>`;
+            });
+            document.getElementById('count-clients').innerText = users.length;
+        }
+
+        function openClientEdit(i) {
+            const u = JSON.parse(localStorage.getItem('auraUsers'))[i];
+            document.getElementById('editIndex').value = i;
+            document.getElementById('editName').value = u.name;
+            document.getElementById('editEmail').value = u.email;
+            document.getElementById('editRole').value = u.role || 'customer';
+            document.getElementById('editStatus').value = u.status;
+            document.getElementById('client-modal').classList.add('open');
+        }
+
+        function saveC </div>
                     <i class="far fa-clock fa-2x" style="opacity:0.5"></i>
                 </div>
             </div>
