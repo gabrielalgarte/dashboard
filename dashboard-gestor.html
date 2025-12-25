@@ -179,7 +179,7 @@
         .toast { background: #1F242C; color: white; padding: 15px 20px; border-radius: 8px; border-left: 4px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideIn 0.3s ease-out; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* --- ESTILO NOVO PARA LOGS --- */
+        /* --- ESTILO PARA LOGS --- */
         .log-terminal {
             background: #0d1117; 
             border: 1px solid var(--border-color);
@@ -193,7 +193,6 @@
             padding: 10px 0;
         }
 
-        /* Customização da barra de rolagem do terminal */
         .log-terminal::-webkit-scrollbar { width: 8px; }
         .log-terminal::-webkit-scrollbar-track { background: #0d1117; }
         .log-terminal::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
@@ -211,76 +210,24 @@
             position: relative;
         }
 
-        .log-row:hover {
-            background: rgba(56, 139, 253, 0.05);
-            padding-left: 30px;
-        }
-
-        /* Borda lateral colorida no hover */
+        .log-row:hover { background: rgba(56, 139, 253, 0.05); padding-left: 30px; }
         .log-row:hover::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            background: var(--primary);
-            box-shadow: 0 0 8px var(--primary);
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+            width: 3px; background: var(--primary); box-shadow: 0 0 8px var(--primary);
         }
 
-        .log-time {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            opacity: 0.8;
-        }
+        .log-time { color: var(--text-muted); font-size: 0.75rem; opacity: 0.8; }
+        .log-user { color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .log-user::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+        .log-content { display: flex; align-items: center; gap: 12px; color: #e6edf3; }
 
-        .log-user {
-            color: var(--text-main);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Bolinha indicadora de usuário */
-        .log-user::before {
-            content: '';
-            display: block;
-            width: 6px; 
-            height: 6px; 
-            border-radius: 50%; 
-            background: var(--primary);
-        }
-
-        .log-content {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #e6edf3;
-        }
-
-        /* Badge da Ação */
-        .log-badge {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: 1px solid transparent;
-        }
-
+        .log-badge { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid transparent; }
         .badge-info { background: rgba(47, 129, 247, 0.1); color: #2F81F7; border-color: rgba(47, 129, 247, 0.2); }
         .badge-success { background: rgba(35, 134, 54, 0.1); color: #238636; border-color: rgba(35, 134, 54, 0.2); }
         .badge-danger { background: rgba(248, 81, 73, 0.1); color: #F85149; border-color: rgba(248, 81, 73, 0.2); }
         .badge-warn { background: rgba(210, 153, 34, 0.1); color: #D29922; border-color: rgba(210, 153, 34, 0.2); }
+        .log-desc { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.9; }
 
-        .log-desc {
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis;
-            opacity: 0.9;
-        }
-
-        /* Media Queries gerais */
         @media (max-width: 900px) {
             aside { transform: translateX(-100%); box-shadow: 5px 0 20px rgba(0,0,0,0.5); }
             aside.open { transform: translateX(0); }
@@ -289,20 +236,8 @@
             .header-text-container { margin-left: 40px; }
             .info-grid { grid-template-columns: 1fr; }
         }
-        @media (max-width: 600px) {
-            .header-actions { width: 100%; justify-content: space-between; margin-top: 20px; }
-            .user-badge { margin-left: auto; }
-            .access-card { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .access-card > div { width: 100%; text-align: left !important; }
-        }
-
-        /* Media Query específica para logs */
         @media (max-width: 700px) {
-            .log-row {
-                grid-template-columns: 1fr;
-                gap: 5px;
-                padding: 15px;
-            }
+            .log-row { grid-template-columns: 1fr; gap: 5px; padding: 15px; }
             .log-time { font-size: 0.7rem; }
             .log-row:hover { padding-left: 15px; }
         }
@@ -1016,8 +951,14 @@
                 const badgeText = isMaint ? 'Manutenção' : (isSiteOn ? 'Online' : 'Offline');
 
                 // Lógica de URL de redirecionamento para o painel da empresa
-                const linkDestino = company.redirectUrl || '#';
-                const clickAction = company.redirectUrl ? `window.location.href='${linkDestino}'` : "alert('URL da empresa não gerada ainda.')";
+                let linkDestino = company.redirectUrl || '#';
+                
+                // Se estiver em Manutenção, redireciona para a página de manutenção
+                if (isMaint) {
+                    linkDestino = 'manutencao.html';
+                }
+
+                const clickAction = (company.redirectUrl || isMaint) ? `window.location.href='${linkDestino}'` : "alert('URL da empresa não gerada ainda.')";
 
                 const html = `
                 <tr class="data-row">
@@ -1092,6 +1033,12 @@
             updateUserUI(); 
             renderTable();
             updateNotificationBadge();
+            
+            // ATUALIZAÇÃO AUTOMÁTICA (Para resolver o "OS não chega")
+            setInterval(() => {
+                updateNotificationBadge();
+                // Opcional: renderTable() se quiser atualizar a tabela também
+            }, 2000); 
         };
     </script>
 </body>
