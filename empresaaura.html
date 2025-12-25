@@ -24,7 +24,7 @@
         
         body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-body); color: var(--text-dark); overflow-x: hidden; line-height: 1.6; }
 
-        /* --- TOAST NOTIFICATIONS (NOVO) --- */
+        /* TOAST */
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
         .toast { 
             background: white; min-width: 280px; padding: 15px 20px; border-radius: 8px; 
@@ -46,7 +46,7 @@
         @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes fadeOut { to { opacity: 0; transform: translateX(50px); } }
 
-        /* --- LAYOUT --- */
+        /* LAYOUT */
         .top-bar { background-color: var(--rose-primary); color: var(--text-light); text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; }
         header { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--rose-border); }
         .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; flex-wrap: wrap; gap: 1rem; }
@@ -69,13 +69,11 @@
         .btn-admin { padding: 0.4rem 1.2rem; border: 1px solid var(--rose-primary); text-decoration: none; color: var(--rose-primary); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; border-radius: 20px; letter-spacing: 0.5px; display: none; }
         .btn-admin:hover { background: var(--rose-primary); color: white; }
 
-        /* --- HERO --- */
         .hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #f5eae9 0%, #ffffff 100%); padding: 0 2rem; position: relative; }
         .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-dark); }
         .hero-content h1 span { font-style: italic; color: var(--rose-primary); }
         .btn-explore { background: var(--rose-primary); color: var(--text-light); padding: 1rem 3rem; text-decoration: none; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; transition: 0.4s; display: inline-block; border-radius: 4px; }
 
-        /* --- CATEGORIES --- */
         .category-section { margin-bottom: 4rem; display: none; }
         .category-section.active { display: block; animation: fadeIn 0.8s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -83,7 +81,6 @@
         .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-dark); }
         .section-separator { width: 50px; height: 2px; background: var(--rose-primary); margin: 10px auto; }
 
-        /* --- PRODUCTS --- */
         .products-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; padding: 0 2rem; }
         .product-card { background: transparent; transition: 0.3s; cursor: pointer; position: relative; }
         .product-img-wrapper { height: 350px; background-color: #fff; position: relative; overflow: hidden; margin-bottom: 1.2rem; border-radius: 4px; }
@@ -93,7 +90,7 @@
         .product-card:hover .add-cart-btn { transform: translateX(-50%) translateY(0); opacity: 1; }
         .product-info { text-align: center; }
 
-        /* --- CHAT SYSTEM --- */
+        /* CHAT SYSTEM */
         .chat-float-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--rose-primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5); }
         .chat-window { position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px; background: #f0f2f5; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 3000; display: none; flex-direction: column; border: 1px solid var(--rose-border); overflow: hidden; }
         .chat-window.open { display: flex; }
@@ -113,14 +110,11 @@
         .btn-close-chat-user:hover { background: #ff6b81; }
 
         .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; }
-        /* Mensagem do cliente (direita, verde claro) */
         .bubble-me { align-self: flex-end; background: #e7ffdb; color: #333; border-bottom-right-radius: 0; }
-        /* Mensagem do admin (esquerda, branco) */
         .bubble-admin { align-self: flex-start; background: white; border: 1px solid #eee; border-bottom-left-radius: 0; }
-        /* Mensagem do sistema (centro) */
         .bubble-sys { align-self: center; background: transparent; font-size: 0.75rem; color: #888; border: none; font-style: italic; }
 
-        /* --- MODALS & AUTH --- */
+        /* MODALS & AUTH */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; }
         .modal-box { background: #fff; padding: 2rem; width: 400px; border-radius: 8px; position: relative; }
@@ -134,7 +128,6 @@
         .auth-submit-btn { width: 100%; background: var(--rose-primary); color: white; border: none; padding: 12px; cursor: pointer; margin-top: 10px; font-weight: 600; border-radius: 4px; transition: 0.3s; }
         .auth-submit-btn:hover { background: #c59693; }
 
-        /* --- CART --- */
         .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; transition: 0.4s; display: flex; flex-direction: column; }
         .cart-sidebar.open { right: 0; }
         .cart-item { display: flex; gap: 10px; padding: 10px; border-bottom: 1px solid #eee; align-items: center; }
@@ -144,7 +137,6 @@
 <body>
 
     <div class="toast-container" id="toast-container"></div>
-
     <div class="top-bar">FRETE GRÁTIS PARA COMPRAS ACIMA DE R$ 299,00</div>
 
     <header>
@@ -208,12 +200,10 @@
     <div class="modal-overlay" id="login-modal">
         <div class="modal-box">
             <span onclick="closeModals()" style="position:absolute;top:10px;right:15px;cursor:pointer;font-size:1.2rem;color:#777">&times;</span>
-            
             <div class="auth-tabs">
                 <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Entrar</div>
                 <div class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Cadastrar</div>
             </div>
-
             <div id="login-section" class="auth-form">
                 <form id="userLoginForm">
                     <input type="text" id="uName" placeholder="Seu Email" required>
@@ -221,7 +211,6 @@
                     <button type="submit" class="auth-submit-btn">ENTRAR</button>
                 </form>
             </div>
-
             <div id="register-section" class="auth-form" style="display: none;">
                 <form id="userRegisterForm">
                     <input type="text" id="regName" placeholder="Nome Completo" required>
@@ -231,7 +220,6 @@
                     <button type="submit" class="auth-submit-btn">CRIAR CONTA</button>
                 </form>
             </div>
-
         </div>
     </div>
 
@@ -252,37 +240,20 @@
     <script>
         let currentUser = null; 
         let cart = [];
-        let chatInterval = null; // Para controlar a atualização do chat
+        let chatInterval = null;
 
-        // --- SISTEMA DE TOAST (NOTIFICAÇÕES MODERNAS) ---
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
             let icon = 'info-circle';
             if (type === 'success') icon = 'check-circle';
             if (type === 'error') icon = 'exclamation-circle';
-
-            toast.innerHTML = `
-                <i class="fas fa-${icon}"></i>
-                <div class="toast-content">
-                    <h4>${type === 'success' ? 'Sucesso' : type === 'error' ? 'Atenção' : 'Info'}</h4>
-                    <p>${message}</p>
-                </div>
-            `;
-            
+            toast.innerHTML = `<i class="fas fa-${icon}"></i><div class="toast-content"><h4>${type === 'success' ? 'Sucesso' : type === 'error' ? 'Atenção' : 'Info'}</h4><p>${message}</p></div>`;
             container.appendChild(toast);
-
-            // Remove após 3 segundos
-            setTimeout(() => {
-                toast.style.animation = 'fadeOut 0.5s ease forwards';
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
+            setTimeout(() => { toast.style.animation = 'fadeOut 0.5s ease forwards'; setTimeout(() => toast.remove(), 500); }, 3000);
         }
 
-        // --- PRODUTOS ---
-        // Popula produtos de exemplo se estiver vazio (apenas para teste inicial)
         function seedDatabase() {
             if(!localStorage.getItem('auraStock')) {
                 const starters = [
@@ -305,7 +276,6 @@
             };
             Object.values(grids).forEach(g => { if(g) g.innerHTML = ''; });
             let catsActive = {};
-
             products.forEach((p, i) => {
                 if(!grids[p.category]) return;
                 catsActive[p.category] = true;
@@ -321,303 +291,169 @@
                         </div>
                     </div>`;
             });
-
             if(document.getElementById('section-fragrancias')) catsActive['Fragrâncias & Body'] ? document.getElementById('section-fragrancias').classList.add('active') : null;
             if(document.getElementById('section-skin')) catsActive['Skin Care'] ? document.getElementById('section-skin').classList.add('active') : null;
             if(document.getElementById('section-roupas')) catsActive['Roupas'] ? document.getElementById('section-roupas').classList.add('active') : null;
             if(document.getElementById('section-make')) catsActive['Maquiagem'] ? document.getElementById('section-make').classList.add('active') : null;
         }
 
-        function filterProducts() {
-            // Implementação simples de busca poderia vir aqui
-            // Por enquanto, apenas recarrega para simplificar
-            renderProducts(); 
-        }
+        function filterProducts() { renderProducts(); }
 
-        // --- AUTH SYSTEM ---
         function openLoginModal() { 
             if(currentUser) { 
-                if(confirm("Deseja sair da sua conta?")) { 
-                    currentUser = null; 
-                    updateUserUI(); 
-                    showToast("Você saiu da conta.", "info");
-                } 
-            } else {
-                document.getElementById('login-modal').classList.add('open'); 
-                switchAuthTab('login');
-            }
+                if(confirm("Deseja sair da sua conta?")) { currentUser = null; updateUserUI(); showToast("Você saiu da conta.", "info"); } 
+            } else { document.getElementById('login-modal').classList.add('open'); switchAuthTab('login'); }
         }
-
         function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
-        
         function switchAuthTab(tab) {
             const loginForm = document.getElementById('login-section');
             const regForm = document.getElementById('register-section');
             const tabLogin = document.getElementById('tab-login');
             const tabReg = document.getElementById('tab-register');
-
             if(tab === 'login') {
-                loginForm.style.display = 'block';
-                regForm.style.display = 'none';
-                tabLogin.classList.add('active');
-                tabReg.classList.remove('active');
+                loginForm.style.display = 'block'; regForm.style.display = 'none'; tabLogin.classList.add('active'); tabReg.classList.remove('active');
             } else {
-                loginForm.style.display = 'none';
-                regForm.style.display = 'block';
-                tabLogin.classList.remove('active');
-                tabReg.classList.add('active');
+                loginForm.style.display = 'none'; regForm.style.display = 'block'; tabLogin.classList.remove('active'); tabReg.classList.add('active');
             }
         }
 
-        // Login Handler
         document.getElementById('userLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const emailInput = document.getElementById('uName').value.trim();
             const passInput = document.getElementById('uPass').value.trim();
-
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const user = users.find(u => u.email === emailInput && u.password === passInput);
-            
             if(user) {
-                if(user.status === 'blocked') {
-                    showToast("Conta bloqueada. Contate o suporte.", "error");
-                    return;
-                }
-                currentUser = user; 
-                updateUserUI(); 
-                closeModals();
-                showToast(`Bem-vindo de volta, ${user.name}!`, "success");
-                document.getElementById('uName').value = '';
-                document.getElementById('uPass').value = '';
-            } else {
-                showToast("Email ou senha incorretos.", "error");
-            }
+                if(user.status === 'blocked') { showToast("Conta bloqueada. Contate o suporte.", "error"); return; }
+                currentUser = user; updateUserUI(); closeModals(); showToast(`Bem-vindo de volta, ${user.name}!`, "success");
+                document.getElementById('uName').value = ''; document.getElementById('uPass').value = '';
+            } else { showToast("Email ou senha incorretos.", "error"); }
         });
 
-        // Register Handler
         document.getElementById('userRegisterForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('regName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const pass = document.getElementById('regPass').value.trim();
-
             if(!name || !email || !pass) return showToast("Preencha os campos obrigatórios.", "error");
-
             let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-            const exists = users.find(u => u.email === email);
-            if(exists) {
-                showToast("Este e-mail já possui cadastro.", "info");
-                return;
-            }
-
-            const newUser = {
-                name: name,
-                email: email,
-                password: pass,
-                phone: phone,
-                role: 'customer',
-                status: 'active',
-                joined: new Date().toLocaleDateString(),
-                spent: 0,
-                history: []
-            };
-
-            users.push(newUser);
-            localStorage.setItem('auraUsers', JSON.stringify(users));
-
-            showToast("Cadastro realizado com sucesso!", "success");
-            currentUser = newUser;
-            updateUserUI();
-            closeModals();
-            document.getElementById('userRegisterForm').reset();
+            if(users.find(u => u.email === email)) { showToast("Este e-mail já possui cadastro.", "info"); return; }
+            const newUser = { name: name, email: email, password: pass, phone: phone, role: 'customer', status: 'active', joined: new Date().toLocaleDateString(), spent: 0, history: [] };
+            users.push(newUser); localStorage.setItem('auraUsers', JSON.stringify(users));
+            showToast("Cadastro realizado com sucesso!", "success"); currentUser = newUser; updateUserUI(); closeModals(); document.getElementById('userRegisterForm').reset();
         });
 
         function updateUserUI() {
             const display = document.getElementById('user-display'), adminBtn = document.getElementById('adminBtn');
             if(currentUser) {
-                const firstName = currentUser.name.split(' ')[0];
-                display.innerHTML = `<i class="fas fa-user-check"></i> ${firstName}`;
+                display.innerHTML = `<i class="fas fa-user-check"></i> ${currentUser.name.split(' ')[0]}`;
                 adminBtn.style.display = (currentUser.role && currentUser.role !== 'customer') ? 'inline-block' : 'none';
             } else {
-                display.innerHTML = `<i class="far fa-user"></i> Login`;
-                adminBtn.style.display = 'none';
+                display.innerHTML = `<i class="far fa-user"></i> Login`; adminBtn.style.display = 'none';
             }
-            // Se o chat estiver aberto, atualiza para mostrar histórico
             if(document.getElementById('chat-window').classList.contains('open')) renderChat();
         }
 
-        // --- CHAT SYSTEM (SINCRONIZADO) ---
         function toggleChat() { 
             const win = document.getElementById('chat-window');
             win.classList.toggle('open');
-            
-            if(win.classList.contains('open')) {
-                renderChat();
-                // Inicia polling para buscar respostas do admin a cada 3s
-                if(!chatInterval) chatInterval = setInterval(renderChat, 3000);
-            } else {
-                // Para o polling para economizar recurso
-                if(chatInterval) { clearInterval(chatInterval); chatInterval = null; }
-            }
+            if(win.classList.contains('open')) { renderChat(); if(!chatInterval) chatInterval = setInterval(renderChat, 3000); }
+            else { if(chatInterval) { clearInterval(chatInterval); chatInterval = null; } }
         }
 
         function renderChat() {
             const body = document.getElementById('chat-body-content');
             const footer = document.getElementById('chat-footer-content');
-            
-            if(!currentUser) {
-                body.innerHTML = '<div style="text-align:center;padding:20px;color:#999"><i class="fas fa-lock" style="font-size:2rem;margin-bottom:10px"></i><br>Faça login ou cadastre-se para falar com nosso suporte.</div>';
-                footer.style.display = 'none'; 
-                return;
-            }
-            
+            if(!currentUser) { body.innerHTML = '<div style="text-align:center;padding:20px;color:#999"><i class="fas fa-lock" style="font-size:2rem;margin-bottom:10px"></i><br>Faça login para suporte.</div>'; footer.style.display = 'none'; return; }
             footer.style.display = 'block';
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            
-            // Procura ticket ativo (não resolvido)
-            const myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
-            
+            const myTicket = tickets.find(t => t.user === currentUser.name && (t.status !== 'Resolvido' && t.status !== 'Arquivado'));
             body.innerHTML = '';
             
             if(myTicket) {
-                // Verifica se foi resolvido recentemente em outra aba
-                if(myTicket.status === 'Resolvido') {
+                if(myTicket.status === 'Resolvido' || myTicket.status === 'Arquivado') {
                     body.innerHTML = '<div class="bubble bubble-sys">Atendimento encerrado.</div>';
-                    document.getElementById('chatMsg').disabled = true;
-                    return;
+                    document.getElementById('chatMsg').disabled = true; return;
                 }
-                
                 document.getElementById('chatMsg').disabled = false;
-
                 myTicket.messages.forEach(m => {
-                    let bubbleClass = 'bubble-admin'; // Admin (Esquerda)
-                    if(m.sender === currentUser.name) bubbleClass = 'bubble-me'; // Eu (Direita)
-                    if(m.sender === 'Sistema') bubbleClass = 'bubble-sys'; // Sistema (Centro)
-
-                    body.innerHTML += `
-                        <div class="bubble ${bubbleClass}">
-                            ${m.sender !== 'Sistema' && m.sender !== currentUser.name ? `<b>${m.sender}:</b><br>` : ''}
-                            ${m.text}
-                        </div>`;
+                    let bubbleClass = 'bubble-admin'; 
+                    if(m.sender === currentUser.name) bubbleClass = 'bubble-me'; 
+                    if(m.sender === 'Sistema') bubbleClass = 'bubble-sys';
+                    body.innerHTML += `<div class="bubble ${bubbleClass}">${m.sender !== 'Sistema' && m.sender !== currentUser.name ? `<b>${m.sender}:</b><br>` : ''}${m.text}</div>`;
                 });
             } else {
                 body.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px">Olá, ' + currentUser.name + '! Como podemos ajudar hoje?</p>';
                 document.getElementById('chatMsg').disabled = false;
             }
-            // Auto scroll para o final
             body.scrollTop = body.scrollHeight;
         }
 
         function sendSupportMessage() {
             if(!currentUser) return showToast("Faça login primeiro.", "error");
-            
             const input = document.getElementById('chatMsg');
-            const msg = input.value; 
-            if(!msg) return;
-
+            const msg = input.value; if(!msg) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            let myTicket = tickets.find(t => t.user === currentUser.name && (t.status !== 'Resolvido' && t.status !== 'Arquivado'));
             const msgObj = { sender: currentUser.name, text: msg, timestamp: Date.now() };
-            
             if(myTicket) { 
                 myTicket.messages.push(msgObj); 
-                myTicket.status = 'Pendente'; // Avisa admin que tem novidade
+                // Se o chat já está em andamento, mantém. Se não, volta pra pendente se o admin ainda não aceitou (embora o fluxo de aceitar segure isso).
+                // Para simplificar: se mandar mensagem, avisa o admin
+                if(myTicket.status !== 'Em Andamento') myTicket.status = 'Pendente';
             } else { 
-                // Cria novo ticket
-                tickets.push({ 
-                    id: Date.now(), 
-                    user: currentUser.name, 
-                    status: 'Pendente', 
-                    messages: [msgObj] 
-                }); 
+                tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); 
             }
-            
             localStorage.setItem('auraTickets', JSON.stringify(tickets));
-            input.value = ''; 
-            renderChat();
+            input.value = ''; renderChat();
         }
 
         function endChat() {
             if(!currentUser) return;
-            if(!confirm("Deseja encerrar este atendimento agora?")) return;
-            
+            if(!confirm("Deseja encerrar este atendimento?")) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
-            
+            let myTicket = tickets.find(t => t.user === currentUser.name && (t.status !== 'Resolvido' && t.status !== 'Arquivado'));
             if(myTicket) {
                 myTicket.status = 'Resolvido';
-                myTicket.messages.push({ sender: 'Sistema', text: 'Atendimento encerrado pelo cliente.', timestamp: Date.now() });
+                myTicket.messages.push({ sender: 'Sistema', text: 'Encerrado pelo cliente.', timestamp: Date.now() });
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                showToast("Chat encerrado.", "success");
-                toggleChat();
+                showToast("Chat encerrado.", "success"); toggleChat();
             }
         }
 
-        // --- CART ---
         function openCart() { document.getElementById('cart-sidebar').classList.add('open'); }
         function closeCart() { document.getElementById('cart-sidebar').classList.remove('open'); }
-        
         function addToCart(i) {
             const p = JSON.parse(localStorage.getItem('auraStock'))[i];
-            cart.push(p); 
-            updateCartUI(); 
-            openCart();
-            showToast(`${p.name} adicionado à sacola!`, "success");
+            cart.push(p); updateCartUI(); openCart(); showToast(`${p.name} adicionado!`, "success");
         }
-        
         function updateCartUI() {
             const cont = document.getElementById('cart-items-container');
             cont.innerHTML = ''; let total = 0;
-            cart.forEach((item, i) => {
+            cart.forEach(item => {
                 total += parseFloat(item.price);
-                cont.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${item.img}" onerror="this.src='https://via.placeholder.com/60'">
-                        <div>
-                            <p style="font-size:0.85rem; font-weight:600">${item.name}</p>
-                            <span style="color:var(--rose-primary)">R$ ${parseFloat(item.price).toFixed(2)}</span>
-                        </div>
-                    </div>`;
+                cont.innerHTML += `<div class="cart-item"><img src="${item.img}" onerror="this.src='https://via.placeholder.com/60'"><div><p style="font-size:0.85rem; font-weight:600">${item.name}</p><span style="color:var(--rose-primary)">R$ ${parseFloat(item.price).toFixed(2)}</span></div></div>`;
             });
             document.getElementById('cart-total').innerText = "R$ " + total.toFixed(2);
             document.getElementById('cart-count').innerText = cart.length;
             if(cart.length > 0) document.getElementById('cart-count').classList.add('show');
         }
-
         function checkout() {
             if(cart.length === 0) return showToast("Sua sacola está vazia.", "info");
-            if(!currentUser) {
-                showToast("Faça login para finalizar a compra.", "error");
-                openLoginModal();
-                return;
-            }
-            
-            // Simulação de compra
-            let total = 0;
-            cart.forEach(i => total += parseFloat(i.price));
-            
-            // Atualiza dados do usuário
+            if(!currentUser) { showToast("Faça login para finalizar.", "error"); openLoginModal(); return; }
+            let total = 0; cart.forEach(i => total += parseFloat(i.price));
             let users = JSON.parse(localStorage.getItem('auraUsers'));
             let userIdx = users.findIndex(u => u.email === currentUser.email);
-            
             if(userIdx > -1) {
                 users[userIdx].spent = (users[userIdx].spent || 0) + total;
                 if(!users[userIdx].history) users[userIdx].history = [];
                 users[userIdx].history.push({ date: new Date(), items: cart, total: total });
                 localStorage.setItem('auraUsers', JSON.stringify(users));
-                
-                // Atualiza sessão atual
                 currentUser = users[userIdx];
             }
-
-            cart = [];
-            updateCartUI();
-            closeCart();
-            showToast("Compra realizada com sucesso! Obrigado.", "success");
+            cart = []; updateCartUI(); closeCart(); showToast("Compra realizada com sucesso!", "success");
         }
-
-        // Init
         renderProducts();
     </script>
 </body>
