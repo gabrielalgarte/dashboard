@@ -19,6 +19,7 @@
             --success: #27ae60; 
             --warning: #f1c40f;
             --glass: rgba(255, 255, 255, 0.90);
+            --gray-btn: #95a5a6; /* Nova cor para botão de leitura */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -124,6 +125,14 @@
             display: flex; align-items: center; gap: 5px; transition: 0.3s;
         }
 
+        /* NOVO BOTÃO DE LEITURA */
+        .btn-view-chat {
+            background: var(--gray-btn); color: white; border: none; padding: 8px 16px; 
+            border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; 
+            display: flex; align-items: center; gap: 5px; transition: 0.3s;
+        }
+        .btn-view-chat:hover { background: #7f8c8d; }
+
         .btn-icon { width: 35px; height: 35px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-archive { background: #eee; color: #666; }
         .btn-archive:hover { background: #ddd; }
@@ -137,9 +146,15 @@
         
         input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat', sans-serif; outline: none; }
         input:focus, textarea:focus { border-color: var(--rose-primary); }
+        
+        /* Estilo para input desabilitado */
+        input:disabled { background: #f5f5f5; color: #999; cursor: not-allowed; }
 
         .btn-primary { background: var(--rose-primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 500; }
         .btn-primary:hover { opacity: 0.9; }
+        
+        /* Estilo para botão desabilitado */
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* CHAT HISTORICO MODAL */
         .chat-history-box { 
@@ -308,7 +323,7 @@
             <div class="chat-history-box" id="admin-chat-history"></div>
             <div style="display:flex; gap:10px;">
                 <input type="text" id="adminReplyInput" placeholder="Digite sua resposta..." style="margin:0; flex:1">
-                <button class="btn-primary" onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i></button>
+                <button id="btnSendReply" class="btn-primary" onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
@@ -319,14 +334,12 @@
 
         // --- SISTEMA DE TEMPO REAL (EVENT LISTENER) ---
         window.addEventListener('storage', function(e) {
-            // Se um novo usuário se cadastrar ou alguém entrar online, atualiza a lista
             if (e.key === 'auraUsers' || e.key === 'auraPresence') {
                 if (document.getElementById('view-clients').style.display === 'block') {
                     renderClients();
                 }
             }
 
-            // Chat em tempo real
             if (e.key === 'auraTickets') {
                 checkNewMessagesBadge();
                 if (document.getElementById('view-support').style.display === 'block') {
@@ -396,7 +409,6 @@
                 const statusLabel = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
                 const statusClass = u.status === 'active' ? 'status-active' : 'status-blocked';
                 
-                // Lógica Online: Se a última atualização foi há menos de 15 segundos
                 const lastSeen = presence[u.username] || 0;
                 const isOnline = (Date.now() - lastSeen) < 15000; 
                 const onlineClass = isOnline ? 'is-online' : 'is-offline';
@@ -447,7 +459,7 @@
         function deleteClient(i) {
             if(!confirm("Tem certeza que deseja EXCLUIR este cliente permanentemente?")) return;
             let users = JSON.parse(localStorage.getItem('auraUsers'));
-            users.splice(i, 1); // Remove o usuário do array
+            users.splice(i, 1); 
             localStorage.setItem('auraUsers', JSON.stringify(users));
             showToast('Cliente removido.');
             renderClients();
@@ -559,7 +571,12 @@
                             <i class="fas fa-comments"></i> BATE-PAPO
                         </button>`;
                 } else {
+                    // [ALTERAÇÃO] Se for arquivado, mostra botão de LEITURA
                     statusClass = 'status-arquivado';
+                    buttonHtml = `
+                        <button class="btn-view-chat" onclick="openChatModal(${t.id})">
+                            <i class="fas fa-eye"></i> LER
+                        </button>`;
                 }
 
                 container.innerHTML += `
@@ -607,9 +624,25 @@
             currentTicketId = id;
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const t = tickets.find(x => x.id === id);
+            
             if(t) {
                 document.getElementById('chat-client-name').innerText = t.user;
                 renderChatHistory(t);
+                
+                // [NOVA LÓGICA] Bloqueia input se estiver arquivado
+                const input = document.getElementById('adminReplyInput');
+                const btn = document.getElementById('btnSendReply');
+                
+                if(t.status === 'Arquivado' || t.status === 'Resolvido') {
+                    input.disabled = true;
+                    input.placeholder = "Atendimento arquivado (Somente Leitura)";
+                    btn.disabled = true;
+                } else {
+                    input.disabled = false;
+                    input.placeholder = "Digite sua resposta...";
+                    btn.disabled = false;
+                }
+
                 document.getElementById('chat-modal').classList.add('open');
             }
         }
