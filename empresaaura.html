@@ -47,7 +47,7 @@
         @keyframes fadeOut { to { opacity: 0; transform: translateX(50px); } }
 
         /* LAYOUT */
-        .top-bar { background-color: var(--rose-primary); color: var(--text-light); text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; }
+        .top-bar { background-color: var(--rose-primary); color: var(--text-light); text-align: center; padding: 0.5rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 1px; }
         header { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--rose-border); }
         .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; flex-wrap: wrap; gap: 1rem; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--text-dark); text-decoration: none; letter-spacing: -0.5px; }
@@ -60,7 +60,7 @@
         .search-box input { border: none; outline: none; background: transparent; font-size: 0.8rem; width: 100%; color: var(--text-dark); }
         .search-box i { color: #999; font-size: 0.9rem; cursor: pointer; }
 
-        .user-area { display: flex; align-items: center; gap: 1.5rem; }
+        .user-area { display: flex; align-items: center; gap: 1rem; }
         .icon-btn { background: none; border: none; font-size: 1.1rem; color: var(--text-dark); cursor: pointer; position: relative; transition: 0.3s; }
         .icon-btn:hover { color: var(--rose-primary); transform: translateY(-2px); }
         .cart-badge { position: absolute; top: -8px; right: -8px; background: var(--rose-primary); color: white; font-size: 0.6rem; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; opacity: 0; transition: 0.3s; }
@@ -81,14 +81,115 @@
         .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-dark); }
         .section-separator { width: 50px; height: 2px; background: var(--rose-primary); margin: 10px auto; }
 
-        .products-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; padding: 0 2rem; }
-        .product-card { background: transparent; transition: 0.3s; cursor: pointer; position: relative; }
-        .product-img-wrapper { height: 350px; background-color: #fff; position: relative; overflow: hidden; margin-bottom: 1.2rem; border-radius: 4px; }
-        .product-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
-        .product-card:hover .product-img-wrapper img { transform: scale(1.1); opacity: 0.9; }
-        .add-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(50px); background: white; color: var(--text-dark); padding: 0.8rem 1.5rem; border: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.4s; opacity: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 80%; text-align: center; }
+        /* --- MELHORIA NOS CARDS DE PRODUTOS --- */
+        .products-grid { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: grid; 
+            /* Auto-fit ajustado para não ficar muito pequeno nem gigante */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 2.5rem; 
+            padding: 0 2rem; 
+        }
+
+        .product-card { 
+            background: transparent; 
+            transition: 0.3s; 
+            cursor: pointer; 
+            position: relative; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-img-wrapper { 
+            /* ASPECT RATIO: Substitui height fixo. 4/5 é ideal para moda/beleza */
+            aspect-ratio: 4/5; 
+            width: 100%;
+            background-color: #fff; 
+            position: relative; 
+            overflow: hidden; 
+            margin-bottom: 1rem; 
+            border-radius: 4px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Sombra suave */
+        }
+
+        .product-img-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            /* OBJECT-FIT COVER: Garante que qualquer formato de imagem preencha o card sem esticar */
+            object-fit: cover; 
+            object-position: center;
+            transition: transform 0.8s ease; 
+        }
+
+        .product-card:hover .product-img-wrapper img { transform: scale(1.1); opacity: 0.95; }
+        
+        .add-cart-btn { 
+            position: absolute; 
+            bottom: 15px; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(60px); 
+            background: rgba(255, 255, 255, 0.95); 
+            color: var(--text-dark); 
+            padding: 0.8rem 1.5rem; 
+            border: none; 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+            cursor: pointer; 
+            transition: 0.4s; 
+            opacity: 0; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            width: 85%; 
+            text-align: center; 
+            border-radius: 2px;
+        }
+
         .product-card:hover .add-cart-btn { transform: translateX(-50%) translateY(0); opacity: 1; }
-        .product-info { text-align: center; }
+        
+        .product-info { text-align: center; margin-top: auto; }
+        .product-info h4 { font-size: 1rem; margin-bottom: 5px; font-weight: 500; letter-spacing: 0.5px; }
+        .product-info p { font-weight: 600; color: var(--rose-primary); font-size: 1rem; }
+
+        /* RESPONSIVIDADE MOBILE OTIMIZADA */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .navbar { flex-direction: column; padding: 1rem; gap: 15px; }
+            .nav-links { gap: 1rem; font-size: 0.7rem; }
+            .search-box { width: 100%; }
+            
+            .products-grid { 
+                /* Força 2 colunas no mobile para parecer um app */
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 1rem; 
+                padding: 0 1rem; 
+            }
+
+            .product-card { margin-bottom: 1rem; }
+            
+            /* Ajuste do botão no mobile: sempre um pouco visível ou mais discreto */
+            .add-cart-btn {
+                position: static; /* Sai de cima da imagem no mobile se quiser */
+                transform: none;
+                opacity: 1;
+                width: 100%;
+                margin-top: 5px;
+                padding: 8px;
+                font-size: 0.65rem;
+                background: var(--text-dark);
+                color: white;
+            }
+            /* Opcional: Manter flutuante sobre a imagem mas sempre visível */
+            .product-img-wrapper .add-cart-btn {
+                 position: absolute; bottom: 10px; opacity: 1; transform: translateX(-50%);
+                 background: rgba(255,255,255,0.9); color: black;
+            }
+
+            .product-info h4 { font-size: 0.85rem; }
+            .product-info p { font-size: 0.9rem; }
+        }
+        /* ------------------------------------- */
 
         /* CHAT SYSTEM */
         .chat-float-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--rose-primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5); }
@@ -117,7 +218,7 @@
         /* MODALS & AUTH */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; }
-        .modal-box { background: #fff; padding: 2rem; width: 400px; border-radius: 8px; position: relative; }
+        .modal-box { background: #fff; padding: 2rem; width: 400px; border-radius: 8px; position: relative; max-width: 90%; }
         
         /* LOCK MODAL STYLES */
         .lock-content { text-align: center; padding: 1rem; }
@@ -138,7 +239,7 @@
         .auth-submit-btn { width: 100%; background: var(--rose-primary); color: white; border: none; padding: 12px; cursor: pointer; margin-top: 10px; font-weight: 600; border-radius: 4px; transition: 0.3s; }
         .auth-submit-btn:hover { background: #c59693; }
 
-        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; transition: 0.4s; display: flex; flex-direction: column; }
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; transition: 0.4s; display: flex; flex-direction: column; max-width: 90%; }
         .cart-sidebar.open { right: 0; }
         .cart-item { display: flex; gap: 10px; padding: 10px; border-bottom: 1px solid #eee; align-items: center; }
         .cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
@@ -289,25 +390,17 @@
             }
         }
 
-        // Renderiza produtos (aceita lista filtrada opcional)
         function renderProducts(customList = null) {
             seedDatabase();
             const allProducts = JSON.parse(localStorage.getItem('auraStock')) || [];
-            
-            // Se customList for passado, usa ele. Se não, usa todos.
             const productsToRender = customList || allProducts;
-
             const grids = {
                 'Fragrâncias & Body': document.getElementById('grid-fragrancias'),
                 'Skin Care': document.getElementById('grid-skin'),
                 'Roupas': document.getElementById('grid-roupas'),
                 'Maquiagem': document.getElementById('grid-make')
             };
-
-            // Limpa grids
             Object.values(grids).forEach(g => { if(g) g.innerHTML = ''; });
-            
-            // Esconde todas as seções inicialmente
             document.querySelectorAll('.category-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById('search-results-msg').style.display = 'none';
 
@@ -317,12 +410,9 @@
             }
 
             let catsActive = {};
-
             productsToRender.forEach((p) => {
                 if(!grids[p.category]) return;
                 catsActive[p.category] = true;
-                
-                // Encontrar o indice original para adicionar ao carrinho corretamente
                 const originalIndex = allProducts.findIndex(item => item.name === p.name);
 
                 grids[p.category].innerHTML += `
@@ -337,66 +427,39 @@
                         </div>
                     </div>`;
             });
-
-            // Mostra apenas categorias que tem produtos (seja no filtro ou geral)
             if(document.getElementById('section-fragrancias') && catsActive['Fragrâncias & Body']) document.getElementById('section-fragrancias').classList.add('active');
             if(document.getElementById('section-skin') && catsActive['Skin Care']) document.getElementById('section-skin').classList.add('active');
             if(document.getElementById('section-roupas') && catsActive['Roupas']) document.getElementById('section-roupas').classList.add('active');
             if(document.getElementById('section-make') && catsActive['Maquiagem']) document.getElementById('section-make').classList.add('active');
         }
 
-        // Live Search / Filtro Instantâneo
         function filterProducts() { 
             const term = document.getElementById('searchInput').value.toLowerCase();
             const allProducts = JSON.parse(localStorage.getItem('auraStock')) || [];
-            
-            if(term === '') {
-                renderProducts(null); // Reseta
-            } else {
-                const filtered = allProducts.filter(p => p.name.toLowerCase().includes(term));
-                renderProducts(filtered);
-            }
+            if(term === '') { renderProducts(null); } 
+            else { renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(term))); }
         }
 
         function openLoginModal() { 
             if(currentUser) { 
                 if(confirm("Deseja sair da sua conta?")) { currentUser = null; updateUserUI(); showToast("Você saiu da conta.", "info"); cart = []; updateCartUI(); } 
             } else { 
-                document.getElementById('login-modal').classList.add('open'); 
-                switchAuthTab('login'); 
+                document.getElementById('login-modal').classList.add('open'); switchAuthTab('login'); 
             }
         }
-
-        function openLockModal() {
-            document.getElementById('lock-modal').classList.add('open');
-        }
-
-        function redirectToLogin() {
-            closeModals();
-            setTimeout(() => {
-                document.getElementById('login-modal').classList.add('open');
-                switchAuthTab('login');
-            }, 200);
-        }
-
+        function openLockModal() { document.getElementById('lock-modal').classList.add('open'); }
+        function redirectToLogin() { closeModals(); setTimeout(() => { document.getElementById('login-modal').classList.add('open'); switchAuthTab('login'); }, 200); }
         function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
-        
         function switchAuthTab(tab) {
-            const loginForm = document.getElementById('login-section');
-            const regForm = document.getElementById('register-section');
-            const tabLogin = document.getElementById('tab-login');
-            const tabReg = document.getElementById('tab-register');
-            if(tab === 'login') {
-                loginForm.style.display = 'block'; regForm.style.display = 'none'; tabLogin.classList.add('active'); tabReg.classList.remove('active');
-            } else {
-                loginForm.style.display = 'none'; regForm.style.display = 'block'; tabLogin.classList.remove('active'); tabReg.classList.add('active');
-            }
+            const loginForm = document.getElementById('login-section'); const regForm = document.getElementById('register-section');
+            const tabLogin = document.getElementById('tab-login'); const tabReg = document.getElementById('tab-register');
+            if(tab === 'login') { loginForm.style.display = 'block'; regForm.style.display = 'none'; tabLogin.classList.add('active'); tabReg.classList.remove('active'); } 
+            else { loginForm.style.display = 'none'; regForm.style.display = 'block'; tabLogin.classList.remove('active'); tabReg.classList.add('active'); }
         }
 
         document.getElementById('userLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const emailInput = document.getElementById('uName').value.trim();
-            const passInput = document.getElementById('uPass').value.trim();
+            const emailInput = document.getElementById('uName').value.trim(); const passInput = document.getElementById('uPass').value.trim();
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const user = users.find(u => u.email === emailInput && u.password === passInput);
             if(user) {
@@ -408,10 +471,8 @@
 
         document.getElementById('userRegisterForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('regName').value.trim();
-            const phone = document.getElementById('regPhone').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const pass = document.getElementById('regPass').value.trim();
+            const name = document.getElementById('regName').value.trim(); const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim(); const pass = document.getElementById('regPass').value.trim();
             if(!name || !email || !pass) return showToast("Preencha os campos obrigatórios.", "error");
             let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             if(users.find(u => u.email === email)) { showToast("Este e-mail já possui cadastro.", "info"); return; }
@@ -422,122 +483,74 @@
 
         function updateUserUI() {
             const display = document.getElementById('user-display'), adminBtn = document.getElementById('adminBtn');
-            if(currentUser) {
-                display.innerHTML = `<i class="fas fa-user-check"></i> ${currentUser.name.split(' ')[0]}`;
-                adminBtn.style.display = (currentUser.role && currentUser.role !== 'customer') ? 'inline-block' : 'none';
-            } else {
-                display.innerHTML = `<i class="far fa-user"></i> Login`; adminBtn.style.display = 'none';
-            }
+            if(currentUser) { display.innerHTML = `<i class="fas fa-user-check"></i> ${currentUser.name.split(' ')[0]}`; adminBtn.style.display = (currentUser.role && currentUser.role !== 'customer') ? 'inline-block' : 'none'; } 
+            else { display.innerHTML = `<i class="far fa-user"></i> Login`; adminBtn.style.display = 'none'; }
             if(document.getElementById('chat-window').classList.contains('open')) renderChat();
         }
 
         function toggleChat() { 
-            const win = document.getElementById('chat-window');
-            win.classList.toggle('open');
-            if(win.classList.contains('open')) { renderChat(); if(!chatInterval) chatInterval = setInterval(renderChat, 3000); }
+            const win = document.getElementById('chat-window'); win.classList.toggle('open');
+            if(win.classList.contains('open')) { renderChat(); if(!chatInterval) chatInterval = setInterval(renderChat, 3000); } 
             else { if(chatInterval) { clearInterval(chatInterval); chatInterval = null; } }
         }
 
         function renderChat() {
-            const body = document.getElementById('chat-body-content');
-            const footer = document.getElementById('chat-footer-content');
+            const body = document.getElementById('chat-body-content'); const footer = document.getElementById('chat-footer-content');
             if(!currentUser) { body.innerHTML = '<div style="text-align:center;padding:20px;color:#999"><i class="fas fa-lock" style="font-size:2rem;margin-bottom:10px"></i><br>Faça login para suporte.</div>'; footer.style.display = 'none'; return; }
             footer.style.display = 'block';
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const myTicket = tickets.find(t => t.user === currentUser.name && (t.status !== 'Resolvido' && t.status !== 'Arquivado'));
             body.innerHTML = '';
-            
             if(myTicket) {
-                if(myTicket.status === 'Resolvido' || myTicket.status === 'Arquivado') {
-                    body.innerHTML = '<div class="bubble bubble-sys">Atendimento encerrado.</div>';
-                    document.getElementById('chatMsg').disabled = true; return;
-                }
+                if(myTicket.status === 'Resolvido' || myTicket.status === 'Arquivado') { body.innerHTML = '<div class="bubble bubble-sys">Atendimento encerrado.</div>'; document.getElementById('chatMsg').disabled = true; return; }
                 document.getElementById('chatMsg').disabled = false;
                 myTicket.messages.forEach(m => {
-                    let bubbleClass = 'bubble-admin'; 
-                    if(m.sender === currentUser.name) bubbleClass = 'bubble-me'; 
-                    if(m.sender === 'Sistema') bubbleClass = 'bubble-sys';
+                    let bubbleClass = 'bubble-admin'; if(m.sender === currentUser.name) bubbleClass = 'bubble-me'; if(m.sender === 'Sistema') bubbleClass = 'bubble-sys';
                     body.innerHTML += `<div class="bubble ${bubbleClass}">${m.sender !== 'Sistema' && m.sender !== currentUser.name ? `<b>${m.sender}:</b><br>` : ''}${m.text}</div>`;
                 });
-            } else {
-                body.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px">Olá, ' + currentUser.name + '! Como podemos ajudar hoje?</p>';
-                document.getElementById('chatMsg').disabled = false;
-            }
+            } else { body.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px">Olá, ' + currentUser.name + '! Como podemos ajudar hoje?</p>'; document.getElementById('chatMsg').disabled = false; }
             body.scrollTop = body.scrollHeight;
         }
 
         function sendSupportMessage() {
             if(!currentUser) return showToast("Faça login primeiro.", "error");
-            const input = document.getElementById('chatMsg');
-            const msg = input.value; if(!msg) return;
+            const input = document.getElementById('chatMsg'); const msg = input.value; if(!msg) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             let myTicket = tickets.find(t => t.user === currentUser.name && (t.status !== 'Resolvido' && t.status !== 'Arquivado'));
             const msgObj = { sender: currentUser.name, text: msg, timestamp: Date.now() };
-            if(myTicket) { 
-                myTicket.messages.push(msgObj); 
-                if(myTicket.status !== 'Em Andamento') myTicket.status = 'Pendente';
-            } else { 
-                tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); 
-            }
-            localStorage.setItem('auraTickets', JSON.stringify(tickets));
-            input.value = ''; renderChat();
+            if(myTicket) { myTicket.messages.push(msgObj); if(myTicket.status !== 'Em Andamento') myTicket.status = 'Pendente'; } 
+            else { tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); }
+            localStorage.setItem('auraTickets', JSON.stringify(tickets)); input.value = ''; renderChat();
         }
 
         function endChat() {
-            if(!currentUser) return;
-            if(!confirm("Deseja encerrar este atendimento?")) return;
+            if(!currentUser || !confirm("Deseja encerrar este atendimento?")) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             let myTicket = tickets.find(t => t.user === currentUser.name && (t.status !== 'Resolvido' && t.status !== 'Arquivado'));
-            if(myTicket) {
-                myTicket.status = 'Resolvido';
-                myTicket.messages.push({ sender: 'Sistema', text: 'Encerrado pelo cliente.', timestamp: Date.now() });
-                localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                showToast("Chat encerrado.", "success"); toggleChat();
-            }
+            if(myTicket) { myTicket.status = 'Resolvido'; myTicket.messages.push({ sender: 'Sistema', text: 'Encerrado pelo cliente.', timestamp: Date.now() }); localStorage.setItem('auraTickets', JSON.stringify(tickets)); showToast("Chat encerrado.", "success"); toggleChat(); }
         }
 
-        function openCart() { 
-            if(!currentUser) {
-                openLockModal();
-                return;
-            }
-            document.getElementById('cart-sidebar').classList.add('open'); 
-        }
+        function openCart() { if(!currentUser) { openLockModal(); return; } document.getElementById('cart-sidebar').classList.add('open'); }
         function closeCart() { document.getElementById('cart-sidebar').classList.remove('open'); }
-        
         function addToCart(i) {
-            if(!currentUser) {
-                openLockModal();
-                return;
-            }
-            const allProducts = JSON.parse(localStorage.getItem('auraStock'));
-            const p = allProducts[i];
+            if(!currentUser) { openLockModal(); return; }
+            const allProducts = JSON.parse(localStorage.getItem('auraStock')); const p = allProducts[i];
             cart.push(p); updateCartUI(); openCart(); showToast(`${p.name} adicionado!`, "success");
         }
-        
         function updateCartUI() {
-            const cont = document.getElementById('cart-items-container');
-            cont.innerHTML = ''; let total = 0;
-            cart.forEach(item => {
-                total += parseFloat(item.price);
-                cont.innerHTML += `<div class="cart-item"><img src="${item.img}" onerror="this.src='https://via.placeholder.com/60'"><div><p style="font-size:0.85rem; font-weight:600">${item.name}</p><span style="color:var(--rose-primary)">R$ ${parseFloat(item.price).toFixed(2)}</span></div></div>`;
-            });
-            document.getElementById('cart-total').innerText = "R$ " + total.toFixed(2);
-            document.getElementById('cart-count').innerText = cart.length;
+            const cont = document.getElementById('cart-items-container'); cont.innerHTML = ''; let total = 0;
+            cart.forEach(item => { total += parseFloat(item.price); cont.innerHTML += `<div class="cart-item"><img src="${item.img}" onerror="this.src='https://via.placeholder.com/60'"><div><p style="font-size:0.85rem; font-weight:600">${item.name}</p><span style="color:var(--rose-primary)">R$ ${parseFloat(item.price).toFixed(2)}</span></div></div>`; });
+            document.getElementById('cart-total').innerText = "R$ " + total.toFixed(2); document.getElementById('cart-count').innerText = cart.length;
             if(cart.length > 0) document.getElementById('cart-count').classList.add('show');
         }
         function checkout() {
             if(cart.length === 0) return showToast("Sua sacola está vazia.", "info");
             if(!currentUser) { showToast("Faça login para finalizar.", "error"); openLoginModal(); return; }
             let total = 0; cart.forEach(i => total += parseFloat(i.price));
-            let users = JSON.parse(localStorage.getItem('auraUsers'));
-            let userIdx = users.findIndex(u => u.email === currentUser.email);
+            let users = JSON.parse(localStorage.getItem('auraUsers')); let userIdx = users.findIndex(u => u.email === currentUser.email);
             if(userIdx > -1) {
-                users[userIdx].spent = (users[userIdx].spent || 0) + total;
-                if(!users[userIdx].history) users[userIdx].history = [];
-                users[userIdx].history.push({ date: new Date(), items: cart, total: total });
-                localStorage.setItem('auraUsers', JSON.stringify(users));
-                currentUser = users[userIdx];
+                users[userIdx].spent = (users[userIdx].spent || 0) + total; if(!users[userIdx].history) users[userIdx].history = [];
+                users[userIdx].history.push({ date: new Date(), items: cart, total: total }); localStorage.setItem('auraUsers', JSON.stringify(users)); currentUser = users[userIdx];
             }
             cart = []; updateCartUI(); closeCart(); showToast("Compra realizada com sucesso!", "success");
         }
