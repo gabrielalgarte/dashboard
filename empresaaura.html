@@ -82,7 +82,6 @@
         .chat-footer input { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
         .chat-footer button { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--rose-primary); color: white; cursor: pointer; }
         
-        /* BOTÃO ENCERRAR CLIENTE */
         .btn-close-chat-user { 
             width: 100%; 
             background: #ff4757; 
@@ -106,10 +105,20 @@
         .bubble-me { align-self: flex-end; background: #e7ffdb; }
         .bubble-admin { align-self: flex-start; background: white; }
 
-        /* --- MODALS --- */
+        /* --- MODALS & AUTH --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; }
-        .modal-box { background: #fff; padding: 2.5rem; width: 400px; border-radius: 8px; position: relative; }
+        .modal-box { background: #fff; padding: 2rem; width: 400px; border-radius: 8px; position: relative; }
+
+        /* Abas de Login/Registro */
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #eee; }
+        .auth-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-weight: 500; color: #999; border-bottom: 2px solid transparent; transition: 0.3s; }
+        .auth-tab.active { color: var(--rose-primary); border-bottom: 2px solid var(--rose-primary); }
+        
+        .auth-form input { width: 100%; margin: 8px 0; padding: 10px; border: 1px solid #ddd; border-radius: 4px; outline: none; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; }
+        .auth-form input:focus { border-color: var(--rose-primary); }
+        .auth-submit-btn { width: 100%; background: var(--rose-primary); color: white; border: none; padding: 12px; cursor: pointer; margin-top: 10px; font-weight: 600; border-radius: 4px; transition: 0.3s; }
+        .auth-submit-btn:hover { background: #c59693; }
 
         /* --- CART --- */
         .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; transition: 0.4s; display: flex; flex-direction: column; }
@@ -182,15 +191,31 @@
 
     <div class="modal-overlay" id="login-modal">
         <div class="modal-box">
-            <span onclick="closeModals()" style="position:absolute;top:10px;right:15px;cursor:pointer">&times;</span>
-            <div id="login-section">
-                <h3>Login</h3>
+            <span onclick="closeModals()" style="position:absolute;top:10px;right:15px;cursor:pointer;font-size:1.2rem;color:#777">&times;</span>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Entrar</div>
+                <div class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Cadastrar</div>
+            </div>
+
+            <div id="login-section" class="auth-form">
                 <form id="userLoginForm">
-                    <input type="text" id="uName" placeholder="Email" style="width:100%;margin:10px 0;padding:8px">
-                    <input type="password" id="uPass" placeholder="Senha" style="width:100%;margin:10px 0;padding:8px">
-                    <button type="submit" style="width:100%;background:var(--rose-primary);color:white;border:none;padding:10px;cursor:pointer">ENTRAR</button>
+                    <input type="text" id="uName" placeholder="Seu Email" required>
+                    <input type="password" id="uPass" placeholder="Sua Senha" required>
+                    <button type="submit" class="auth-submit-btn">ENTRAR</button>
                 </form>
             </div>
+
+            <div id="register-section" class="auth-form" style="display: none;">
+                <form id="userRegisterForm">
+                    <input type="text" id="regName" placeholder="Nome Completo" required>
+                    <input type="tel" id="regPhone" placeholder="Telefone (Whatsapp)" required>
+                    <input type="email" id="regEmail" placeholder="Seu melhor Email" required>
+                    <input type="password" id="regPass" placeholder="Crie uma senha" required>
+                    <button type="submit" class="auth-submit-btn">CRIAR CONTA</button>
+                </form>
+            </div>
+
         </div>
     </div>
 
@@ -220,7 +245,7 @@
                 'Roupas': document.getElementById('grid-roupas'),
                 'Maquiagem': document.getElementById('grid-make')
             };
-            Object.values(grids).forEach(g => g.innerHTML = '');
+            Object.values(grids).forEach(g => { if(g) g.innerHTML = ''; });
             let catsActive = {};
 
             products.forEach((p, i) => {
@@ -246,32 +271,125 @@
             if(document.getElementById('section-make')) catsActive['Maquiagem'] ? document.getElementById('section-make').classList.add('active') : null;
         }
 
-        // --- AUTH ---
+        // --- AUTH SYSTEM ---
         function openLoginModal() { 
-            if(currentUser) { if(confirm("Sair?")) { currentUser=null; updateUserUI(); } }
-            else document.getElementById('login-modal').classList.add('open'); 
+            if(currentUser) { 
+                if(confirm("Deseja sair da sua conta?")) { 
+                    currentUser = null; 
+                    updateUserUI(); 
+                } 
+            } else {
+                document.getElementById('login-modal').classList.add('open'); 
+                // Reset para aba de login sempre que abrir
+                switchAuthTab('login');
+            }
         }
+
         function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
         
+        // Alternar Abas
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('login-section');
+            const regForm = document.getElementById('register-section');
+            const tabLogin = document.getElementById('tab-login');
+            const tabReg = document.getElementById('tab-register');
+
+            if(tab === 'login') {
+                loginForm.style.display = 'block';
+                regForm.style.display = 'none';
+                tabLogin.classList.add('active');
+                tabReg.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                regForm.style.display = 'block';
+                tabLogin.classList.remove('active');
+                tabReg.classList.add('active');
+            }
+        }
+
+        // Lógica de Login
         document.getElementById('userLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
+            const emailInput = document.getElementById('uName').value.trim();
+            const passInput = document.getElementById('uPass').value.trim();
+
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-            const user = users.find(u => u.email === document.getElementById('uName').value && u.password === document.getElementById('uPass').value);
+            
+            // Busca usuário (suporta email antigo ou novo sistema)
+            const user = users.find(u => u.email === emailInput && u.password === passInput);
+            
             if(user) {
-                if(user.status === 'blocked') return alert("Conta bloqueada.");
-                currentUser = user; updateUserUI(); closeModals();
-            } else alert("Erro!");
+                if(user.status === 'blocked') return alert("Conta bloqueada. Contate o suporte.");
+                currentUser = user; 
+                updateUserUI(); 
+                closeModals();
+                // Limpa campos
+                document.getElementById('uName').value = '';
+                document.getElementById('uPass').value = '';
+            } else {
+                alert("Email ou senha incorretos.");
+            }
+        });
+
+        // Lógica de Cadastro (Novo)
+        document.getElementById('userRegisterForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+
+            if(!name || !email || !pass) return alert("Preencha os campos obrigatórios.");
+
+            let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
+
+            // Verificar se email já existe
+            const exists = users.find(u => u.email === email);
+            if(exists) {
+                alert("Este e-mail já possui cadastro. Tente fazer login.");
+                return;
+            }
+
+            const newUser = {
+                name: name,
+                email: email, // Usado como login
+                password: pass,
+                phone: phone,
+                role: 'customer', // Padrão
+                status: 'active',
+                joined: new Date().toLocaleDateString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('auraUsers', JSON.stringify(users));
+
+            alert("Cadastro realizado com sucesso! Bem-vindo(a) à Aura.");
+            
+            // Auto-login
+            currentUser = newUser;
+            updateUserUI();
+            closeModals();
+
+            // Limpa form
+            document.getElementById('userRegisterForm').reset();
         });
 
         function updateUserUI() {
             const display = document.getElementById('user-display'), adminBtn = document.getElementById('adminBtn');
             if(currentUser) {
-                display.innerHTML = `<i class="fas fa-user-check"></i> ${currentUser.name}`;
-                adminBtn.style.display = (currentUser.role !== 'customer') ? 'inline-block' : 'none';
+                // Pega o primeiro nome apenas para exibição
+                const firstName = currentUser.name.split(' ')[0];
+                display.innerHTML = `<i class="fas fa-user-check"></i> ${firstName}`;
+                
+                // Botão Admin só aparece se role não for customer
+                adminBtn.style.display = (currentUser.role && currentUser.role !== 'customer') ? 'inline-block' : 'none';
             } else {
                 display.innerHTML = `<i class="far fa-user"></i> Login`;
                 adminBtn.style.display = 'none';
             }
+            // Recarrega chat para atualizar nome do usuário
+            if(document.getElementById('chat-window').classList.contains('open')) renderChat();
         }
 
         // --- CHAT ---
@@ -284,18 +402,23 @@
         function renderChat() {
             const body = document.getElementById('chat-body-content'), footer = document.getElementById('chat-footer-content');
             if(!currentUser) {
-                body.innerHTML = '<p style="text-align:center;padding:20px;color:#999">Faça login para suporte.</p>';
+                body.innerHTML = '<div style="text-align:center;padding:20px;color:#999"><i class="fas fa-lock" style="font-size:2rem;margin-bottom:10px"></i><br>Faça login ou cadastre-se para falar com nosso suporte.</div>';
                 footer.style.display = 'none'; return;
             }
             footer.style.display = 'block';
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
             body.innerHTML = '';
+            
             if(myTicket) {
                 myTicket.messages.forEach(m => {
                     const isMe = m.sender === currentUser.name;
                     body.innerHTML += `<div class="bubble ${isMe ? 'bubble-me' : 'bubble-admin'}"><b>${m.sender}:</b><br>${m.text}</div>`;
                 });
+                // Auto scroll para o final
+                body.scrollTop = body.scrollHeight;
+            } else {
+                body.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px">Olá, ' + currentUser.name + '! Como podemos ajudar hoje?</p>';
             }
         }
 
@@ -304,10 +427,17 @@
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
             const msgObj = { sender: currentUser.name, text: msg, timestamp: Date.now() };
-            if(myTicket) { myTicket.messages.push(msgObj); myTicket.status = 'Pendente'; }
-            else { tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); }
+            
+            if(myTicket) { 
+                myTicket.messages.push(msgObj); 
+                myTicket.status = 'Pendente'; 
+            } else { 
+                tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); 
+            }
+            
             localStorage.setItem('auraTickets', JSON.stringify(tickets));
-            document.getElementById('chatMsg').value = ''; renderChat();
+            document.getElementById('chatMsg').value = ''; 
+            renderChat();
         }
 
         function endChat() {
