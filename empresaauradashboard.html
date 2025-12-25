@@ -344,7 +344,7 @@
             if(tab === 'support') renderTickets('active');
         }
 
-        // --- CLIENTES & ESTOQUE (Mesma lógica) ---
+        // --- CLIENTES ---
         function renderClients() {
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const tbody = document.getElementById('clientsTableBody');
@@ -391,6 +391,7 @@
             renderClients();
         }
 
+        // --- ESTOQUE ---
         function renderStock() {
             const stock = JSON.parse(localStorage.getItem('auraStock')) || [];
             const tbody = document.getElementById('stockTableBody');
@@ -447,14 +448,14 @@
             renderStock();
         }
 
-        // --- SUPORTE / CHAT (NOVO FLUXO) ---
+        // --- SUPORTE / CHAT (ROBUSTO) ---
         
         setInterval(() => {
             if(document.getElementById('view-support').style.display === 'block') {
                 renderTickets(showingArchived ? 'archived' : 'active');
             }
             checkNewMessagesBadge();
-        }, 2000);
+        }, 3000);
 
         function checkNewMessagesBadge() {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
@@ -465,8 +466,10 @@
         function renderTickets(filter) {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const container = document.getElementById('tickets-container');
-            container.innerHTML = '';
             
+            if(!container) return; // Segurança
+
+            container.innerHTML = '';
             showingArchived = (filter === 'archived');
             
             const filteredTickets = tickets.filter(t => {
@@ -480,23 +483,25 @@
             }
 
             filteredTickets.forEach(t => {
+                // BLINDAGEM: Se o ticket não tiver mensagens ou estiver bugado, ignora
+                if(!t.messages || !Array.isArray(t.messages) || t.messages.length === 0) {
+                    return; 
+                }
+
                 const lastMsg = t.messages[t.messages.length - 1];
                 const date = new Date(lastMsg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 
-                // Determina classe visual baseada no status
                 let statusClass = '';
                 let buttonHtml = '';
 
                 if (t.status === 'Pendente') {
                     statusClass = 'status-pendente';
-                    // BOTÃO ACEITAR (Só aparece se for pendente)
                     buttonHtml = `
                         <button class="btn-accept" onclick="acceptTicket(${t.id})">
                             <i class="fas fa-check"></i> ACEITAR
                         </button>`;
                 } else if (t.status === 'Em Andamento' || t.status === 'Respondido') {
                     statusClass = 'status-andamento';
-                    // BOTÃO ABRIR CHAT (Se já foi aceito)
                     buttonHtml = `
                         <button class="btn-open-chat" onclick="openChatModal(${t.id})">
                             <i class="fas fa-comments"></i> BATE-PAPO
@@ -505,7 +510,6 @@
                     statusClass = 'status-arquivado';
                 }
 
-                // Renderiza o card
                 container.innerHTML += `
                     <div class="ticket-card ${statusClass}">
                         <div class="ticket-info">
@@ -530,22 +534,21 @@
             });
         }
 
-        // FUNÇÃO DE ACEITAR CHAMADO
+        // --- AÇÕES DO CHAT ---
         function acceptTicket(id) {
             let tickets = JSON.parse(localStorage.getItem('auraTickets'));
             const idx = tickets.findIndex(x => x.id === id);
             if(idx > -1) {
                 tickets[idx].status = 'Em Andamento';
-                // Adiciona mensagem automática do sistema
                 tickets[idx].messages.push({
                     sender: 'Sistema',
                     text: 'Um atendente entrou na conversa.',
                     timestamp: Date.now()
                 });
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                showToast("Chamado aceito! Abrindo chat...");
-                // Abre o chat imediatamente após aceitar
+                showToast("Chamado aceito!");
                 openChatModal(id);
+                renderTickets('active');
             }
         }
 
@@ -553,14 +556,18 @@
             currentTicketId = id;
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const t = tickets.find(x => x.id === id);
-            document.getElementById('chat-client-name').innerText = t.user;
-            renderChatHistory(t);
-            document.getElementById('chat-modal').classList.add('open');
+            if(t) {
+                document.getElementById('chat-client-name').innerText = t.user;
+                renderChatHistory(t);
+                document.getElementById('chat-modal').classList.add('open');
+            }
         }
 
         function renderChatHistory(ticket) {
             const box = document.getElementById('admin-chat-history');
             box.innerHTML = '';
+            if(!ticket.messages) return;
+
             ticket.messages.forEach(m => {
                 if(m.sender === 'Sistema') {
                      box.innerHTML += `<div style="text-align:center; font-size:0.75rem; color:#999; margin:5px 0"><i>${m.text}</i></div>`;
@@ -590,10 +597,16 @@
                     text: txt,
                     timestamp: Date.now()
                 });
-                tickets[idx].status = 'Em Andamento'; // Mantém em andamento
+                if(tickets[idx].status === 'Pendente') {
+                    tickets[idx].status = 'Em Andamento';
+                } else {
+                    tickets[idx].status = 'Respondido';
+                }
+                
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
                 input.value = '';
                 renderChatHistory(tickets[idx]);
+                renderTickets(showingArchived ? 'archived' : 'active');
             }
         }
 
@@ -617,9 +630,12 @@
             localStorage.setItem('auraTickets', JSON.stringify(newTickets));
             showToast("Excluído.");
             renderTickets(showingArchived ? 'archived' : 'active');
+            checkNewMessagesBadge();
         }
 
+        // Inicialização
         renderClients();
+        checkNewMessagesBadge();
     </script>
 </body>
 </html>
