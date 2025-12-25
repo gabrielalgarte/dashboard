@@ -81,12 +81,11 @@
         .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-dark); }
         .section-separator { width: 50px; height: 2px; background: var(--rose-primary); margin: 10px auto; }
 
-        /* --- MELHORIA NOS CARDS DE PRODUTOS --- */
+        /* GRID E CARDS DE PRODUTOS */
         .products-grid { 
             max-width: 1200px; 
             margin: 0 auto; 
             display: grid; 
-            /* Auto-fit ajustado para não ficar muito pequeno nem gigante */
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
             gap: 2.5rem; 
             padding: 0 2rem; 
@@ -102,7 +101,6 @@
         }
 
         .product-img-wrapper { 
-            /* ASPECT RATIO: Substitui height fixo. 4/5 é ideal para moda/beleza */
             aspect-ratio: 4/5; 
             width: 100%;
             background-color: #fff; 
@@ -110,13 +108,12 @@
             overflow: hidden; 
             margin-bottom: 1rem; 
             border-radius: 4px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Sombra suave */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
         .product-img-wrapper img { 
             width: 100%; 
             height: 100%; 
-            /* OBJECT-FIT COVER: Garante que qualquer formato de imagem preencha o card sem esticar */
             object-fit: cover; 
             object-position: center;
             transition: transform 0.8s ease; 
@@ -147,49 +144,50 @@
         }
 
         .product-card:hover .add-cart-btn { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* ESTILO DO BOTÃO DE EDIÇÃO (ADMIN) */
+        .admin-edit-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            color: var(--text-dark);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 20;
+            transition: 0.3s;
+            border: 1px solid var(--rose-primary);
+        }
+        .admin-edit-badge:hover {
+            background: var(--rose-primary);
+            color: white;
+            transform: scale(1.1);
+        }
         
         .product-info { text-align: center; margin-top: auto; }
         .product-info h4 { font-size: 1rem; margin-bottom: 5px; font-weight: 500; letter-spacing: 0.5px; }
         .product-info p { font-weight: 600; color: var(--rose-primary); font-size: 1rem; }
 
-        /* RESPONSIVIDADE MOBILE OTIMIZADA */
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 2.5rem; }
             .navbar { flex-direction: column; padding: 1rem; gap: 15px; }
             .nav-links { gap: 1rem; font-size: 0.7rem; }
             .search-box { width: 100%; }
-            
-            .products-grid { 
-                /* Força 2 colunas no mobile para parecer um app */
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 1rem; 
-                padding: 0 1rem; 
-            }
-
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 0 1rem; }
             .product-card { margin-bottom: 1rem; }
-            
-            /* Ajuste do botão no mobile: sempre um pouco visível ou mais discreto */
             .add-cart-btn {
-                position: static; /* Sai de cima da imagem no mobile se quiser */
-                transform: none;
-                opacity: 1;
-                width: 100%;
-                margin-top: 5px;
-                padding: 8px;
-                font-size: 0.65rem;
-                background: var(--text-dark);
-                color: white;
+                position: static; transform: none; opacity: 1; width: 100%;
+                margin-top: 5px; padding: 8px; font-size: 0.65rem;
+                background: var(--text-dark); color: white;
             }
-            /* Opcional: Manter flutuante sobre a imagem mas sempre visível */
-            .product-img-wrapper .add-cart-btn {
-                 position: absolute; bottom: 10px; opacity: 1; transform: translateX(-50%);
-                 background: rgba(255,255,255,0.9); color: black;
-            }
-
             .product-info h4 { font-size: 0.85rem; }
             .product-info p { font-size: 0.9rem; }
         }
-        /* ------------------------------------- */
 
         /* CHAT SYSTEM */
         .chat-float-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--rose-primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5); }
@@ -203,13 +201,8 @@
         .chat-footer input { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
         .chat-footer button { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--rose-primary); color: white; cursor: pointer; }
         
-        .btn-close-chat-user { 
-            width: 100%; background: #ff4757; color: white; border: none; padding: 8px; border-radius: 6px; 
-            font-size: 0.7rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; 
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-        }
+        .btn-close-chat-user { width: 100%; background: #ff4757; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-close-chat-user:hover { background: #ff6b81; }
-
         .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; }
         .bubble-me { align-self: flex-end; background: #e7ffdb; color: #333; border-bottom-right-radius: 0; }
         .bubble-admin { align-self: flex-start; background: white; border: 1px solid #eee; border-bottom-left-radius: 0; }
@@ -220,7 +213,6 @@
         .modal-overlay.open { display: flex; }
         .modal-box { background: #fff; padding: 2rem; width: 400px; border-radius: 8px; position: relative; max-width: 90%; }
         
-        /* LOCK MODAL STYLES */
         .lock-content { text-align: center; padding: 1rem; }
         .lock-icon { font-size: 3rem; color: var(--rose-primary); margin-bottom: 1rem; }
         .lock-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
@@ -234,8 +226,8 @@
         .auth-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-weight: 500; color: #999; border-bottom: 2px solid transparent; transition: 0.3s; }
         .auth-tab.active { color: var(--rose-primary); border-bottom: 2px solid var(--rose-primary); }
         
-        .auth-form input { width: 100%; margin: 8px 0; padding: 10px; border: 1px solid #ddd; border-radius: 4px; outline: none; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; }
-        .auth-form input:focus { border-color: var(--rose-primary); }
+        .auth-form input, .auth-form select { width: 100%; margin: 8px 0; padding: 10px; border: 1px solid #ddd; border-radius: 4px; outline: none; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; }
+        .auth-form input:focus, .auth-form select:focus { border-color: var(--rose-primary); }
         .auth-submit-btn { width: 100%; background: var(--rose-primary); color: white; border: none; padding: 12px; cursor: pointer; margin-top: 10px; font-weight: 600; border-radius: 4px; transition: 0.3s; }
         .auth-submit-btn:hover { background: #c59693; }
 
@@ -319,7 +311,7 @@
             </div>
             <div id="login-section" class="auth-form">
                 <form id="userLoginForm">
-                    <input type="text" id="uName" placeholder="Seu Email" required>
+                    <input type="text" id="uLogin" placeholder="Seu Usuário" required>
                     <input type="password" id="uPass" placeholder="Sua Senha" required>
                     <button type="submit" class="auth-submit-btn">ENTRAR</button>
                 </form>
@@ -327,8 +319,9 @@
             <div id="register-section" class="auth-form" style="display: none;">
                 <form id="userRegisterForm">
                     <input type="text" id="regName" placeholder="Nome Completo" required>
+                    <input type="text" id="regUser" placeholder="Crie um Usuário (Login)" required>
                     <input type="tel" id="regPhone" placeholder="Telefone (Whatsapp)" required>
-                    <input type="email" id="regEmail" placeholder="Seu melhor Email" required>
+                    <input type="email" id="regEmail" placeholder="Seu Email" required>
                     <input type="password" id="regPass" placeholder="Crie uma senha" required>
                     <button type="submit" class="auth-submit-btn">CRIAR CONTA</button>
                 </form>
@@ -344,6 +337,34 @@
                 <p class="lock-desc">Para adicionar produtos à sua sacola e finalizar compras, por favor, identifique-se.</p>
                 <button class="lock-btn" onclick="redirectToLogin()">Acessar Minha Conta</button>
                 <button class="lock-btn-outline" onclick="closeModals()">Apenas olhando</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-box">
+            <span onclick="closeModals()" style="position:absolute;top:10px;right:15px;cursor:pointer;font-size:1.2rem;color:#777">&times;</span>
+            <h3 style="margin-bottom:20px; text-align:center; font-family:'Playfair Display', serif;">Editar Produto</h3>
+            <div class="auth-form">
+                <input type="hidden" id="edit-index">
+                <label style="font-size:0.8rem; font-weight:600">Nome do Produto</label>
+                <input type="text" id="edit-name">
+                
+                <label style="font-size:0.8rem; font-weight:600">Preço (R$)</label>
+                <input type="number" id="edit-price" step="0.01">
+
+                <label style="font-size:0.8rem; font-weight:600">Categoria</label>
+                <select id="edit-category">
+                    <option value="Fragrâncias & Body">Fragrâncias & Body</option>
+                    <option value="Skin Care">Skin Care</option>
+                    <option value="Roupas">Roupas</option>
+                    <option value="Maquiagem">Maquiagem</option>
+                </select>
+
+                <label style="font-size:0.8rem; font-weight:600">URL da Imagem</label>
+                <input type="text" id="edit-img">
+                
+                <button class="auth-submit-btn" onclick="saveEditProduct()">SALVAR ALTERAÇÕES</button>
             </div>
         </div>
     </div>
@@ -415,8 +436,17 @@
                 catsActive[p.category] = true;
                 const originalIndex = allProducts.findIndex(item => item.name === p.name);
 
+                // LÓGICA DO ADMIN - Botão de Edição
+                let adminControls = '';
+                if(currentUser && currentUser.role === 'admin') {
+                    adminControls = `<div class="admin-edit-badge" onclick="openEditModal(${originalIndex}, event)">
+                                        <i class="fas fa-pen"></i>
+                                     </div>`;
+                }
+
                 grids[p.category].innerHTML += `
                     <div class="product-card">
+                        ${adminControls}
                         <div class="product-img-wrapper">
                             <img src="${p.img || 'https://via.placeholder.com/400'}" onerror="this.src='https://via.placeholder.com/400'">
                             <button class="add-cart-btn" onclick="addToCart(${originalIndex})">Adicionar</button>
@@ -440,9 +470,49 @@
             else { renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(term))); }
         }
 
+        // --- FUNÇÕES DE EDIÇÃO (ADMIN) ---
+        function openEditModal(index, event) {
+            if(event) event.stopPropagation(); // Impede clique no card
+            const allProducts = JSON.parse(localStorage.getItem('auraStock'));
+            const p = allProducts[index];
+            
+            document.getElementById('edit-index').value = index;
+            document.getElementById('edit-name').value = p.name;
+            document.getElementById('edit-price').value = p.price;
+            document.getElementById('edit-category').value = p.category;
+            document.getElementById('edit-img').value = p.img;
+            
+            document.getElementById('edit-modal').classList.add('open');
+        }
+
+        function saveEditProduct() {
+            const index = document.getElementById('edit-index').value;
+            const name = document.getElementById('edit-name').value;
+            const price = parseFloat(document.getElementById('edit-price').value);
+            const category = document.getElementById('edit-category').value;
+            const img = document.getElementById('edit-img').value;
+
+            if(!name || !price || !category) return showToast("Preencha todos os campos", "error");
+
+            let allProducts = JSON.parse(localStorage.getItem('auraStock'));
+            
+            // Atualiza os dados
+            allProducts[index].name = name;
+            allProducts[index].price = price;
+            allProducts[index].category = category;
+            allProducts[index].img = img;
+
+            localStorage.setItem('auraStock', JSON.stringify(allProducts));
+            
+            showToast("Produto atualizado!", "success");
+            closeModals();
+            renderProducts(); // Atualiza a tela instantaneamente
+        }
+        // ----------------------------------
+
         function openLoginModal() { 
             if(currentUser) { 
-                if(confirm("Deseja sair da sua conta?")) { currentUser = null; updateUserUI(); showToast("Você saiu da conta.", "info"); cart = []; updateCartUI(); } 
+                if(confirm("Deseja sair da sua conta?")) { currentUser = null; updateUserUI(); showToast("Você saiu da conta.", "info"); cart = []; updateCartUI(); renderProducts(); } 
             } else { 
                 document.getElementById('login-modal').classList.add('open'); switchAuthTab('login'); 
             }
@@ -459,26 +529,37 @@
 
         document.getElementById('userLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const emailInput = document.getElementById('uName').value.trim(); const passInput = document.getElementById('uPass').value.trim();
+            const userInput = document.getElementById('uLogin').value.trim();
+            const passInput = document.getElementById('uPass').value.trim();
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-            const user = users.find(u => u.email === emailInput && u.password === passInput);
+            
+            const user = users.find(u => u.username === userInput && u.password === passInput);
+            
             if(user) {
                 if(user.status === 'blocked') { showToast("Conta bloqueada. Contate o suporte.", "error"); return; }
                 currentUser = user; updateUserUI(); closeModals(); showToast(`Bem-vindo de volta, ${user.name}!`, "success");
-                document.getElementById('uName').value = ''; document.getElementById('uPass').value = '';
-            } else { showToast("Email ou senha incorretos.", "error"); }
+                document.getElementById('uLogin').value = ''; document.getElementById('uPass').value = '';
+                renderProducts(); // Re-renderiza para mostrar controles de admin se necessário
+            } else { showToast("Usuário ou senha incorretos.", "error"); }
         });
 
         document.getElementById('userRegisterForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('regName').value.trim(); const phone = document.getElementById('regPhone').value.trim();
-            const email = document.getElementById('regEmail').value.trim(); const pass = document.getElementById('regPass').value.trim();
-            if(!name || !email || !pass) return showToast("Preencha os campos obrigatórios.", "error");
+            const name = document.getElementById('regName').value.trim();
+            const username = document.getElementById('regUser').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            
+            if(!name || !username || !email || !pass) return showToast("Preencha os campos obrigatórios.", "error");
+            
             let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             if(users.find(u => u.email === email)) { showToast("Este e-mail já possui cadastro.", "info"); return; }
-            const newUser = { name: name, email: email, password: pass, phone: phone, role: 'customer', status: 'active', joined: new Date().toLocaleDateString(), spent: 0, history: [] };
+            if(users.find(u => u.username === username)) { showToast("Este nome de usuário já está em uso.", "info"); return; }
+            
+            const newUser = { name: name, username: username, email: email, password: pass, phone: phone, role: 'customer', status: 'active', joined: new Date().toLocaleDateString(), spent: 0, history: [] };
             users.push(newUser); localStorage.setItem('auraUsers', JSON.stringify(users));
-            showToast("Cadastro realizado com sucesso!", "success"); currentUser = newUser; updateUserUI(); closeModals(); document.getElementById('userRegisterForm').reset();
+            showToast("Cadastro realizado com sucesso!", "success"); currentUser = newUser; updateUserUI(); closeModals(); document.getElementById('userRegisterForm').reset(); renderProducts();
         });
 
         function updateUserUI() {
