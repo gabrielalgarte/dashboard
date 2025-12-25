@@ -11,9 +11,9 @@
         :root {
             --rose-primary: #D8A9A6;    
             --rose-secondary: #E2BFBC; 
-            --rose-border: #ebd4d2;      
-            --bg-body: #f5eae9;        
-            --text-dark: #4a4a4a;        
+            --rose-border: #ebd4d2;       
+            --bg-body: #f5eae9;         
+            --text-dark: #4a4a4a;         
             --text-light: #ffffff;
             --glass: rgba(255, 255, 255, 0.90);
             --danger: #e74c3c;
@@ -118,6 +118,16 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; }
         .modal-box { background: #fff; padding: 2rem; width: 400px; border-radius: 8px; position: relative; }
+        
+        /* LOCK MODAL STYLES */
+        .lock-content { text-align: center; padding: 1rem; }
+        .lock-icon { font-size: 3rem; color: var(--rose-primary); margin-bottom: 1rem; }
+        .lock-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .lock-desc { font-size: 0.9rem; color: #666; margin-bottom: 2rem; }
+        .lock-btn { width: 100%; background: var(--rose-primary); color: white; padding: 12px; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
+        .lock-btn:hover { background: #c59693; }
+        .lock-btn-outline { width: 100%; background: transparent; color: #999; padding: 10px; border: 1px solid #eee; border-radius: 25px; font-weight: 500; cursor: pointer; transition: 0.3s; font-size: 0.8rem; }
+        .lock-btn-outline:hover { color: var(--text-dark); border-color: var(--text-dark); }
 
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #eee; }
         .auth-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-weight: 500; color: #999; border-bottom: 2px solid transparent; transition: 0.3s; }
@@ -143,7 +153,7 @@
         <nav class="navbar">
             <a href="#" class="logo">Aura<span>.</span></a>
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar..." onkeyup="filterProducts()">
+                <input type="text" id="searchInput" placeholder="Buscar..." oninput="filterProducts()">
                 <i class="fas fa-search"></i>
             </div>
             <ul class="nav-links">
@@ -174,6 +184,8 @@
     </section>
 
     <div id="loja-inicio"></div>
+    <div id="search-results-msg" style="text-align:center; padding: 20px; color: #777; font-style: italic; display: none;">Nenhum produto encontrado.</div>
+
     <div id="section-fragrancias" class="category-section"><div class="section-header" id="fragrancias-area"><h2 class="section-title">Fragrâncias</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-fragrancias"></div></div>
     <div id="section-skin" class="category-section"><div class="section-header" id="skincare-area"><h2 class="section-title">Skin Care</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-skin"></div></div>
     <div id="section-roupas" class="category-section"><div class="section-header" id="roupas-area"><h2 class="section-title">Roupas</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-roupas"></div></div>
@@ -223,6 +235,18 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="lock-modal">
+        <div class="modal-box">
+            <div class="lock-content">
+                <i class="fas fa-gem lock-icon"></i>
+                <h3 class="lock-title">Exclusividade Aura</h3>
+                <p class="lock-desc">Para adicionar produtos à sua sacola e finalizar compras, por favor, identifique-se.</p>
+                <button class="lock-btn" onclick="redirectToLogin()">Acessar Minha Conta</button>
+                <button class="lock-btn-outline" onclick="closeModals()">Apenas olhando</button>
+            </div>
+        </div>
+    </div>
+
     <div class="cart-sidebar" id="cart-sidebar">
         <div style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between">
             <h3>Sacola</h3>
@@ -265,25 +289,47 @@
             }
         }
 
-        function renderProducts() {
+        // Renderiza produtos (aceita lista filtrada opcional)
+        function renderProducts(customList = null) {
             seedDatabase();
-            const products = JSON.parse(localStorage.getItem('auraStock')) || [];
+            const allProducts = JSON.parse(localStorage.getItem('auraStock')) || [];
+            
+            // Se customList for passado, usa ele. Se não, usa todos.
+            const productsToRender = customList || allProducts;
+
             const grids = {
                 'Fragrâncias & Body': document.getElementById('grid-fragrancias'),
                 'Skin Care': document.getElementById('grid-skin'),
                 'Roupas': document.getElementById('grid-roupas'),
                 'Maquiagem': document.getElementById('grid-make')
             };
+
+            // Limpa grids
             Object.values(grids).forEach(g => { if(g) g.innerHTML = ''; });
+            
+            // Esconde todas as seções inicialmente
+            document.querySelectorAll('.category-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('search-results-msg').style.display = 'none';
+
+            if(productsToRender.length === 0) {
+                document.getElementById('search-results-msg').style.display = 'block';
+                return;
+            }
+
             let catsActive = {};
-            products.forEach((p, i) => {
+
+            productsToRender.forEach((p) => {
                 if(!grids[p.category]) return;
                 catsActive[p.category] = true;
+                
+                // Encontrar o indice original para adicionar ao carrinho corretamente
+                const originalIndex = allProducts.findIndex(item => item.name === p.name);
+
                 grids[p.category].innerHTML += `
                     <div class="product-card">
                         <div class="product-img-wrapper">
                             <img src="${p.img || 'https://via.placeholder.com/400'}" onerror="this.src='https://via.placeholder.com/400'">
-                            <button class="add-cart-btn" onclick="addToCart(${i})">Adicionar</button>
+                            <button class="add-cart-btn" onclick="addToCart(${originalIndex})">Adicionar</button>
                         </div>
                         <div class="product-info">
                             <h4>${p.name}</h4>
@@ -291,20 +337,50 @@
                         </div>
                     </div>`;
             });
-            if(document.getElementById('section-fragrancias')) catsActive['Fragrâncias & Body'] ? document.getElementById('section-fragrancias').classList.add('active') : null;
-            if(document.getElementById('section-skin')) catsActive['Skin Care'] ? document.getElementById('section-skin').classList.add('active') : null;
-            if(document.getElementById('section-roupas')) catsActive['Roupas'] ? document.getElementById('section-roupas').classList.add('active') : null;
-            if(document.getElementById('section-make')) catsActive['Maquiagem'] ? document.getElementById('section-make').classList.add('active') : null;
+
+            // Mostra apenas categorias que tem produtos (seja no filtro ou geral)
+            if(document.getElementById('section-fragrancias') && catsActive['Fragrâncias & Body']) document.getElementById('section-fragrancias').classList.add('active');
+            if(document.getElementById('section-skin') && catsActive['Skin Care']) document.getElementById('section-skin').classList.add('active');
+            if(document.getElementById('section-roupas') && catsActive['Roupas']) document.getElementById('section-roupas').classList.add('active');
+            if(document.getElementById('section-make') && catsActive['Maquiagem']) document.getElementById('section-make').classList.add('active');
         }
 
-        function filterProducts() { renderProducts(); }
+        // Live Search / Filtro Instantâneo
+        function filterProducts() { 
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const allProducts = JSON.parse(localStorage.getItem('auraStock')) || [];
+            
+            if(term === '') {
+                renderProducts(null); // Reseta
+            } else {
+                const filtered = allProducts.filter(p => p.name.toLowerCase().includes(term));
+                renderProducts(filtered);
+            }
+        }
 
         function openLoginModal() { 
             if(currentUser) { 
-                if(confirm("Deseja sair da sua conta?")) { currentUser = null; updateUserUI(); showToast("Você saiu da conta.", "info"); } 
-            } else { document.getElementById('login-modal').classList.add('open'); switchAuthTab('login'); }
+                if(confirm("Deseja sair da sua conta?")) { currentUser = null; updateUserUI(); showToast("Você saiu da conta.", "info"); cart = []; updateCartUI(); } 
+            } else { 
+                document.getElementById('login-modal').classList.add('open'); 
+                switchAuthTab('login'); 
+            }
         }
+
+        function openLockModal() {
+            document.getElementById('lock-modal').classList.add('open');
+        }
+
+        function redirectToLogin() {
+            closeModals();
+            setTimeout(() => {
+                document.getElementById('login-modal').classList.add('open');
+                switchAuthTab('login');
+            }, 200);
+        }
+
         function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
+        
         function switchAuthTab(tab) {
             const loginForm = document.getElementById('login-section');
             const regForm = document.getElementById('register-section');
@@ -399,8 +475,6 @@
             const msgObj = { sender: currentUser.name, text: msg, timestamp: Date.now() };
             if(myTicket) { 
                 myTicket.messages.push(msgObj); 
-                // Se o chat já está em andamento, mantém. Se não, volta pra pendente se o admin ainda não aceitou (embora o fluxo de aceitar segure isso).
-                // Para simplificar: se mandar mensagem, avisa o admin
                 if(myTicket.status !== 'Em Andamento') myTicket.status = 'Pendente';
             } else { 
                 tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); 
@@ -422,12 +496,25 @@
             }
         }
 
-        function openCart() { document.getElementById('cart-sidebar').classList.add('open'); }
+        function openCart() { 
+            if(!currentUser) {
+                openLockModal();
+                return;
+            }
+            document.getElementById('cart-sidebar').classList.add('open'); 
+        }
         function closeCart() { document.getElementById('cart-sidebar').classList.remove('open'); }
+        
         function addToCart(i) {
-            const p = JSON.parse(localStorage.getItem('auraStock'))[i];
+            if(!currentUser) {
+                openLockModal();
+                return;
+            }
+            const allProducts = JSON.parse(localStorage.getItem('auraStock'));
+            const p = allProducts[i];
             cart.push(p); updateCartUI(); openCart(); showToast(`${p.name} adicionado!`, "success");
         }
+        
         function updateCartUI() {
             const cont = document.getElementById('cart-items-container');
             cont.innerHTML = ''; let total = 0;
