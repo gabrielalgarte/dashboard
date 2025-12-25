@@ -20,7 +20,6 @@
             --warning: #f39c12;
             --shadow-soft: 0 5px 20px rgba(0,0,0,0.03);
             --shadow-hover: 0 10px 25px rgba(216, 169, 166, 0.15);
-            --border-radius: 12px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,7 +33,7 @@
             overflow: hidden; 
         }
 
-        /* SIDEBAR */
+        /* SIDEBAR (Mobile Friendly) */
         .sidebar { 
             width: 270px; background: var(--white); display: flex; flex-direction: column; 
             padding: 2.5rem 2rem; border-right: 1px solid rgba(0,0,0,0.05); z-index: 10; 
@@ -48,145 +47,77 @@
         
         .menu a { 
             display: flex; align-items: center; gap: 14px; padding: 1rem; 
-            color: #666; text-decoration: none; border-radius: var(--border-radius); 
-            margin-bottom: 0.8rem; transition: 0.3s; cursor: pointer; font-weight: 500; font-size: 0.9rem;
+            color: #666; text-decoration: none; border-radius: 12px; 
+            margin-bottom: 0.8rem; transition: 0.3s; cursor: pointer; font-weight: 500;
         }
-        .menu a:hover, .menu a.active { 
-            background: var(--rose-light); color: var(--rose-dark); 
-            transform: translateX(5px);
-        }
+        .menu a:hover, .menu a.active { background: var(--rose-light); color: var(--rose-dark); transform: translateX(5px); }
         .menu i { width: 20px; text-align: center; }
 
-        /* CONTENT */
+        /* CONTENT AREA (Full Height) */
         .main-content { flex: 1; padding: 3rem; overflow-y: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
         .header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: #1a1a1a; }
         
-        /* CARDS */
+        /* CARDS & PANELS */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
         .card-stat { 
             background: var(--white); padding: 1.8rem; border-radius: 16px; 
-            box-shadow: var(--shadow-soft); border: 1px solid rgba(0,0,0,0.02); 
-            display: flex; align-items: center; gap: 1.2rem; transition: 0.3s; 
+            box-shadow: var(--shadow-soft); display: flex; align-items: center; gap: 1.2rem; 
         }
-        .card-stat:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .icon-box { width: 55px; height: 55px; background: var(--rose-light); color: var(--rose-dark); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
         
-        .icon-box { 
-            width: 55px; height: 55px; background: var(--rose-light); color: var(--rose-dark); 
-            border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; 
-        }
-        .stat-text h3 { font-size: 1.6rem; margin-bottom: 4px; font-weight: 700; color: #333; }
-        .stat-text p { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-
-        /* PAINÉIS & TABELAS */
+        /* TABLE CONTAINER (TELA CHEIA SOLICITADA) */
         .panel { 
             background: var(--white); border-radius: 16px; padding: 2.5rem; 
             box-shadow: var(--shadow-soft); margin-bottom: 2rem; 
+            /* Se quiser garantir que ocupe todo o espaço disponível, pode usar flex-grow se container for flex, mas aqui deixamos fluir com overflow-y do main-content */
         }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .panel h2 { font-size: 1.3rem; font-weight: 600; color: #333; }
-
+        
         table { width: 100%; border-collapse: separate; border-spacing: 0 0.5rem; min-width: 900px; }
-        th { 
-            text-align: left; padding: 1rem 1.5rem; color: #999; font-size: 0.75rem; 
-            text-transform: uppercase; font-weight: 600; letter-spacing: 1px;
-        }
-        td { 
-            background: #fff; padding: 1.2rem 1.5rem; font-size: 0.9rem; 
-            vertical-align: middle; border-top: 1px solid #f8f8f8; border-bottom: 1px solid #f8f8f8; 
-            color: #555;
-        }
+        th { text-align: left; padding: 1rem 1.5rem; color: #999; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        td { background: #fff; padding: 1.2rem 1.5rem; font-size: 0.9rem; vertical-align: middle; border-top: 1px solid #f8f8f8; border-bottom: 1px solid #f8f8f8; color: #555; }
         td:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-left: 1px solid #f8f8f8; }
         td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-right: 1px solid #f8f8f8; }
         
-        .product-thumb { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; margin-right: 12px; vertical-align: middle; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-
-        /* BADGES & STATUS */
+        /* BUTTONS & BADGES */
         .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
         .status-active { background: #eafbf0; color: var(--success); }
         .status-blocked { background: #fdeaea; color: var(--danger); }
         
-        .qty-badge { padding: 5px 10px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; }
-        .qty-positive { background: #eafbf0; color: var(--success); border: 1px solid #d4f5dd; }
-        .qty-negative { background: #fdeaea; color: var(--danger); border: 1px solid #fadbd8; }
+        .role-badge { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #666; background: #eee; padding: 4px 10px; border-radius: 6px; }
+        .role-dona { background: #2c3e50; color: #fff; }
+        .role-gerente { background: var(--rose-dark); color: #fff; }
+        .role-vendedor { background: #fff5e6; color: var(--warning); }
 
-        .clickable-amount { 
-            color: var(--rose-dark); font-weight: 700; cursor: pointer; text-decoration: underline; 
-            text-decoration-color: transparent; transition: 0.3s; padding: 4px 8px; border-radius: 6px;
-        }
-        .clickable-amount:hover { background: var(--rose-light); text-decoration-color: var(--rose-dark); }
-
-        /* BOTÕES & INPUTS */
-        .btn-action { 
-            width: 34px; height: 34px; border-radius: 8px; border: 1px solid #eee; background: white; 
-            cursor: pointer; color: #777; transition: 0.2s; margin-left: 6px; 
-            display: inline-flex; align-items: center; justify-content: center;
-        }
-        .btn-action:hover { background: var(--rose-dark); color: white; border-color: var(--rose-dark); transform: scale(1.05); }
+        .btn-action { width: 34px; height: 34px; border-radius: 8px; border: 1px solid #eee; background: white; cursor: pointer; color: #777; transition: 0.2s; margin-left: 6px; }
+        .btn-action:hover { background: var(--rose-dark); color: white; border-color: var(--rose-dark); }
         .btn-action.delete:hover { background: var(--danger); border-color: var(--danger); }
         
-        .btn-primary { 
-            background: var(--rose-dark); color: white; padding: 0.9rem 2rem; border-radius: 10px; 
-            border: none; cursor: pointer; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; 
-            transition: 0.3s; box-shadow: 0 4px 10px rgba(216, 169, 166, 0.3);
-        }
+        .btn-primary { background: var(--rose-dark); color: white; padding: 0.9rem 2rem; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
         .btn-primary:hover { background: #c29592; transform: translateY(-2px); }
 
-        input, select { 
-            width: 100%; padding: 0.9rem 1.2rem; border: 1px solid #e0e0e0; border-radius: 10px; 
-            margin-bottom: 1.2rem; outline: none; background: #fafafa; font-family: inherit; transition: 0.3s;
-        }
-        input:focus, select:focus { border-color: var(--rose-dark); background: white; box-shadow: 0 0 0 3px rgba(216, 169, 166, 0.1); }
-        label { font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; display: block; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* MODAIS */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(40, 40, 40, 0.6); z-index: 2000; display: none; 
-            backdrop-filter: blur(5px); justify-content: center; align-items: center; 
-        }
+        /* MODALS */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(40, 40, 40, 0.6); z-index: 2000; display: none; backdrop-filter: blur(5px); justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; animation: fadeModal 0.3s; }
-        .modal-box { 
-            background: white; width: 550px; max-width: 90%; padding: 2.5rem; 
-            border-radius: 20px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.2); 
-        }
-        
-        .close-btn-x { 
-            position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; 
-            border-radius: 50%; background: #f5f5f5; color: #777; display: flex; 
-            align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; 
-        }
+        .modal-box { background: white; width: 550px; max-width: 90%; padding: 2.5rem; border-radius: 20px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+        .close-btn-x { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 50%; background: #f5f5f5; color: #777; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
         .close-btn-x:hover { background: var(--danger); color: white; }
 
-        /* HISTÓRICO LISTA */
-        .history-list { max-height: 300px; overflow-y: auto; margin-top: 1rem; border-top: 1px solid #eee; }
-        .history-item { 
-            padding: 1rem; border-bottom: 1px solid #f5f5f5; display: flex; 
-            justify-content: space-between; align-items: flex-start; 
-        }
-        .history-item:last-child { border-bottom: none; }
-        .h-info h4 { font-size: 0.95rem; margin-bottom: 4px; color: #333; }
-        .h-info p { font-size: 0.8rem; color: #888; margin: 0; }
-        .h-price { font-weight: 700; color: var(--rose-dark); font-size: 0.95rem; }
-
-        /* CHAT */
-        .chat-container { height: 450px; display: flex; flex-direction: column; border: 1px solid #eee; border-radius: 12px; margin-top: 1rem; overflow: hidden; }
-        .chat-history { flex: 1; padding: 1.5rem; overflow-y: auto; background: #f9fbfd; display: flex; flex-direction: column; gap: 12px; }
-        .bubble { max-width: 80%; padding: 10px 16px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .bubble-admin { align-self: flex-end; background: #e3f2fd; color: #2c3e50; border-bottom-right-radius: 2px; }
-        .bubble-client { align-self: flex-start; background: white; border: 1px solid #eee; color: #444; border-bottom-left-radius: 2px; }
-        .chat-input { padding: 15px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        input, select { width: 100%; padding: 0.9rem 1.2rem; border: 1px solid #e0e0e0; border-radius: 10px; margin-bottom: 1.2rem; outline: none; background: #fafafa; }
+        label { font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; display: block; color: #555; text-transform: uppercase; }
 
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* RESPONSIVIDADE (TELA CHEIA MOBILE) */
         @media (max-width: 900px) {
             body { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 1.5rem; justify-content: space-between; }
+            .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 1.5rem; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
             .brand { margin-bottom: 0; font-size: 1.5rem; }
             .menu span { display: none; }
             .main-content { padding: 1.5rem; }
+            table { min-width: 600px; } /* Permite scroll horizontal na tabela */
         }
     </style>
 </head>
@@ -235,7 +166,7 @@
             </div>
 
             <div class="panel">
-                <div class="panel-header">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
                     <h2>Base de Clientes</h2>
                     <div style="position: relative;">
                         <input type="text" id="searchClient" placeholder="Buscar cliente..." onkeyup="renderClients()" style="width: 280px; margin:0; padding-left: 40px; border-radius: 25px;">
@@ -251,6 +182,7 @@
                                 <th>Itens Comprados</th>
                                 <th>Gasto Total</th>
                                 <th>Status</th>
+                                <th>Cargo</th>
                                 <th style="text-align: right;">Ações</th>
                             </tr>
                         </thead>
@@ -262,7 +194,7 @@
 
         <div id="view-products" class="view-section">
             <div class="panel">
-                <div class="panel-header">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
                     <h2>Controle de Estoque</h2>
                     <button class="btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Novo Produto</button>
                 </div>
@@ -287,6 +219,7 @@
         <div id="view-support" class="view-section">
             <div class="panel">
                 <h2>Chamados de Suporte</h2>
+                <p style="color:#888; font-size:0.9rem;">Tickets inativos por 5 min são encerrados automaticamente.</p>
                 <div id="tickets-list" style="margin-top: 1.5rem;"></div>
             </div>
         </div>
@@ -307,13 +240,22 @@
                         <label>Email de Contato</label><input type="email" id="editEmail">
                     </div>
                     <div>
+                        <label>Cargo (Permissão)</label>
+                        <select id="editRole">
+                            <option value="customer">Cliente</option>
+                            <option value="vendedor">Vendedor(a)</option>
+                            <option value="gerente">Gerente</option>
+                            <option value="dona">Dona</option>
+                        </select>
+                    </div>
+                    <div>
                         <label>Status da Conta</label>
                         <select id="editStatus">
                             <option value="active">Ativo</option>
                             <option value="blocked">Bloqueado</option>
                         </select>
                     </div>
-                    <div>
+                    <div style="grid-column: span 2;">
                          <label>Ajuste de Saldo (R$)</label><input type="number" id="editSpent" step="0.01">
                     </div>
                 </div>
@@ -327,11 +269,9 @@
     <div class="modal-overlay" id="history-modal">
         <div class="modal-box">
             <div class="close-btn-x" onclick="closeHistoryModal()"><i class="fas fa-times"></i></div>
-            <h2 id="history-title" style="margin-bottom: 0.5rem; color: var(--rose-dark);">Histórico de Compras</h2>
+            <h2 id="history-title" style="margin-bottom: 0.5rem; color: var(--rose-dark);">Histórico</h2>
             <p id="history-subtitle" style="color: #888; margin-bottom: 1.5rem; font-size: 0.9rem;"></p>
-            
-            <div class="history-list" id="history-content">
-                </div>
+            <div class="history-list" id="history-content"></div>
         </div>
     </div>
 
@@ -380,38 +320,25 @@
         const LOGGED_USER = "Maria"; 
 
         function initData() {
-            // 1. Estoque Inicial
+            // 1. Estoque
             let stock = JSON.parse(localStorage.getItem('auraStock'));
             if(!stock) {
-                 stock = [
-                    { name: "Sérum Glow", sku: "SKIN-001", category: "Skin Care", price: 129.90, qty: 50, img: "" },
-                    { name: "Body Splash Vanilla", sku: "BODY-021", category: "Fragrâncias & Body", price: 79.90, qty: 0, img: "" }, // Teste de estoque zero
-                    { name: "Vestido Linen", sku: "CLOTH-005", category: "Roupas", price: 250.00, qty: -2, img: "" } // Teste negativo
-                 ];
+                 stock = [{ name: "Sérum Glow", sku: "SKIN-001", category: "Skin Care", price: 129.90, qty: 50, img: "" }];
                  localStorage.setItem('auraStock', JSON.stringify(stock));
             }
 
-            // 2. Usuários Iniciais (Com Histórico Fictício para teste)
+            // 2. Usuários
             let users = JSON.parse(localStorage.getItem('auraUsers'));
             if(!users) {
-                // Criando usuários fictícios com histórico
                 users = [
-                    { 
-                        name: "Ana Silva", email: "ana@email.com", status: "active", spent: 209.80, role: "customer",
-                        history: [
-                            { item: "Body Splash Vanilla", desc: "Fragrância suave", price: 79.90, date: "10/05/2024" },
-                            { item: "Sérum Glow", desc: "Vitamina C", price: 129.90, date: "12/05/2024" }
-                        ]
-                    },
-                    { 
-                        name: "Carlos Souza", email: "carlos@email.com", status: "blocked", spent: 0, role: "customer",
-                        history: [] 
-                    }
+                    { name: "Ana Silva", email: "ana@email.com", status: "active", spent: 209.80, role: "customer", history: [] },
+                    { name: "Carlos Souza", email: "carlos@email.com", status: "blocked", spent: 0, role: "customer", history: [] }
                 ];
                 localStorage.setItem('auraUsers', JSON.stringify(users));
             } else {
-                // Se já existirem usuários antigos sem o array 'history', adiciona um vazio para não quebrar
+                // Migração segura: Se não tiver 'role', define como 'customer'
                 users = users.map(u => {
+                    if(!u.role) u.role = 'customer';
                     if(!u.history) u.history = [];
                     return u;
                 });
@@ -431,7 +358,7 @@
             if(tab === 'support') renderTickets();
         }
 
-        // --- CLIENTES (GERENCIAMENTO) ---
+        // --- CLIENTES ---
         function renderClients() {
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             const tbody = document.getElementById('clientsTableBody');
@@ -442,38 +369,29 @@
             users.forEach((u, i) => {
                 total += parseFloat(u.spent) || 0;
                 if((parseFloat(u.spent) || 0) > 500) vips++;
-                
                 if(!u.name.toLowerCase().includes(search) && !u.email.toLowerCase().includes(search)) return;
 
-                // Contagem de Unidades baseada no histórico
                 const unitsBought = u.history ? u.history.length : 0;
                 
-                // Botão de Excluir (Apenas Maria vê se não for ela mesma)
+                // Botão de Excluir: Só Maria (Dona) vê
                 let deleteBtn = (LOGGED_USER === 'Maria' && u.name !== 'Maria') 
                     ? `<button class="btn-action delete" onclick="deleteClient(${i})" title="Excluir"><i class="fas fa-trash-alt"></i></button>` 
                     : '';
 
-                // Status Badge
-                const statusBadge = u.status === 'active' 
-                    ? `<span class="status-badge status-active">Ativo</span>`
-                    : `<span class="status-badge status-blocked">Bloqueado</span>`;
+                // Badge de Cargo
+                let roleBadge = `<span class="role-badge role-vendedor">${u.role}</span>`;
+                if(u.role === 'customer') roleBadge = `<span class="role-badge" style="background:#eee; color:#666;">Cliente</span>`;
+                if(u.role === 'dona') roleBadge = `<span class="role-badge role-dona">Dona</span>`;
+                if(u.role === 'gerente') roleBadge = `<span class="role-badge role-gerente">Gerente</span>`;
 
                 tbody.innerHTML += `
                     <tr>
-                        <td>
-                            <div style="display:flex; align-items:center;">
-                                <img src="https://ui-avatars.com/api/?name=${u.name}&background=random&color=fff" class="product-thumb" style="border-radius:50%">
-                                <strong>${u.name}</strong>
-                            </div>
-                        </td>
+                        <td><strong>${u.name}</strong></td>
                         <td>${u.email}</td>
                         <td style="padding-left: 2rem;"><strong>${unitsBought}</strong></td>
-                        <td>
-                            <span class="clickable-amount" onclick="openHistoryModal(${i})">
-                                R$ ${parseFloat(u.spent).toFixed(2)}
-                            </span>
-                        </td>
-                        <td>${statusBadge}</td>
+                        <td><span class="clickable-amount" onclick="openHistoryModal(${i})">R$ ${parseFloat(u.spent).toFixed(2)}</span></td>
+                        <td><span class="status-badge ${u.status === 'active' ? 'status-active' : 'status-blocked'}">${u.status}</span></td>
+                        <td>${roleBadge}</td>
                         <td style="text-align: right;">
                             <button class="btn-action" onclick="openClientModal(${i})" title="Editar"><i class="fas fa-pen"></i></button>
                             ${deleteBtn}
@@ -482,17 +400,15 @@
                 `;
             });
 
-            // Atualiza Cards
             document.querySelector('.stat-text h3').innerText = users.length;
             document.getElementById('total-rev').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             document.getElementById('vip-count').innerText = vips;
         }
 
-        // --- MODAL DE HISTÓRICO (NOVO) ---
+        // --- MODAL DE HISTÓRICO ---
         function openHistoryModal(index) {
             const user = JSON.parse(localStorage.getItem('auraUsers'))[index];
             const container = document.getElementById('history-content');
-            
             document.getElementById('history-title').innerText = `Histórico: ${user.name}`;
             document.getElementById('history-subtitle').innerText = `Total gasto: R$ ${parseFloat(user.spent).toFixed(2)}`;
             container.innerHTML = '';
@@ -503,16 +419,11 @@
                 user.history.forEach(item => {
                     container.innerHTML += `
                         <div class="history-item">
-                            <div class="h-info">
-                                <h4>${item.item}</h4>
-                                <p>${item.desc} • <span style="font-size:0.75rem">${item.date}</span></p>
-                            </div>
+                            <div class="h-info"><h4>${item.item}</h4><p>${item.desc} • ${item.date}</p></div>
                             <div class="h-price">R$ ${parseFloat(item.price).toFixed(2)}</div>
-                        </div>
-                    `;
+                        </div>`;
                 });
             }
-            
             document.getElementById('history-modal').classList.add('open');
         }
         function closeHistoryModal() { document.getElementById('history-modal').classList.remove('open'); }
@@ -523,6 +434,7 @@
             document.getElementById('editIndex').value = i;
             document.getElementById('editName').value = u.name;
             document.getElementById('editEmail').value = u.email;
+            document.getElementById('editRole').value = u.role || 'customer';
             document.getElementById('editStatus').value = u.status;
             document.getElementById('editSpent').value = u.spent;
             document.getElementById('client-modal').classList.add('open');
@@ -534,6 +446,7 @@
             let users = JSON.parse(localStorage.getItem('auraUsers'));
             users[i].name = document.getElementById('editName').value;
             users[i].email = document.getElementById('editEmail').value;
+            users[i].role = document.getElementById('editRole').value;
             users[i].status = document.getElementById('editStatus').value;
             users[i].spent = parseFloat(document.getElementById('editSpent').value);
             localStorage.setItem('auraUsers', JSON.stringify(users));
@@ -550,96 +463,61 @@
             }
         }
 
-        // --- ESTOQUE (CORES INTELIGENTES) ---
+        // --- ESTOQUE ---
         function renderStock() {
             const stock = JSON.parse(localStorage.getItem('auraStock')) || [];
             const tbody = document.getElementById('stockTableBody');
             tbody.innerHTML = '';
-            
             stock.forEach((p, i) => {
-                const sku = p.sku || 'N/A';
                 const qty = p.qty !== undefined ? parseInt(p.qty) : 0;
-                
-                // Lógica de Cor da Quantidade
                 let qtyClass = qty > 0 ? 'qty-positive' : 'qty-negative';
-                let qtyLabel = qty > 0 ? `${qty} un.` : (qty === 0 ? 'Esgotado' : `${qty} un.`);
-
                 tbody.innerHTML += `
                     <tr>
-                        <td style="font-family:'Courier New', monospace; color:#666; font-weight:600;">${sku}</td>
-                        <td>
-                            <div style="display:flex; align-items:center;">
-                                <img src="${p.img}" class="product-thumb" onerror="this.src='https://via.placeholder.com/40'">
-                                <span style="font-weight:600; color:#333;">${p.name}</span>
-                            </div>
-                        </td>
+                        <td style="font-family:'Courier New', monospace; color:#666;">${p.sku || 'N/A'}</td>
+                        <td><div style="display:flex; align-items:center;"><img src="${p.img}" class="product-thumb" onerror="this.src='https://via.placeholder.com/40'"><span style="font-weight:600; color:#333;">${p.name}</span></div></td>
                         <td>${p.category}</td>
                         <td>R$ ${parseFloat(p.price).toFixed(2)}</td>
-                        <td><span class="qty-badge ${qtyClass}">${qtyLabel}</span></td>
-                        <td style="text-align: right;">
-                            <button class="btn-action" onclick="openProductModal(${i})"><i class="fas fa-pen"></i></button>
-                            <button class="btn-action delete" onclick="deleteProduct(${i})"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                `;
+                        <td><span class="qty-badge ${qtyClass}">${qty} un.</span></td>
+                        <td style="text-align: right;"><button class="btn-action" onclick="openProductModal(${i})"><i class="fas fa-pen"></i></button><button class="btn-action delete" onclick="deleteProduct(${i})"><i class="fas fa-trash-alt"></i></button></td>
+                    </tr>`;
             });
         }
 
-        // Modal Produto
-        function openProductModal(index = null) {
-            const modal = document.getElementById('product-modal');
-            const title = document.getElementById('prod-modal-title');
-            
-            if(index !== null) {
-                const p = JSON.parse(localStorage.getItem('auraStock'))[index];
-                document.getElementById('prodIndex').value = index;
-                title.innerText = "Editar Produto";
-                document.getElementById('pName').value = p.name;
-                document.getElementById('pSku').value = p.sku || '';
-                document.getElementById('pCat').value = p.category;
-                document.getElementById('pPrice').value = p.price;
-                document.getElementById('pQty').value = p.qty || 0;
-                document.getElementById('pImg').value = p.img;
-            } else {
-                document.getElementById('prodIndex').value = '';
-                title.innerText = "Novo Produto";
-                document.getElementById('prodForm').reset();
-            }
-            modal.classList.add('open');
-        }
-        function closeProductModal() { document.getElementById('product-modal').classList.remove('open'); }
-
-        function saveProduct() {
-            const index = document.getElementById('prodIndex').value;
-            let stock = JSON.parse(localStorage.getItem('auraStock')) || [];
-            
-            const newProd = {
-                name: document.getElementById('pName').value,
-                sku: document.getElementById('pSku').value,
-                category: document.getElementById('pCat').value,
-                price: parseFloat(document.getElementById('pPrice').value),
-                qty: parseInt(document.getElementById('pQty').value),
-                img: document.getElementById('pImg').value
-            };
-
-            if(index !== "") { stock[index] = newProd; } else { stock.push(newProd); }
-            
-            localStorage.setItem('auraStock', JSON.stringify(stock));
-            closeProductModal();
-            renderStock();
-        }
-
-        function deleteProduct(i) {
-            if(confirm("Remover produto do estoque?")) {
-                let stock = JSON.parse(localStorage.getItem('auraStock'));
-                stock.splice(i, 1);
-                localStorage.setItem('auraStock', JSON.stringify(stock));
-                renderStock();
-            }
-        }
-
-        // --- SUPORTE / CHAT ---
+        // --- SUPORTE / CHAT AUTOMATIZADO (ROBÔ) ---
         let currentTicketIndex = null;
+
+        // Robô: Verifica a cada 60s se algum ticket expirou (5 min sem resposta)
+        setInterval(checkChatTimeout, 60000);
+
+        function checkChatTimeout() {
+            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            let changed = false;
+            const now = Date.now();
+            const TIMEOUT_MS = 5 * 60 * 1000; // 5 minutos
+
+            tickets.forEach(ticket => {
+                if (ticket.status !== 'Resolvido' && ticket.status !== 'Encerrado por Inatividade' && ticket.messages && ticket.messages.length > 0) {
+                    const lastMsg = ticket.messages[ticket.messages.length - 1];
+                    // Verifica se a última mensagem tem timestamp
+                    if (lastMsg.timestamp) {
+                        if (now - lastMsg.timestamp > TIMEOUT_MS) {
+                            ticket.status = 'Encerrado por Inatividade';
+                            ticket.messages.push({
+                                sender: 'Sistema',
+                                text: 'Este atendimento foi encerrado automaticamente por falta de atividade.',
+                                timestamp: now
+                            });
+                            changed = true;
+                        }
+                    }
+                }
+            });
+
+            if (changed) {
+                localStorage.setItem('auraTickets', JSON.stringify(tickets));
+                if (document.getElementById('view-support').classList.contains('active')) renderTickets();
+            }
+        }
 
         function renderTickets() {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
@@ -654,17 +532,13 @@
                 list.innerHTML += `
                     <div style="background:white; padding:1.5rem; border:1px solid #eee; border-radius:12px; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
                         <div style="display:flex; gap: 15px; align-items:center;">
-                             <div style="width:40px; height:40px; background:#f0f0f0; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#888;">
-                                <i class="fas fa-user"></i>
-                            </div>
+                             <div style="width:40px; height:40px; background:#f0f0f0; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#888;"><i class="fas fa-user"></i></div>
                             <div>
-                                <h4 style="margin:0; color:#333;">${t.user} <span style="font-size:0.75rem; background:#fff5e6; color:#f39c12; padding:2px 8px; border-radius:4px; font-weight:normal;">${t.status}</span></h4>
+                                <h4 style="margin:0; color:#333;">${t.user} <span style="font-size:0.75rem; background:#fff5e6; color:#f39c12; padding:2px 8px; border-radius:4px;">${t.status}</span></h4>
                                 <p style="font-size:0.9rem; color:#666; margin-top:5px; max-width:400px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg}</p>
                             </div>
                         </div>
-                        <button class="btn-primary" style="width:auto; padding:0.6rem 1.2rem; font-size:0.8rem;" onclick="openChat(${i})">
-                            <i class="fas fa-comments"></i> Responder
-                        </button>
+                        <button class="btn-primary" style="width:auto; padding:0.6rem 1.2rem; font-size:0.8rem;" onclick="openChat(${i})"><i class="fas fa-comments"></i> Responder</button>
                     </div>
                 `;
             });
@@ -682,16 +556,10 @@
         function renderChatHistory(ticket) {
             const box = document.getElementById('chat-history');
             box.innerHTML = '';
-            
             let msgs = ticket.messages || [{ sender: ticket.user, text: ticket.message }];
-
             msgs.forEach(m => {
                 const isAdmin = m.sender === 'Admin' || m.sender === 'Maria';
-                box.innerHTML += `
-                    <div class="bubble ${isAdmin ? 'bubble-admin' : 'bubble-client'}">
-                        <strong>${m.sender}</strong><br>${m.text}
-                    </div>
-                `;
+                box.innerHTML += `<div class="bubble ${isAdmin ? 'bubble-admin' : 'bubble-client'}"><strong>${m.sender}</strong><br>${m.text}</div>`;
             });
             box.scrollTop = box.scrollHeight;
         }
@@ -699,23 +567,15 @@
         function sendReply() {
             const txt = document.getElementById('replyInput').value;
             if(!txt) return;
-
             let tickets = JSON.parse(localStorage.getItem('auraTickets'));
             let ticket = tickets[currentTicketIndex];
-
             if(!ticket.messages) ticket.messages = [{sender: ticket.user, text: ticket.message}];
-            
-            ticket.messages.push({
-                sender: LOGGED_USER,
-                text: txt,
-                time: new Date().toLocaleTimeString()
-            });
+            ticket.messages.push({ sender: LOGGED_USER, text: txt, timestamp: Date.now() });
             ticket.status = "Respondido";
-
             localStorage.setItem('auraTickets', JSON.stringify(tickets));
             document.getElementById('replyInput').value = '';
             renderChatHistory(ticket);
-            renderTickets(); 
+            renderTickets();
         }
 
         // Init
