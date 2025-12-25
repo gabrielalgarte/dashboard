@@ -84,6 +84,11 @@
         
         .product-thumb { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
 
+        /* DOT ONLINE */
+        .online-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .is-online { background-color: var(--success); box-shadow: 0 0 5px var(--success); }
+        .is-offline { background-color: #ccc; }
+
         /* --- SUPORTE / CHAT UI --- */
         .ticket-list { display: flex; flex-direction: column; gap: 15px; }
         
@@ -94,7 +99,6 @@
         }
         .ticket-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-2px); }
         
-        /* Estilos de Status do Ticket */
         .ticket-card.status-pendente { border-left: 5px solid var(--warning); background: #fffdf5; }
         .ticket-card.status-andamento { border-left: 5px solid var(--success); }
         .ticket-card.status-arquivado { border-left: 5px solid #ccc; opacity: 0.8; }
@@ -104,7 +108,6 @@
         
         .ticket-actions { display: flex; gap: 10px; align-items: center; }
         
-        /* Botão Aceitar */
         .btn-accept {
             background: var(--success); color: white; border: none; padding: 8px 16px; 
             border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; 
@@ -197,10 +200,11 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>Status</th>
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Total Gasto</th>
-                                <th>Status</th>
+                                <th>Conta</th>
                                 <th style="text-align:right">Ações</th>
                             </tr>
                         </thead>
@@ -314,17 +318,20 @@
         let showingArchived = false;
 
         // --- SISTEMA DE TEMPO REAL (EVENT LISTENER) ---
-        // Escuta mudanças no localStorage (vindas da aba do Cliente)
         window.addEventListener('storage', function(e) {
-            if (e.key === 'auraTickets') {
-                console.log('Atualização remota no chat...');
-                
-                checkNewMessagesBadge();
+            // Se um novo usuário se cadastrar ou alguém entrar online, atualiza a lista
+            if (e.key === 'auraUsers' || e.key === 'auraPresence') {
+                if (document.getElementById('view-clients').style.display === 'block') {
+                    renderClients();
+                }
+            }
 
+            // Chat em tempo real
+            if (e.key === 'auraTickets') {
+                checkNewMessagesBadge();
                 if (document.getElementById('view-support').style.display === 'block') {
                     renderTickets(showingArchived ? 'archived' : 'active');
                 }
-
                 if (document.getElementById('chat-modal').classList.contains('open') && currentTicketId) {
                     const tickets = JSON.parse(e.newValue);
                     const activeTicket = tickets.find(t => t.id === currentTicketId);
@@ -334,6 +341,14 @@
                 }
             }
         });
+
+        // Loop para manter o status online atualizado (a cada 5s)
+        setInterval(() => {
+            if (document.getElementById('view-clients').style.display === 'block') {
+                renderClients();
+            }
+            checkNewMessagesBadge();
+        }, 5000);
 
         // --- RELÓGIO ---
         function updateClock() {
@@ -369,21 +384,37 @@
         // --- CLIENTES ---
         function renderClients() {
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
+            const presence = JSON.parse(localStorage.getItem('auraPresence')) || {};
             const tbody = document.getElementById('clientsTableBody');
             const search = document.getElementById('searchClient').value.toLowerCase();
+            
             tbody.innerHTML = '';
+            
             users.forEach((u, i) => {
                 if(!u.name.toLowerCase().includes(search)) return;
+                
                 const statusLabel = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
                 const statusClass = u.status === 'active' ? 'status-active' : 'status-blocked';
+                
+                // Lógica Online: Se a última atualização foi há menos de 15 segundos
+                const lastSeen = presence[u.username] || 0;
+                const isOnline = (Date.now() - lastSeen) < 15000; 
+                const onlineClass = isOnline ? 'is-online' : 'is-offline';
+                const onlineText = isOnline ? 'Online' : 'Offline';
+
                 tbody.innerHTML += `
                     <tr>
+                        <td>
+                            <span class="online-dot ${onlineClass}" title="${onlineText}"></span>
+                            <span style="font-size:0.75rem; color:#888">${onlineText}</span>
+                        </td>
                         <td><b>${u.name}</b></td>
                         <td>${u.email}</td>
                         <td style="color:var(--success)"><b>R$ ${parseFloat(u.spent || 0).toFixed(2)}</b></td>
                         <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
                         <td style="text-align:right">
-                            <button onclick="openClientEdit(${i})" style="border:none; background:transparent; cursor:pointer; color:#666"><i class="fas fa-edit"></i></button>
+                            <button onclick="openClientEdit(${i})" class="btn-icon btn-archive" style="display:inline-flex; width:30px; height:30px"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteClient(${i})" class="btn-icon btn-delete" style="display:inline-flex; width:30px; height:30px"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>`;
             });
@@ -410,6 +441,15 @@
             localStorage.setItem('auraUsers', JSON.stringify(users));
             document.getElementById('client-modal').classList.remove('open');
             showToast('Cliente atualizado!');
+            renderClients();
+        }
+
+        function deleteClient(i) {
+            if(!confirm("Tem certeza que deseja EXCLUIR este cliente permanentemente?")) return;
+            let users = JSON.parse(localStorage.getItem('auraUsers'));
+            users.splice(i, 1); // Remove o usuário do array
+            localStorage.setItem('auraUsers', JSON.stringify(users));
+            showToast('Cliente removido.');
             renderClients();
         }
 
@@ -471,11 +511,6 @@
         }
 
         // --- SUPORTE / CHAT ---
-        // Fallback polling (5s)
-        setInterval(() => {
-            checkNewMessagesBadge();
-        }, 5000);
-
         function checkNewMessagesBadge() {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const hasNew = tickets.some(t => t.status === 'Pendente');
