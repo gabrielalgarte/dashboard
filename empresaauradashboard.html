@@ -313,6 +313,28 @@
         let currentTicketId = null;
         let showingArchived = false;
 
+        // --- SISTEMA DE TEMPO REAL (EVENT LISTENER) ---
+        // Escuta mudanças no localStorage (vindas da aba do Cliente)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'auraTickets') {
+                console.log('Atualização remota no chat...');
+                
+                checkNewMessagesBadge();
+
+                if (document.getElementById('view-support').style.display === 'block') {
+                    renderTickets(showingArchived ? 'archived' : 'active');
+                }
+
+                if (document.getElementById('chat-modal').classList.contains('open') && currentTicketId) {
+                    const tickets = JSON.parse(e.newValue);
+                    const activeTicket = tickets.find(t => t.id === currentTicketId);
+                    if (activeTicket) {
+                        renderChatHistory(activeTicket);
+                    }
+                }
+            }
+        });
+
         // --- RELÓGIO ---
         function updateClock() {
             const now = new Date();
@@ -420,7 +442,7 @@
                 document.getElementById('pPrice').value = p.price;
                 document.getElementById('pQty').value = p.qty;
                 document.getElementById('pCat').value = p.category;
-                document.getElementById('pImg').value = p.img;
+                document.getElementById('Img').value = p.img;
                 document.getElementById('prod-modal-title').innerText = "Editar Produto";
             } else {
                 document.getElementById('pName').value = '';
@@ -439,7 +461,7 @@
                 price: document.getElementById('pPrice').value,
                 qty: document.getElementById('pQty').value,
                 category: document.getElementById('pCat').value,
-                img: document.getElementById('pImg').value
+                img: document.getElementById('Img').value
             };
             if(i === "") stock.push(newP); else stock[i] = newP;
             localStorage.setItem('auraStock', JSON.stringify(stock));
@@ -448,26 +470,24 @@
             renderStock();
         }
 
-        // --- SUPORTE / CHAT (ROBUSTO) ---
-        
+        // --- SUPORTE / CHAT ---
+        // Fallback polling (5s)
         setInterval(() => {
-            if(document.getElementById('view-support').style.display === 'block') {
-                renderTickets(showingArchived ? 'archived' : 'active');
-            }
             checkNewMessagesBadge();
-        }, 3000);
+        }, 5000);
 
         function checkNewMessagesBadge() {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const hasNew = tickets.some(t => t.status === 'Pendente');
-            document.getElementById('support-badge').style.display = hasNew ? 'inline-block' : 'none';
+            const badge = document.getElementById('support-badge');
+            if(badge) badge.style.display = hasNew ? 'inline-block' : 'none';
         }
 
         function renderTickets(filter) {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const container = document.getElementById('tickets-container');
             
-            if(!container) return; // Segurança
+            if(!container) return;
 
             container.innerHTML = '';
             showingArchived = (filter === 'archived');
@@ -483,10 +503,7 @@
             }
 
             filteredTickets.forEach(t => {
-                // BLINDAGEM: Se o ticket não tiver mensagens ou estiver bugado, ignora
-                if(!t.messages || !Array.isArray(t.messages) || t.messages.length === 0) {
-                    return; 
-                }
+                if(!t.messages || !Array.isArray(t.messages) || t.messages.length === 0) return;
 
                 const lastMsg = t.messages[t.messages.length - 1];
                 const date = new Date(lastMsg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -534,7 +551,6 @@
             });
         }
 
-        // --- AÇÕES DO CHAT ---
         function acceptTicket(id) {
             let tickets = JSON.parse(localStorage.getItem('auraTickets'));
             const idx = tickets.findIndex(x => x.id === id);
@@ -565,6 +581,8 @@
 
         function renderChatHistory(ticket) {
             const box = document.getElementById('admin-chat-history');
+            const isScrolledToBottom = box.scrollHeight - box.clientHeight <= box.scrollTop + 10;
+            
             box.innerHTML = '';
             if(!ticket.messages) return;
 
@@ -580,7 +598,10 @@
                         ${m.text}
                     </div>`;
             });
-            box.scrollTop = box.scrollHeight;
+
+            if(isScrolledToBottom || box.innerHTML.length < 500) {
+                box.scrollTop = box.scrollHeight;
+            }
         }
 
         function sendAdminReply() {
@@ -597,6 +618,7 @@
                     text: txt,
                     timestamp: Date.now()
                 });
+                
                 if(tickets[idx].status === 'Pendente') {
                     tickets[idx].status = 'Em Andamento';
                 } else {
@@ -604,6 +626,7 @@
                 }
                 
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
+                
                 input.value = '';
                 renderChatHistory(tickets[idx]);
                 renderTickets(showingArchived ? 'archived' : 'active');
