@@ -46,13 +46,13 @@
         .btn-admin { padding: 0.4rem 1.2rem; border: 1px solid var(--rose-primary); text-decoration: none; color: var(--rose-primary); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; border-radius: 20px; letter-spacing: 0.5px; display: none; }
         .btn-admin:hover { background: var(--rose-primary); color: white; }
 
-        /* --- HERO & CONTENT --- */
+        /* --- HERO --- */
         .hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #f5eae9 0%, #ffffff 100%); padding: 0 2rem; position: relative; }
         .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-dark); }
         .hero-content h1 span { font-style: italic; color: var(--rose-primary); }
         .btn-explore { background: var(--rose-primary); color: var(--text-light); padding: 1rem 3rem; text-decoration: none; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; transition: 0.4s; display: inline-block; border-radius: 4px; }
-        .btn-explore:hover { background: var(--rose-secondary); transform: translateY(-5px); }
 
+        /* --- CATEGORIES --- */
         .category-section { margin-bottom: 4rem; display: none; }
         .category-section.active { display: block; animation: fadeIn 0.8s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -66,59 +66,56 @@
         .product-img-wrapper { height: 350px; background-color: #fff; position: relative; overflow: hidden; margin-bottom: 1.2rem; border-radius: 4px; }
         .product-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
         .product-card:hover .product-img-wrapper img { transform: scale(1.1); opacity: 0.9; }
-        .add-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(50px); background: white; color: var(--text-dark); padding: 0.8rem 1.5rem; border: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.4s; opacity: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 80%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .add-cart-btn:hover { background: var(--rose-primary); color: white; }
+        .add-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(50px); background: white; color: var(--text-dark); padding: 0.8rem 1.5rem; border: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.4s; opacity: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 80%; text-align: center; }
         .product-card:hover .add-cart-btn { transform: translateX(-50%) translateY(0); opacity: 1; }
         .product-info { text-align: center; }
-        .product-name { font-size: 1rem; margin: 0.3rem 0; font-weight: 500; letter-spacing: 0.5px; }
-        .product-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text-dark); }
-
-        /* --- MODALS --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; backdrop-filter: blur(5px); justify-content: center; align-items: center; }
-        .modal-overlay.open { display: flex; animation: fadeModal 0.3s; }
-        .modal-box { background: #fff; padding: 2.5rem; width: 400px; max-width: 90%; border-radius: 8px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
-        .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.2rem; color: #aaa; }
-        .form-group { margin-bottom: 1rem; text-align: left; }
-        .form-group label { font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 5px; }
-        .form-group input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; outline: none; transition: 0.3s; }
-        .btn-primary { background: var(--rose-primary); color: white; border: none; padding: 0.8rem 2rem; width: 100%; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: 0.3s; margin-top: 1rem; }
-        .btn-primary:hover { background: var(--rose-secondary); }
-        .toggle-link { font-size: 0.8rem; color: #777; margin-top: 1rem; cursor: pointer; text-decoration: underline; }
 
         /* --- CHAT SYSTEM --- */
-        .chat-float-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--rose-primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5); transition: 0.3s; animation: pulse 2s infinite; }
-        .chat-float-btn:hover { transform: scale(1.1); background: var(--rose-secondary); }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(216, 169, 166, 0); } 100% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0); } }
-
-        .chat-window { position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px; background: #f0f2f5; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 3000; overflow: hidden; display: none; flex-direction: column; border: 1px solid var(--rose-border); }
-        .chat-window.open { display: flex; animation: slideUp 0.3s; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
+        .chat-float-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--rose-primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5); }
+        .chat-window { position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px; background: #f0f2f5; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 3000; display: none; flex-direction: column; border: 1px solid var(--rose-border); overflow: hidden; }
+        .chat-window.open { display: flex; }
         .chat-header { background: var(--rose-primary); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
         .chat-body { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .chat-footer { padding: 10px; background: white; border-top: 1px solid #ddd; display: flex; gap: 8px; }
-        .chat-footer input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+        
+        .chat-footer-wrapper { background: white; border-top: 1px solid #eee; padding: 10px; }
+        .chat-footer { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .chat-footer input { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
         .chat-footer button { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--rose-primary); color: white; cursor: pointer; }
-
-        .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; word-wrap: break-word; }
-        .bubble-me { align-self: flex-end; background: #e7ffdb; color: #111; border-top-right-radius: 0; }
-        .bubble-admin { align-self: flex-start; background: white; color: #333; border-top-left-radius: 0; }
         
-        .chat-end-btn { font-size: 0.7rem; background: transparent; border: 1px solid white; color: white; padding: 2px 8px; border-radius: 10px; cursor: pointer; }
-        .chat-end-btn:hover { background: rgba(255,255,255,0.2); }
-
-        /* --- CART SIDEBAR --- */
-        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
-        .cart-sidebar.open { right: 0; }
-        .cart-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .cart-body { flex: 1; padding: 1.5rem; overflow-y: auto; }
-        .cart-footer { padding: 1.5rem; border-top: 1px solid #eee; background: #fafafa; }
-        
-        @media (max-width: 900px) {
-            .navbar { flex-direction: column; gap: 1rem; }
-            .nav-links { display: none; }
-            .cart-sidebar { width: 100%; right: -100%; }
+        /* BOTÃO ENCERRAR CLIENTE */
+        .btn-close-chat-user { 
+            width: 100%; 
+            background: #ff4757; 
+            color: white; 
+            border: none; 
+            padding: 8px; 
+            border-radius: 6px; 
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-transform: uppercase;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
+        .btn-close-chat-user:hover { background: #ff6b81; }
+
+        .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; }
+        .bubble-me { align-self: flex-end; background: #e7ffdb; }
+        .bubble-admin { align-self: flex-start; background: white; }
+
+        /* --- MODALS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: #fff; padding: 2.5rem; width: 400px; border-radius: 8px; position: relative; }
+
+        /* --- CART --- */
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; transition: 0.4s; display: flex; flex-direction: column; }
+        .cart-sidebar.open { right: 0; }
+        .cart-item { display: flex; gap: 10px; padding: 10px; border-bottom: 1px solid #eee; align-items: center; }
+        .cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -130,7 +127,7 @@
             <a href="#" class="logo">Aura<span>.</span></a>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Buscar..." onkeyup="filterProducts()">
-                <i class="fas fa-search" onclick="filterProducts()"></i>
+                <i class="fas fa-search"></i>
             </div>
             <ul class="nav-links">
                 <li><a href="#" class="nav-link">Home</a></li>
@@ -154,94 +151,68 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Sua Beleza,<br>Sua <span>Essência</span></h1>
-            <p style="color: #777; margin-bottom: 2rem; max-width: 600px; margin-inline: auto;">Curadoria exclusiva para quem valoriza o minimalismo.</p>
+            <p style="color: #777; margin-bottom: 2rem;">Curadoria exclusiva para quem valoriza o minimalismo.</p>
             <a href="#loja-inicio" class="btn-explore">Explorar Coleção</a>
         </div>
     </section>
 
     <div id="loja-inicio"></div>
-
     <div id="section-fragrancias" class="category-section"><div class="section-header" id="fragrancias-area"><h2 class="section-title">Fragrâncias</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-fragrancias"></div></div>
     <div id="section-skin" class="category-section"><div class="section-header" id="skincare-area"><h2 class="section-title">Skin Care</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-skin"></div></div>
     <div id="section-roupas" class="category-section"><div class="section-header" id="roupas-area"><h2 class="section-title">Roupas</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-roupas"></div></div>
     <div id="section-make" class="category-section"><div class="section-header" id="make-area"><h2 class="section-title">Maquiagem</h2><div class="section-separator"></div></div><div class="products-grid" id="grid-make"></div></div>
 
-    <footer><p>&copy; 2025 Aura Skins. Todos os direitos reservados.</p></footer>
-
     <div class="chat-float-btn" onclick="toggleChat()"><i class="fas fa-comment-dots"></i></div>
     <div class="chat-window" id="chat-window">
         <div class="chat-header">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fas fa-headset"></i> <span>Suporte Aura</span>
-            </div>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <button class="chat-end-btn" onclick="endChat()" title="Já retirou suas dúvidas? Encerre o chat">Encerrar</button>
-                <i class="fas fa-times" onclick="toggleChat()" style="cursor: pointer;"></i>
-            </div>
+            <span><i class="fas fa-headset"></i> Suporte Aura</span>
+            <i class="fas fa-times" onclick="toggleChat()" style="cursor: pointer;"></i>
         </div>
         <div class="chat-body" id="chat-body-content"></div>
-        <div class="chat-footer" id="chat-footer-content">
-            <input type="text" id="chatMsg" placeholder="Digite sua mensagem...">
-            <button onclick="sendSupportMessage()"><i class="fas fa-paper-plane"></i></button>
+        <div class="chat-footer-wrapper" id="chat-footer-content">
+            <div class="chat-footer">
+                <input type="text" id="chatMsg" placeholder="Como podemos ajudar?">
+                <button onclick="sendSupportMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <button class="btn-close-chat-user" onclick="endChat()">
+                <i class="fas fa-power-off"></i> ENCERRAR ATENDIMENTO
+            </button>
         </div>
     </div>
 
     <div class="modal-overlay" id="login-modal">
         <div class="modal-box">
-            <span class="close-modal" onclick="closeModals()">&times;</span>
+            <span onclick="closeModals()" style="position:absolute;top:10px;right:15px;cursor:pointer">&times;</span>
             <div id="login-section">
-                <h3 class="modal-title">Bem-vindo(a)</h3>
+                <h3>Login</h3>
                 <form id="userLoginForm">
-                    <div class="form-group"><label>Email ou Nome</label><input type="text" id="uName" required></div>
-                    <div class="form-group"><label>Senha</label><input type="password" id="uPass" required></div>
-                    <button type="submit" class="btn-primary">Entrar</button>
-                    <div class="toggle-link" onclick="toggleAuthMode()">Criar Conta</div>
-                </form>
-            </div>
-            <div id="register-section" style="display: none;">
-                <h3 class="modal-title">Criar Conta</h3>
-                <form id="userRegisterForm">
-                    <div class="form-group"><label>Nome</label><input type="text" id="regName" required></div>
-                    <div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div>
-                    <div class="form-group"><label>Senha</label><input type="password" id="regPass" required></div>
-                    <button type="submit" class="btn-primary">Cadastrar</button>
-                    <div class="toggle-link" onclick="toggleAuthMode()">Fazer Login</div>
+                    <input type="text" id="uName" placeholder="Email" style="width:100%;margin:10px 0;padding:8px">
+                    <input type="password" id="uPass" placeholder="Senha" style="width:100%;margin:10px 0;padding:8px">
+                    <button type="submit" style="width:100%;background:var(--rose-primary);color:white;border:none;padding:10px;cursor:pointer">ENTRAR</button>
                 </form>
             </div>
         </div>
     </div>
 
     <div class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header"><h3>Sua Sacola</h3><span class="close-modal" onclick="closeCart()" style="position: static;">&times;</span></div>
-        <div class="cart-body" id="cart-items-container"></div>
-        <div class="cart-footer">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold;"><span>Total</span><span id="cart-total">R$ 0,00</span></div>
-            <button class="btn-primary" onclick="alert('Checkout em desenvolvimento!')">Finalizar</button>
+        <div style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between">
+            <h3>Sacola</h3>
+            <span onclick="closeCart()" style="cursor:pointer">&times;</span>
+        </div>
+        <div id="cart-items-container" style="flex:1; overflow-y:auto"></div>
+        <div style="padding:20px; border-top:1px solid #eee">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px">
+                <b>Total:</b> <span id="cart-total">R$ 0,00</span>
+            </div>
+            <button style="width:100%; background:var(--rose-primary); color:white; border:none; padding:12px; cursor:pointer">FINALIZAR</button>
         </div>
     </div>
-    <div class="modal-overlay" id="cart-overlay" onclick="closeCart()" style="z-index: 2000;"></div>
 
     <script>
-        // --- 1. PRODUTOS ---
-        const initialProducts = [
-            { name: "Body Splash Irresistible", category: "Fragrâncias & Body", price: "79.90", img: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=400" },
-            { name: "Sérum Iluminador", category: "Skin Care", price: "129.90", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400" },
-            { name: "Vestido Linen Breeze", category: "Roupas", price: "289.00", img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400" },
-            { name: "Batom Matte Velvet", category: "Maquiagem", price: "59.90", img: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400" }
-        ];
-
-        function checkAndInitProducts() {
-            let stock = JSON.parse(localStorage.getItem('auraStock'));
-            if (!stock || stock.length === 0) {
-                localStorage.setItem('auraStock', JSON.stringify(initialProducts));
-            }
-        }
-        checkAndInitProducts();
-
         let currentUser = null; 
         let cart = [];
 
-        function renderProducts(filterText = "") {
+        function renderProducts() {
             const products = JSON.parse(localStorage.getItem('auraStock')) || [];
             const grids = {
                 'Fragrâncias & Body': document.getElementById('grid-fragrancias'),
@@ -249,84 +220,53 @@
                 'Roupas': document.getElementById('grid-roupas'),
                 'Maquiagem': document.getElementById('grid-make')
             };
+            Object.values(grids).forEach(g => g.innerHTML = '');
+            let catsActive = {};
 
-            Object.values(grids).forEach(el => el.innerHTML = '');
-            let hasCat = { 'Fragrâncias & Body': false, 'Skin Care': false, 'Roupas': false, 'Maquiagem': false };
-
-            products.forEach((product, index) => {
-                const matchSearch = product.name.toLowerCase().includes(filterText.toLowerCase());
-                if (!matchSearch || !grids[product.category]) return;
-                hasCat[product.category] = true;
-                const card = `
+            products.forEach((p, i) => {
+                if(!grids[p.category]) return;
+                catsActive[p.category] = true;
+                grids[p.category].innerHTML += `
                     <div class="product-card">
                         <div class="product-img-wrapper">
-                            <img src="${product.img}" onerror="this.src='https://via.placeholder.com/400'">
-                            <button class="add-cart-btn" onclick="addToCart(${index})"><i class="fas fa-shopping-bag"></i> Adicionar</button>
+                            <img src="${p.img || 'https://via.placeholder.com/400'}">
+                            <button class="add-cart-btn" onclick="addToCart(${i})">Adicionar</button>
                         </div>
                         <div class="product-info">
-                            <h3 class="product-name">${product.name}</h3>
-                            <div class="product-price">R$ ${parseFloat(product.price).toFixed(2)}</div>
+                            <h4>${p.name}</h4>
+                            <p>R$ ${parseFloat(p.price).toFixed(2)}</p>
                         </div>
                     </div>`;
-                grids[product.category].innerHTML += card;
             });
 
-            // Ativar seções
-            Object.keys(hasCat).forEach(cat => {
-                const elId = 'section-' + (cat === 'Fragrâncias & Body' ? 'fragrancias' : cat === 'Skin Care' ? 'skin' : cat === 'Roupas' ? 'roupas' : 'make');
-                const el = document.getElementById(elId);
-                if(el) hasCat[cat] ? el.classList.add('active') : el.classList.remove('active');
-            });
+            // Ativa seções
+            if(document.getElementById('section-fragrancias')) catsActive['Fragrâncias & Body'] ? document.getElementById('section-fragrancias').classList.add('active') : null;
+            if(document.getElementById('section-skin')) catsActive['Skin Care'] ? document.getElementById('section-skin').classList.add('active') : null;
+            if(document.getElementById('section-roupas')) catsActive['Roupas'] ? document.getElementById('section-roupas').classList.add('active') : null;
+            if(document.getElementById('section-make')) catsActive['Maquiagem'] ? document.getElementById('section-make').classList.add('active') : null;
         }
-        function filterProducts() { renderProducts(document.getElementById('searchInput').value); }
 
         // --- AUTH ---
-        function openLoginModal() {
-            if(currentUser) {
-                if(confirm("Sair da conta?")) {
-                    currentUser = null; updateUserUI();
-                    document.getElementById('chat-body-content').innerHTML = '';
-                }
-            } else {
-                document.getElementById('login-modal').classList.add('open');
-            }
+        function openLoginModal() { 
+            if(currentUser) { if(confirm("Sair?")) { currentUser=null; updateUserUI(); } }
+            else document.getElementById('login-modal').classList.add('open'); 
         }
-        function closeModals() { document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('open')); }
-        function toggleAuthMode() {
-            const l = document.getElementById('login-section'), r = document.getElementById('register-section');
-            if(l.style.display === 'none') { l.style.display='block'; r.style.display='none'; } else { l.style.display='none'; r.style.display='block'; }
-        }
-
+        function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
+        
         document.getElementById('userLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const uName = document.getElementById('uName').value;
-            const uPass = document.getElementById('uPass').value;
             const users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-            const user = users.find(u => (u.email === uName || u.name === uName) && u.password === uPass);
+            const user = users.find(u => u.email === document.getElementById('uName').value && u.password === document.getElementById('uPass').value);
             if(user) {
                 if(user.status === 'blocked') return alert("Conta bloqueada.");
                 currentUser = user; updateUserUI(); closeModals();
-            } else alert("Dados incorretos.");
-        });
-
-        document.getElementById('userRegisterForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('regName').value, email = document.getElementById('regEmail').value, pass = document.getElementById('regPass').value;
-            let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
-            if(users.find(u => u.email === email)) return alert("Email já existe.");
-            
-            // Cadastro sempre começa como 'customer'
-            const newUser = { id: Date.now(), name, email, password: pass, role: 'customer', status: 'active', spent: 0, date: new Date().toLocaleDateString() };
-            users.push(newUser);
-            localStorage.setItem('auraUsers', JSON.stringify(users));
-            currentUser = newUser; updateUserUI(); closeModals();
+            } else alert("Erro!");
         });
 
         function updateUserUI() {
             const display = document.getElementById('user-display'), adminBtn = document.getElementById('adminBtn');
             if(currentUser) {
-                display.innerHTML = `<i class="fas fa-check"></i> ${currentUser.name}`;
-                // LÓGICA DE CARGOS: Se NÃO for 'customer' (ou seja, vendedor, gerente, dona), mostra Admin
+                display.innerHTML = `<i class="fas fa-user-check"></i> ${currentUser.name}`;
                 adminBtn.style.display = (currentUser.role !== 'customer') ? 'inline-block' : 'none';
             } else {
                 display.innerHTML = `<i class="far fa-user"></i> Login`;
@@ -334,120 +274,74 @@
             }
         }
 
-        // --- CARRINHO ---
-        function addToCart(index) {
-            if(!currentUser) return alert("Faça login para comprar.");
-            const products = JSON.parse(localStorage.getItem('auraStock'));
-            cart.push(products[index]);
-            updateCartUI();
-            alert("Produto adicionado!");
-        }
-        function updateCartUI() {
-            document.getElementById('cart-count').innerText = cart.length;
-            document.getElementById('cart-count').classList.add('show');
-            const container = document.getElementById('cart-items-container');
-            container.innerHTML = '';
-            let total = 0;
-            cart.forEach((item, i) => {
-                total += parseFloat(item.price);
-                container.innerHTML += `<div class="cart-item"><img src="${item.img}"><div><h4>${item.name}</h4><p>R$ ${item.price}</p><small onclick="cart.splice(${i},1);updateCartUI()" style="color:red;cursor:pointer">Remover</small></div></div>`;
-            });
-            document.getElementById('cart-total').innerText = "R$ " + total.toFixed(2);
-        }
-        function openCart() { document.getElementById('cart-sidebar').classList.add('open'); document.getElementById('cart-overlay').classList.add('open'); }
-        function closeCart() { document.getElementById('cart-sidebar').classList.remove('open'); document.getElementById('cart-overlay').classList.remove('open'); }
-
-        // --- CHAT SYSTEM REAL ---
-        function toggleChat() {
-            const chat = document.getElementById('chat-window');
-            if(chat.classList.contains('open')) chat.classList.remove('open');
-            else { chat.classList.add('open'); renderChat(); }
+        // --- CHAT ---
+        function toggleChat() { 
+            const win = document.getElementById('chat-window');
+            win.classList.toggle('open');
+            if(win.classList.contains('open')) renderChat();
         }
 
         function renderChat() {
-            const body = document.getElementById('chat-body-content');
-            const footer = document.getElementById('chat-footer-content');
-            
+            const body = document.getElementById('chat-body-content'), footer = document.getElementById('chat-footer-content');
             if(!currentUser) {
-                body.innerHTML = '<div style="text-align:center; padding:2rem; color:#999;"><i class="fas fa-lock" style="font-size:2rem;"></i><br>Faça login para falar conosco.</div>';
-                footer.style.display = 'none';
-                return;
+                body.innerHTML = '<p style="text-align:center;padding:20px;color:#999">Faça login para suporte.</p>';
+                footer.style.display = 'none'; return;
             }
-            footer.style.display = 'flex';
-
-            // Buscar ticket do usuário
-            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido' && t.status !== 'Encerrado por Inatividade');
-            
+            footer.style.display = 'block';
+            const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            const myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
             body.innerHTML = '';
-            if(myTicket && myTicket.messages) {
-                myTicket.messages.forEach(msg => {
-                    const isMe = msg.sender === currentUser.name;
-                    body.innerHTML += `
-                        <div class="bubble ${isMe ? 'bubble-me' : 'bubble-admin'}">
-                            <strong>${msg.sender}</strong><br>${msg.text}
-                        </div>
-                    `;
+            if(myTicket) {
+                myTicket.messages.forEach(m => {
+                    const isMe = m.sender === currentUser.name;
+                    body.innerHTML += `<div class="bubble ${isMe ? 'bubble-me' : 'bubble-admin'}"><b>${m.sender}:</b><br>${m.text}</div>`;
                 });
-                body.scrollTop = body.scrollHeight; 
-            } else {
-                body.innerHTML = '<p style="text-align:center; color:#ccc; margin-top:50px;">Inicie uma conversa...</p>';
             }
         }
 
         function sendSupportMessage() {
-            const txt = document.getElementById('chatMsg').value;
-            if(!txt) return;
-
+            const msg = document.getElementById('chatMsg').value; if(!msg) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido' && t.status !== 'Encerrado por Inatividade');
-
-            // Importante: Salvamos o timestamp para o robô verificar no admin
-            const msgObj = { sender: currentUser.name, text: txt, timestamp: Date.now() };
-
-            if(myTicket) {
-                myTicket.messages.push(msgObj);
-                myTicket.status = 'Pendente';
-            } else {
-                tickets.push({
-                    id: Date.now(),
-                    user: currentUser.name,
-                    status: 'Pendente',
-                    date: new Date().toLocaleDateString(),
-                    messages: [msgObj]
-                });
-            }
-
+            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            const msgObj = { sender: currentUser.name, text: msg, timestamp: Date.now() };
+            if(myTicket) { myTicket.messages.push(msgObj); myTicket.status = 'Pendente'; }
+            else { tickets.push({ id: Date.now(), user: currentUser.name, status: 'Pendente', messages: [msgObj] }); }
             localStorage.setItem('auraTickets', JSON.stringify(tickets));
-            document.getElementById('chatMsg').value = '';
-            renderChat();
+            document.getElementById('chatMsg').value = ''; renderChat();
         }
 
         function endChat() {
-            if(!confirm("Deseja encerrar o atendimento?")) return;
-            
+            if(!confirm("Deseja encerrar este atendimento agora?")) return;
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
-            
             if(myTicket) {
                 myTicket.status = 'Resolvido';
                 myTicket.messages.push({ sender: 'Sistema', text: 'Atendimento encerrado pelo cliente.', timestamp: Date.now() });
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
-                renderChat();
-                alert("Chat encerrado com sucesso.");
-                toggleChat();
+                alert("Chat encerrado."); toggleChat();
             }
         }
 
-        // Auto-refresh chat a cada 3s
-        setInterval(() => {
-            if(document.getElementById('chat-window').classList.contains('open') && currentUser) {
-                renderChat();
-            }
-        }, 3000);
+        // --- CART ---
+        function openCart() { document.getElementById('cart-sidebar').classList.add('open'); }
+        function closeCart() { document.getElementById('cart-sidebar').classList.remove('open'); }
+        function addToCart(i) {
+            const p = JSON.parse(localStorage.getItem('auraStock'))[i];
+            cart.push(p); updateCartUI(); openCart();
+        }
+        function updateCartUI() {
+            const cont = document.getElementById('cart-items-container');
+            cont.innerHTML = ''; let total = 0;
+            cart.forEach((item, i) => {
+                total += parseFloat(item.price);
+                cont.innerHTML += `<div class="cart-item"><img src="${item.img}"><div><p>${item.name}</p><b>R$ ${item.price}</b></div></div>`;
+            });
+            document.getElementById('cart-total').innerText = "R$ " + total.toFixed(2);
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-count').classList.add('show');
+        }
 
         renderProducts();
-        updateUserUI();
     </script>
 </body>
 </html>
