@@ -21,7 +21,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* FIXAÇÃO DA TELA SEM SCROLL NO BODY */
         body { 
             font-family: 'Montserrat', sans-serif; 
             background: var(--bg-body); 
@@ -38,24 +37,21 @@
         .brand { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 3rem; text-align: center; }
         .menu a { 
             display: flex; align-items: center; gap: 12px; padding: 12px; 
-            color: #666; text-decoration: none; border-radius: 10px; margin-bottom: 5px; cursor: pointer;
+            color: #666; text-decoration: none; border-radius: 10px; margin-bottom: 5px; cursor: pointer; transition: 0.3s;
         }
+        .menu a:hover { background: #fafafa; }
         .menu a.active { background: var(--rose-light); color: var(--rose-dark); font-weight: 600; }
 
-        /* ÁREA PRINCIPAL */
+        /* MAIN CONTENT */
         .main-content { flex: 1; padding: 2rem; overflow-y: auto; background: #f8fafb; }
         
-        /* CARDS */
+        /* CARDS & TABLES */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .card-stat { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; }
-        
-        /* ESTILO VIP ESPECIAL */
         .card-vip { background: var(--vip-gold) !important; color: #5c4b00; border: 1px solid #c5a028; }
-        .card-vip i { color: #5c4b00; }
-
-        /* TABELAS */
+        
         .panel { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .table-responsive { width: 100%; overflow-x: auto; } /* Scroll apenas se necessário em mobile */
+        .table-responsive { width: 100%; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
         th { text-align: left; padding: 12px; color: #999; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid #eee; }
         td { padding: 12px; font-size: 0.85rem; border-bottom: 1px solid #f9f9f9; color: #444; }
@@ -65,34 +61,56 @@
         .status-active { background: #eafbf0; color: var(--success); }
         .status-blocked { background: #fdeaea; color: var(--danger); }
 
-        /* ESTOQUE - FOTOS PEQUENAS */
         .product-thumb { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
-        .desc-cell { max-width: 200px; color: #888; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* MODAIS */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
         .modal-overlay.open { display: flex; }
-        .modal-box { background: white; padding: 2rem; border-radius: 15px; width: 500px; max-width: 90%; }
+        .modal-box { background: white; padding: 2rem; border-radius: 15px; width: 500px; max-width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
         
-        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; }
-        .btn-primary { background: var(--rose-dark); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat', sans-serif; }
+        .btn-primary { background: var(--rose-dark); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .btn-primary:hover { opacity: 0.9; }
         .btn-danger { background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
 
-        @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid #eee; }
+        /* --- TOAST NOTIFICATIONS (NOVO) --- */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { 
+            background: white; min-width: 300px; padding: 15px 20px; border-radius: 8px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px;
+            animation: slideInLeft 0.5s ease forwards; border-left: 5px solid #ccc;
         }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.info { border-left-color: var(--rose-dark); }
+        .toast-content h4 { font-size: 0.9rem; margin-bottom: 2px; }
+        .toast-content p { font-size: 0.8rem; color: #666; }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateX(50px); } }
+
+        /* --- CHAT NO ADMIN --- */
+        .ticket-item { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid transparent; transition: 0.2s; }
+        .ticket-item:hover { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .ticket-item.new-msg { border-left-color: var(--rose-dark); background: #fff5f5; }
+        
+        .chat-history { height: 300px; overflow-y: auto; background: #f4f7f6; border-radius: 8px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; border: 1px solid #eee; }
+        .admin-msg { align-self: flex-end; background: var(--rose-dark); color: white; padding: 8px 12px; border-radius: 12px 12px 0 12px; max-width: 80%; font-size: 0.9rem; }
+        .client-msg { align-self: flex-start; background: white; border: 1px solid #ddd; padding: 8px 12px; border-radius: 12px 12px 12px 0; max-width: 80%; font-size: 0.9rem; }
+        .sys-msg { align-self: center; font-size: 0.75rem; color: #999; margin: 5px 0; font-style: italic; }
+
     </style>
 </head>
 <body>
+
+    <div class="toast-container" id="toast-container"></div>
 
     <div class="sidebar">
         <div class="brand">Aura<span>.</span></div>
         <nav class="menu">
             <a onclick="switchTab('clients')" id="menu-clients" class="active"><i class="fas fa-users"></i> Clientes</a>
             <a onclick="switchTab('products')" id="menu-products"><i class="fas fa-boxes"></i> Estoque</a>
-            <a onclick="switchTab('support')" id="menu-support"><i class="fas fa-comments"></i> Suporte</a>
-            <a href="empresaaura.html" target="_blank"><i class="fas fa-external-link-alt"></i> Ver Site</a>
+            <a onclick="switchTab('support')" id="menu-support"><i class="fas fa-comments"></i> Suporte <span id="support-badge" style="background:var(--danger); color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:auto; display:none">!</span></a>
+            <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Ver Loja</a>
         </nav>
     </div>
 
@@ -120,7 +138,6 @@
                             <tr>
                                 <th>Nome</th>
                                 <th>Email</th>
-                                <th>Compras</th>
                                 <th>Total Gasto</th>
                                 <th>Status</th>
                                 <th style="text-align:right">Ações</th>
@@ -143,8 +160,7 @@
                         <thead>
                             <tr>
                                 <th>Foto</th>
-                                <th>Produto / SKU</th>
-                                <th>Descrição</th>
+                                <th>Produto</th>
                                 <th>Categoria</th>
                                 <th>Preço</th>
                                 <th>Qtd</th>
@@ -159,8 +175,11 @@
 
         <div id="view-support" class="view-section" style="display:none">
             <div class="panel">
-                <h2>Chamados em Aberto</h2>
-                <div id="tickets-list" style="margin-top:1rem"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+                    <h2>Chamados em Aberto</h2>
+                    <button class="btn-primary" onclick="renderTickets()" style="font-size:0.8rem"><i class="fas fa-sync"></i> Atualizar</button>
+                </div>
+                <div id="tickets-list"></div>
             </div>
         </div>
     </div>
@@ -171,12 +190,10 @@
             <input type="hidden" id="editIndex">
             <label>Nome</label><input type="text" id="editName">
             <label>Email</label><input type="email" id="editEmail">
-            <label>Cargo no Sistema</label>
+            <label>Cargo</label>
             <select id="editRole">
                 <option value="customer">Cliente</option>
-                <option value="vendedor">Vendedor(a)</option>
-                <option value="gerente">Gerente</option>
-                <option value="dona">Dona</option>
+                <option value="admin">Administrador</option>
             </select>
             <label>Status</label>
             <select id="editStatus">
@@ -206,25 +223,36 @@
             </select>
             <label>URL Imagem</label><input type="text" id="pImg">
             <div style="display:flex; gap:10px; justify-content:flex-end">
-                <button class="btn-primary" onclick="saveProduct()">Salvar Produto</button>
-                <button onclick="document.getElementById('product-modal').classList.remove('open')">Voltar</button>
+                <button class="btn-primary" onclick="saveProduct()">Salvar</button>
+                <button onclick="document.getElementById('product-modal').classList.remove('open')">Cancelar</button>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="close-chat-modal">
-        <div class="modal-box">
-            <h3>Encerrar Atendimento</h3>
-            <p>Por qual motivo deseja encerrar este chat?</p>
-            <select id="closeReason">
-                <option value="Solucionado">Problema Solucionado</option>
-                <option value="Sem Resposta">Cliente não respondeu (Inatividade)</option>
-                <option value="Transferido">Transferido para outro setor</option>
-                <option value="Outros">Outros</option>
-            </select>
-            <div style="display:flex; gap:10px; justify-content:flex-end">
-                <button class="btn-danger" onclick="confirmEndChat()">Encerrar Agora</button>
-                <button onclick="document.getElementById('close-chat-modal').classList.remove('open')">Cancelar</button>
+    <div class="modal-overlay" id="chat-modal">
+        <div class="modal-box" style="width:600px">
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px">
+                <h3>Atendimento: <span id="chat-client-name"></span></h3>
+                <span onclick="document.getElementById('chat-modal').classList.remove('open')" style="cursor:pointer">&times;</span>
+            </div>
+            
+            <div class="chat-history" id="admin-chat-history"></div>
+            
+            <div style="display:flex; gap:10px; margin-bottom:15px">
+                <input type="text" id="adminReplyInput" placeholder="Digite sua resposta..." style="margin:0">
+                <button class="btn-primary" onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+
+            <div style="border-top:1px solid #eee; padding-top:15px">
+                <label style="font-size:0.8rem; font-weight:bold; color:#666">Encerrar Chat</label>
+                <div style="display:flex; gap:10px">
+                    <select id="closeReason" style="margin:0">
+                        <option value="Solucionado">Problema Solucionado</option>
+                        <option value="Inatividade">Cliente não respondeu</option>
+                        <option value="Transferido">Transferido</option>
+                    </select>
+                    <button class="btn-danger" onclick="confirmEndChat()">Encerrar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -232,6 +260,34 @@
     <script>
         let currentTicketId = null;
 
+        // --- SISTEMA DE TOAST (NOTIFICAÇÕES) ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+
+            toast.innerHTML = `
+                <i class="fas fa-${icon}" style="font-size:1.5rem; color:inherit"></i>
+                <div class="toast-content">
+                    <h4>${type === 'success' ? 'Sucesso' : type === 'error' ? 'Erro' : 'Aviso'}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+
+            // Remove após 3 segundos
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // --- NAVEGAÇÃO ---
         function switchTab(tab) {
             document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
@@ -255,16 +311,12 @@
                 const isVip = u.spent > 500;
                 if(isVip) vips++;
                 
-                // Tradução do Status
-                const statusPT = u.status === 'active' ? 'ATIVO' : 'BLOQUEADO';
-
                 tbody.innerHTML += `
                     <tr>
                         <td><b>${u.name}</b></td>
                         <td>${u.email}</td>
-                        <td>${u.history ? u.history.length : 0} itens</td>
                         <td style="color:var(--success)"><b>R$ ${parseFloat(u.spent || 0).toFixed(2)}</b></td>
-                        <td><span class="status-badge ${u.status === 'active' ? 'status-active' : 'status-blocked'}">${statusPT}</span></td>
+                        <td><span class="status-badge ${u.status === 'active' ? 'status-active' : 'status-blocked'}">${u.status}</span></td>
                         <td style="text-align:right">
                             <button class="btn-primary" style="padding:5px 10px" onclick="openClientEdit(${i})"><i class="fas fa-edit"></i></button>
                         </td>
@@ -279,7 +331,7 @@
             document.getElementById('editIndex').value = i;
             document.getElementById('editName').value = u.name;
             document.getElementById('editEmail').value = u.email;
-            document.getElementById('editRole').value = u.role;
+            document.getElementById('editRole').value = u.role || 'customer';
             document.getElementById('editStatus').value = u.status;
             document.getElementById('client-modal').classList.add('open');
         }
@@ -293,6 +345,7 @@
             users[i].status = document.getElementById('editStatus').value;
             localStorage.setItem('auraUsers', JSON.stringify(users));
             document.getElementById('client-modal').classList.remove('open');
+            showToast('Cliente atualizado com sucesso!', 'success');
             renderClients();
         }
 
@@ -304,12 +357,11 @@
             stock.forEach((p, i) => {
                 tbody.innerHTML += `
                     <tr>
-                        <td><img src="${p.img}" class="product-thumb" onerror="this.src='https://via.placeholder.com/50'"></td>
-                        <td><b>${p.name}</b><br><small style="color:#999">SKU: ${p.sku || 'N/A'}</small></td>
-                        <td class="desc-cell">${p.description || 'Sem descrição...'}</td>
+                        <td><img src="${p.img}" class="product-thumb"></td>
+                        <td><b>${p.name}</b></td>
                         <td>${p.category}</td>
                         <td>R$ ${p.price}</td>
-                        <td><b style="color:${p.qty < 5 ? 'red' : 'inherit'}">${p.qty} un.</b></td>
+                        <td><b style="color:${p.qty < 5 ? 'red' : 'inherit'}">${p.qty}</b></td>
                         <td style="text-align:right">
                             <button class="btn-primary" style="padding:5px 10px" onclick="openProductModal(${i})"><i class="fas fa-pen"></i></button>
                         </td>
@@ -329,7 +381,7 @@
                 document.getElementById('pImg').value = p.img;
                 document.getElementById('prod-modal-title').innerText = "Editar Produto";
             } else {
-                document.getElementById('prodForm')?.reset();
+                document.getElementById('pName').value = '';
                 document.getElementById('prodIndex').value = "";
                 document.getElementById('prod-modal-title').innerText = "Novo Produto";
             }
@@ -350,46 +402,128 @@
             if(i === "") stock.push(newP); else stock[i] = newP;
             localStorage.setItem('auraStock', JSON.stringify(stock));
             document.getElementById('product-modal').classList.remove('open');
+            showToast('Produto salvo no estoque!', 'success');
             renderStock();
         }
 
-        // --- SUPORTE ---
+        // --- SUPORTE (MODIFICADO) ---
+        
+        // Função que roda a cada 3 segundos para buscar novas mensagens
+        setInterval(() => {
+            // Só atualiza se a aba de suporte estiver aberta ou para notificar badge
+            checkNewMessages();
+            if(document.getElementById('view-support').style.display === 'block') {
+                renderTickets();
+            }
+        }, 3000);
+
+        function checkNewMessages() {
+            const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            const active = tickets.some(t => t.status === 'Pendente');
+            document.getElementById('support-badge').style.display = active ? 'inline-block' : 'none';
+        }
+
         function renderTickets() {
             const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const list = document.getElementById('tickets-list');
             list.innerHTML = '';
-            tickets.filter(t => t.status !== 'Resolvido').forEach(t => {
+            
+            const activeTickets = tickets.filter(t => t.status !== 'Resolvido');
+            
+            if(activeTickets.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px">Nenhum chamado pendente.</p>';
+                return;
+            }
+
+            activeTickets.forEach(t => {
+                const lastMsg = t.messages[t.messages.length-1];
                 list.innerHTML += `
-                    <div style="background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center">
+                    <div class="ticket-item ${t.status === 'Pendente' ? 'new-msg' : ''}">
                         <div>
-                            <b>${t.user}</b> - <small>${t.status}</small>
-                            <p style="font-size:0.8rem; color:#666">${t.messages[t.messages.length-1].text}</p>
+                            <div style="display:flex; align-items:center; gap:10px">
+                                <b>${t.user}</b> 
+                                <span class="status-badge ${t.status === 'Pendente' ? 'status-blocked' : 'status-active'}">${t.status}</span>
+                            </div>
+                            <p style="font-size:0.8rem; color:#666; margin-top:5px; max-width:500px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
+                                <i class="fas fa-reply" style="transform:rotate(180deg)"></i> ${lastMsg.text}
+                            </p>
                         </div>
-                        <button class="btn-danger" onclick="openEndChatModal('${t.id}')">Encerrar</button>
+                        <button class="btn-primary" onclick="openChatModal(${t.id})">Atender</button>
                     </div>`;
             });
         }
 
-        function openEndChatModal(id) {
+        function openChatModal(id) {
             currentTicketId = id;
-            document.getElementById('close-chat-modal').classList.add('open');
+            const tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            const t = tickets.find(x => x.id === id);
+            
+            document.getElementById('chat-client-name').innerText = t.user;
+            renderChatHistory(t);
+            document.getElementById('chat-modal').classList.add('open');
+        }
+
+        function renderChatHistory(ticket) {
+            const historyDiv = document.getElementById('admin-chat-history');
+            historyDiv.innerHTML = '';
+            ticket.messages.forEach(m => {
+                let cssClass = 'client-msg';
+                if(m.sender === 'Admin' || m.sender === 'Sistema') cssClass = 'admin-msg';
+                if(m.sender === 'Sistema') cssClass = 'sys-msg';
+
+                historyDiv.innerHTML += `
+                    <div class="${cssClass}">
+                        ${m.sender !== 'Sistema' ? `<b>${m.sender}</b><br>` : ''}
+                        ${m.text}
+                    </div>`;
+            });
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+        }
+
+        function sendAdminReply() {
+            const txt = document.getElementById('adminReplyInput').value;
+            if(!txt) return;
+
+            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            const tIndex = tickets.findIndex(x => x.id === currentTicketId);
+            
+            if(tIndex > -1) {
+                tickets[tIndex].messages.push({
+                    sender: 'Admin',
+                    text: txt,
+                    timestamp: Date.now()
+                });
+                tickets[tIndex].status = 'Respondido'; // Muda status para o cliente saber
+                localStorage.setItem('auraTickets', JSON.stringify(tickets));
+                
+                document.getElementById('adminReplyInput').value = '';
+                renderChatHistory(tickets[tIndex]);
+            }
         }
 
         function confirmEndChat() {
-            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
             const reason = document.getElementById('closeReason').value;
-            const t = tickets.find(x => x.id == currentTicketId);
-            if(t) {
-                t.status = 'Resolvido';
-                t.messages.push({ sender: 'Admin', text: `Atendimento encerrado. Motivo: ${reason}`, timestamp: Date.now() });
+            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            const tIndex = tickets.findIndex(x => x.id === currentTicketId);
+
+            if(tIndex > -1) {
+                tickets[tIndex].status = 'Resolvido';
+                tickets[tIndex].messages.push({ 
+                    sender: 'Sistema', 
+                    text: `Atendimento encerrado pelo suporte. Motivo: ${reason}`, 
+                    timestamp: Date.now() 
+                });
                 localStorage.setItem('auraTickets', JSON.stringify(tickets));
+                
+                showToast('Atendimento encerrado.', 'success');
+                document.getElementById('chat-modal').classList.remove('open');
+                renderTickets();
             }
-            document.getElementById('close-chat-modal').classList.remove('open');
-            renderTickets();
         }
 
         // Init
         renderClients();
+        checkNewMessages();
     </script>
 </body>
 </html>
