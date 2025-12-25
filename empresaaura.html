@@ -16,20 +16,14 @@
             --text-dark: #4a4a4a;        
             --text-light: #ffffff;
             --glass: rgba(255, 255, 255, 0.90);
-            --shadow: 0 10px 40px rgba(216, 169, 166, 0.15);
+            --danger: #e74c3c;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-dark);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-body); color: var(--text-dark); overflow-x: hidden; line-height: 1.6; }
 
-        /* --- LAYOUT BÁSICO --- */
+        /* --- LAYOUT --- */
         .top-bar { background-color: var(--rose-primary); color: var(--text-light); text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; }
         header { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--rose-border); }
         .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; flex-wrap: wrap; gap: 1rem; }
@@ -52,7 +46,7 @@
         .btn-admin { padding: 0.4rem 1.2rem; border: 1px solid var(--rose-primary); text-decoration: none; color: var(--rose-primary); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; border-radius: 20px; letter-spacing: 0.5px; display: none; }
         .btn-admin:hover { background: var(--rose-primary); color: white; }
 
-        /* --- HERO & SECTIONS --- */
+        /* --- HERO & CONTENT --- */
         .hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #f5eae9 0%, #ffffff 100%); padding: 0 2rem; position: relative; }
         .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-dark); }
         .hero-content h1 span { font-style: italic; color: var(--rose-primary); }
@@ -66,7 +60,7 @@
         .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-dark); }
         .section-separator { width: 50px; height: 2px; background: var(--rose-primary); margin: 10px auto; }
 
-        /* --- PRODUTOS --- */
+        /* --- PRODUCTS --- */
         .products-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; padding: 0 2rem; }
         .product-card { background: transparent; transition: 0.3s; cursor: pointer; position: relative; }
         .product-img-wrapper { height: 350px; background-color: #fff; position: relative; overflow: hidden; margin-bottom: 1.2rem; border-radius: 4px; }
@@ -79,7 +73,7 @@
         .product-name { font-size: 1rem; margin: 0.3rem 0; font-weight: 500; letter-spacing: 0.5px; }
         .product-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text-dark); }
 
-        /* --- MODAIS --- */
+        /* --- MODALS --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; backdrop-filter: blur(5px); justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; animation: fadeModal 0.3s; }
         .modal-box { background: #fff; padding: 2.5rem; width: 400px; max-width: 90%; border-radius: 8px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
@@ -91,7 +85,7 @@
         .btn-primary:hover { background: var(--rose-secondary); }
         .toggle-link { font-size: 0.8rem; color: #777; margin-top: 1rem; cursor: pointer; text-decoration: underline; }
 
-        /* --- CHAT SYSTEM (Atualizado) --- */
+        /* --- CHAT SYSTEM --- */
         .chat-float-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--rose-primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; box-shadow: 0 5px 20px rgba(216, 169, 166, 0.5); transition: 0.3s; animation: pulse 2s infinite; }
         .chat-float-btn:hover { transform: scale(1.1); background: var(--rose-secondary); }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(216, 169, 166, 0); } 100% { box-shadow: 0 0 0 0 rgba(216, 169, 166, 0); } }
@@ -106,11 +100,12 @@
         .chat-footer input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
         .chat-footer button { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--rose-primary); color: white; cursor: pointer; }
 
-        /* Bolhas de Chat */
         .bubble { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; word-wrap: break-word; }
-        .bubble-me { align-self: flex-end; background: #e7ffdb; color: #111; border-top-right-radius: 0; box-shadow: 0 1px 1px rgba(0,0,0,0.1); }
-        .bubble-admin { align-self: flex-start; background: white; color: #333; border-top-left-radius: 0; box-shadow: 0 1px 1px rgba(0,0,0,0.1); }
-        .bubble-time { display: block; font-size: 0.65rem; color: #999; text-align: right; margin-top: 4px; }
+        .bubble-me { align-self: flex-end; background: #e7ffdb; color: #111; border-top-right-radius: 0; }
+        .bubble-admin { align-self: flex-start; background: white; color: #333; border-top-left-radius: 0; }
+        
+        .chat-end-btn { font-size: 0.7rem; background: transparent; border: 1px solid white; color: white; padding: 2px 8px; border-radius: 10px; cursor: pointer; }
+        .chat-end-btn:hover { background: rgba(255,255,255,0.2); }
 
         /* --- CART SIDEBAR --- */
         .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; z-index: 2001; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
@@ -176,8 +171,13 @@
     <div class="chat-float-btn" onclick="toggleChat()"><i class="fas fa-comment-dots"></i></div>
     <div class="chat-window" id="chat-window">
         <div class="chat-header">
-            <h4><i class="fas fa-headset"></i> Suporte Aura</h4>
-            <i class="fas fa-times" onclick="toggleChat()" style="cursor: pointer;"></i>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <i class="fas fa-headset"></i> <span>Suporte Aura</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <button class="chat-end-btn" onclick="endChat()" title="Já retirou suas dúvidas? Encerre o chat">Encerrar</button>
+                <i class="fas fa-times" onclick="toggleChat()" style="cursor: pointer;"></i>
+            </div>
         </div>
         <div class="chat-body" id="chat-body-content"></div>
         <div class="chat-footer" id="chat-footer-content">
@@ -285,7 +285,7 @@
             if(currentUser) {
                 if(confirm("Sair da conta?")) {
                     currentUser = null; updateUserUI();
-                    document.getElementById('chat-body-content').innerHTML = ''; // Limpa chat visualmente
+                    document.getElementById('chat-body-content').innerHTML = '';
                 }
             } else {
                 document.getElementById('login-modal').classList.add('open');
@@ -314,6 +314,8 @@
             const name = document.getElementById('regName').value, email = document.getElementById('regEmail').value, pass = document.getElementById('regPass').value;
             let users = JSON.parse(localStorage.getItem('auraUsers')) || [];
             if(users.find(u => u.email === email)) return alert("Email já existe.");
+            
+            // Cadastro sempre começa como 'customer'
             const newUser = { id: Date.now(), name, email, password: pass, role: 'customer', status: 'active', spent: 0, date: new Date().toLocaleDateString() };
             users.push(newUser);
             localStorage.setItem('auraUsers', JSON.stringify(users));
@@ -324,7 +326,8 @@
             const display = document.getElementById('user-display'), adminBtn = document.getElementById('adminBtn');
             if(currentUser) {
                 display.innerHTML = `<i class="fas fa-check"></i> ${currentUser.name}`;
-                adminBtn.style.display = (currentUser.role === 'admin' || currentUser.role === 'dona') ? 'inline-block' : 'none';
+                // LÓGICA DE CARGOS: Se NÃO for 'customer' (ou seja, vendedor, gerente, dona), mostra Admin
+                adminBtn.style.display = (currentUser.role !== 'customer') ? 'inline-block' : 'none';
             } else {
                 display.innerHTML = `<i class="far fa-user"></i> Login`;
                 adminBtn.style.display = 'none';
@@ -374,7 +377,7 @@
 
             // Buscar ticket do usuário
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido' && t.status !== 'Encerrado por Inatividade');
             
             body.innerHTML = '';
             if(myTicket && myTicket.messages) {
@@ -383,11 +386,10 @@
                     body.innerHTML += `
                         <div class="bubble ${isMe ? 'bubble-me' : 'bubble-admin'}">
                             <strong>${msg.sender}</strong><br>${msg.text}
-                            <span class="bubble-time">${msg.time}</span>
                         </div>
                     `;
                 });
-                body.scrollTop = body.scrollHeight; // Scroll para o fim
+                body.scrollTop = body.scrollHeight; 
             } else {
                 body.innerHTML = '<p style="text-align:center; color:#ccc; margin-top:50px;">Inicie uma conversa...</p>';
             }
@@ -398,15 +400,15 @@
             if(!txt) return;
 
             let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
-            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido' && t.status !== 'Encerrado por Inatividade');
 
-            const msgObj = { sender: currentUser.name, text: txt, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+            // Importante: Salvamos o timestamp para o robô verificar no admin
+            const msgObj = { sender: currentUser.name, text: txt, timestamp: Date.now() };
 
             if(myTicket) {
                 myTicket.messages.push(msgObj);
-                myTicket.status = 'Pendente'; // Reabre se tiver fechado ou atualiza status
+                myTicket.status = 'Pendente';
             } else {
-                // Cria novo ticket
                 tickets.push({
                     id: Date.now(),
                     user: currentUser.name,
@@ -421,7 +423,23 @@
             renderChat();
         }
 
-        // Auto-refresh chat a cada 3 segundos para ver resposta do admin
+        function endChat() {
+            if(!confirm("Deseja encerrar o atendimento?")) return;
+            
+            let tickets = JSON.parse(localStorage.getItem('auraTickets')) || [];
+            let myTicket = tickets.find(t => t.user === currentUser.name && t.status !== 'Resolvido');
+            
+            if(myTicket) {
+                myTicket.status = 'Resolvido';
+                myTicket.messages.push({ sender: 'Sistema', text: 'Atendimento encerrado pelo cliente.', timestamp: Date.now() });
+                localStorage.setItem('auraTickets', JSON.stringify(tickets));
+                renderChat();
+                alert("Chat encerrado com sucesso.");
+                toggleChat();
+            }
+        }
+
+        // Auto-refresh chat a cada 3s
         setInterval(() => {
             if(document.getElementById('chat-window').classList.contains('open') && currentUser) {
                 renderChat();
