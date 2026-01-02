@@ -53,11 +53,12 @@
             --nav-active-bg: rgba(37, 99, 235, 0.1);
         }
 
-        /* MODO PRIVACIDADE */
+        /* --- MODO PRIVACIDADE --- */
         body.privacy-mode .blur-sensitive {
             color: transparent !important;
             text-shadow: 0 0 var(--blur-strength) rgba(128, 128, 128, 0.5);
-            user-select: none; cursor: default;
+            user-select: none;
+            cursor: default;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -68,15 +69,30 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        /* --- PULL TO REFRESH --- */
+        #ptr-loader {
+            position: fixed; top: -50px; left: 50%; transform: translateX(-50%);
+            width: 40px; height: 40px; background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 50%; z-index: 999; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #ptr-spinner {
+            width: 20px; height: 20px; border: 2px solid rgba(47, 129, 247, 0.3);
+            border-top: 2px solid var(--primary); border-radius: 50%;
+        }
+        .ptr-spinning { animation: ptr-spin 0.8s linear infinite; }
+        @keyframes ptr-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         /* --- SIDEBAR --- */
         aside {
             width: 260px; background-color: var(--bg-panel); border-right: 1px solid var(--border-color);
             display: flex; flex-direction: column; padding: 25px 15px; padding-top: 40px;
-            position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; 
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed; height: 100vh; z-index: 100; 
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
         }
 
-        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 35px; padding-left: 10px; cursor: pointer; }
+        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 35px; padding-left: 5px; cursor: pointer; }
+        .brand svg { width: 24px; height: 24px; fill: var(--logo-fill); filter: drop-shadow(0 0 10px var(--primary-glow)); transition: fill 0.3s; }
         .brand-text { font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text-main); }
 
         .nav-menu { flex: 1; display: flex; flex-direction: column; gap: 5px; }
@@ -92,15 +108,15 @@
         .btn-logout:hover { background: rgba(248, 81, 73, 0.1); }
 
         /* --- MAIN CONTENT --- */
-        main { margin-left: 260px; flex: 1; padding: 30px 40px; width: 100%; padding-top: 50px; transition: margin-left 0.3s ease; }
+        main { margin-left: 260px; flex: 1; padding: 30px 40px; width: 100%; padding-top: 50px; transition: transform 0.2s; }
 
         /* HEADER */
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; flex-wrap: wrap; }
         .header-left h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 2px; }
         .bio-quote { color: var(--text-muted); font-size: 0.85rem; font-style: italic; border-left: 3px solid var(--primary); padding-left: 10px; }
 
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .header-actions { display: flex; gap: 10px; }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .header-actions { display: flex; gap: 8px; }
 
         .user-badge { 
             display: flex; align-items: center; gap: 10px; 
@@ -114,16 +130,17 @@
             font-weight: 700; font-size: 1rem; box-shadow: 0 0 8px var(--primary-glow); border: 2px solid var(--bg-panel);
         }
 
-        /* --- BOTÕES DO TOPO (CORRIGIDOS) --- */
+        /* --- BOTÕES DO TOPO (OLHO E TEMA) --- */
         .icon-btn {
             background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 50%;
-            width: 40px; height: 40px; min-width: 40px; min-height: 40px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            box-shadow: var(--card-shadow); transition: all 0.3s; color: var(--text-main); padding: 8px;
+            width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--card-shadow); transition: all 0.3s; color: var(--text-main);
+            min-width: 40px; min-height: 40px; padding: 8px;
         }
         .icon-btn:hover { transform: scale(1.05); }
         .icon-btn svg { width: 100%; height: 100%; fill: var(--logo-fill); }
-        #privacyToggle svg { fill: none; stroke: var(--logo-fill); }
+        #privacyToggle svg { fill: none; stroke: var(--logo-fill); } /* O olho é vazado (stroke) */
+        #themeToggle svg { transform: translateY(1px); }
 
         /* --- VIEWS --- */
         .view-section { display: none; animation: fadeIn 0.4s ease; }
@@ -134,14 +151,14 @@
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .card { 
             background: var(--bg-card); border: 1px solid var(--border-color); padding: 18px; 
-            border-radius: 12px; position: relative; transition: transform 0.2s; 
-            box-shadow: var(--card-shadow);
+            border-radius: 12px; position: relative; transition: transform 0.2s, box-shadow 0.3s; 
+            box-shadow: var(--card-shadow); overflow: hidden;
         }
-        .card:hover { border-color: var(--primary); }
+        .card:hover { border-color: var(--primary); transform: translateY(-2px); }
         .card-val { font-size: 1.6rem; font-weight: 700; font-family: 'JetBrains Mono'; color: var(--text-main); margin: 8px 0; }
         .card-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 
-        /* CARD ESPECÍFICOS */
+        /* ESTILOS NOVOS: MOTO AZUL, FIESTA PRATA, DIVIDAS */
         .card-moto { border-left: 4px solid #0066FF; }
         .card-fiesta { border-left: 4px solid #C0C0C0; }
         .card-divida { border-left: 4px solid #F85149; }
@@ -150,37 +167,60 @@
         .progress-container { width: 100%; background: rgba(125,125,125,0.1); height: 8px; border-radius: 4px; margin-top: 10px; overflow: hidden; }
         .progress-bar { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
 
-        /* GRÁFICOS E TABELAS */
+        /* CATEGORIA CHART (NOVO) */
+        .cat-bar-container { margin-bottom: 8px; }
+        .cat-bar-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+        .cat-bar-fill { height: 6px; border-radius: 3px; background: var(--primary); opacity: 0.7; }
+
+        /* --- GRÁFICO E LISTAS --- */
         .chart-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 30px; box-shadow: var(--card-shadow); }
         .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        
+        .mini-status { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border-color); }
+        body.light-mode .mini-status { background: rgba(0,0,0,0.05); }
+        .status-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 5px var(--success); }
+
         .total-year-widget { display: flex; align-items: center; background: rgba(47, 129, 247, 0.08); border: 1px solid rgba(47, 129, 247, 0.2); padding: 5px 15px; border-radius: 8px; margin-right: 10px; height: 36px; }
         .tyw-label { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-right: 8px; font-weight: 600; }
         .tyw-value { font-size: 0.95rem; color: var(--text-main); font-family: 'JetBrains Mono'; font-weight: 700; }
-        .chart-container { height: 280px; width: 100%; overflow-x: auto; display: flex; align-items: flex-end; }
+
+        .chart-container { height: 280px; width: 100%; overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-end; padding-bottom: 5px; }
         .chart-wrapper { display: flex; align-items: flex-end; gap: 12px; height: 100%; min-width: 100%; padding-right: 10px; }
-        .chart-bar-group { flex: 1; min-width: 40px; max-width: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
-        .chart-val-top { font-size: 0.65rem; color: var(--text-main); margin-bottom: 4px; font-family: 'JetBrains Mono'; }
-        .chart-bar { width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px 3px 0 0; }
-        .chart-label { margin-top: 6px; font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono'; }
+
+        .chart-bar-group { flex: 1; min-width: 40px; max-width: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; transition: 0.2s; }
+        .chart-val-top { font-size: 0.65rem; color: var(--text-main); margin-bottom: 4px; opacity: 0; transform: translateY(5px); transition: 0.2s; font-family: 'JetBrains Mono'; }
+        .chart-bar-group:hover .chart-val-top { opacity: 1; transform: translateY(0); }
+        .chart-bar-group:hover .chart-bar { opacity: 1; box-shadow: 0 0 10px var(--success); }
+        .chart-bar { width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px 3px 0 0; min-height: 4px; transition: height 0.5s ease; }
+        .chart-label { margin-top: 6px; font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono'; text-align: center; }
 
         .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); box-shadow: var(--card-shadow); }
         .income-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        .income-table th, .income-table td { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-main); text-align: left; }
-        .income-table th { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; }
-        .badge-pago { background: rgba(35, 134, 54, 0.2); color: #238636; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; }
+        .income-table th { text-align: left; color: var(--text-muted); padding: 10px 15px; font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+        .income-table td { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-main); }
+        .badge-pago { background: rgba(35, 134, 54, 0.2); color: #238636; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(35, 134, 54, 0.3); }
 
         .transaction-list { display: flex; flex-direction: column; gap: 8px; }
-        .transaction-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--card-shadow); }
+        .transaction-item { 
+            background: var(--bg-card); border: 1px solid var(--border-color); 
+            padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: var(--card-shadow);
+        }
         .t-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(125,125,125,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; margin-right: 12px; }
 
-        /* CONTROLES */
-        .select-filter, .input-dark, .search-bar { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; padding: 10px; width: 100%; font-size: 0.9rem; }
-        .select-filter { width: auto; padding: 6px 10px; height: 36px; }
-        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; font-size: 0.85rem; height: 38px; }
+        /* CONTROLES E INPUTS */
+        .select-filter { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; outline: none; font-size: 0.85rem; height: 36px; }
+        .input-dark { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 0.9rem; height: 40px; }
+        
+        /* BARRA DE BUSCA */
+        .search-bar { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; color: var(--text-main); margin-bottom: 15px; font-size: 0.9rem; }
+
+        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; font-size: 0.85rem; height: 38px; white-space: nowrap; }
         .btn-success { background: var(--success); color: white; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-danger { background: rgba(248, 81, 73, 0.1); color: #f85149; }
-        .btn-warning { background: rgba(227, 179, 65, 0.2); color: #e3b341; }
+        .btn-warning { background: rgba(227, 179, 65, 0.2); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.4); }
+        .btn:active { transform: scale(0.96); }
 
         .mobile-toggle { display: none; position: fixed; top: 15px; left: 15px; z-index: 110; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 90; display: none; backdrop-filter: blur(4px); }
@@ -191,26 +231,24 @@
         .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .modal-body { padding: 20px; overflow-y: auto; }
 
-        /* RESPONSIVIDADE (CORREÇÃO DE ESTRUTURA) */
         @media (max-width: 1100px) {
             aside { transform: translateX(-100%); box-shadow: 5px 0 30px rgba(0,0,0,0.5); }
             aside.open { transform: translateX(0); }
-            main { margin-left: 0; padding: 70px 20px 40px 20px; width: 100%; }
+            main { margin-left: 0; padding: 70px 20px 40px 20px; }
             .mobile-toggle { display: block; }
-            
-            /* Ajuste do Header Mobile */
-            header { flex-direction: row; align-items: center; margin-bottom: 20px; }
-            .header-left { margin-left: 50px; } /* Espaço para o botão hambúrguer */
+            header { flex-direction: row; align-items: center; justify-content: space-between; }
+            .header-left { margin-left: 50px; }
             .header-left h1 { font-size: 1.3rem; }
-            .bio-quote { display: none; } /* Esconde frase em mobile */
-            
+            .bio-quote, .user-info-text { display: none; }
             .income-table th:nth-child(4), .income-table td:nth-child(4),
             .income-table th:nth-child(5), .income-table td:nth-child(5) { display: none; }
-            .tyw-label { display: none; }
+            .tyw-label { display: none; } 
         }
     </style>
 </head>
 <body>
+
+    <div id="ptr-loader"><div id="ptr-spinner"></div></div>
 
     <button class="mobile-toggle" onclick="toggleSidebar()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -253,390 +291,15 @@
         <header>
             <div class="header-left">
                 <h1>Painel Financeiro</h1>
-                <p class="bio-quote">Simples. Robusto. Integrado.<br>A inteligência que o seu negócio exige.</p>
+                <p class="bio-quote">"Codando o futuro."</p>
             </div>
-            
             <div class="header-right">
                 <div class="header-actions">
-                    <button id="privacyToggle" class="icon-btn" title="Privacidade">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                    </button>
-                    <button id="themeToggle" class="icon-btn" title="Tema">
-                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="50 50 400 400" preserveAspectRatio="xMidYMid meet">
-                            <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)">
-                                <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 c94 -83 195 -172 222 -196 l50 -45 126 -1 127 0 58 68 c32 37 78 87 101 112 23 25 54 61 68 80 14 18 31 37 37 42 7 4 -86 8 -207 8 l-220 0 -75 70 c-41 39 -90 82 -107 96 l-33 26 0 369 0 369 335 2 335 3 -33 35 c-18 19 -52 60 -76 90 -25 30 -49 60 -55 65 -6 6 -28 31 -49 58 l-38 47 -363 0 c-199 0 -366 -3 -369 -7z"></path>
-                                <path d="M2416 3903 c32 -38 61 -70 64 -73 6 -5 262 -300 304 -350 40 -49 141 -165 146 -170 3 -3 22 -25 42 -50 l37 -46 -92 -105 c-95 -110 -446 -520 -530 -621 l-49 -58 200 0 199 0 99 117 c54 65 122 142 149 173 130 146 410 480 410 489 0 10 -29 45 -179 220 -54 64 -110 130 -124 146 -14 17 -53 62 -86 100 -34 39 -74 86 -90 105 -16 19 -60 70 -98 113 l-70 77 -195 0 -195 0 58 -67z"></path>
-                                <path d="M3300 3564 c0 -3 44 -60 98 -125 53 -66 117 -144 141 -174 l43 -54 -146 -170 c-80 -94 -146 -173 -146 -176 0 -3 33 -5 74 -5 l74 0 154 168 c84 92 157 170 162 173 4 4 7 11 5 17 -2 5 -74 87 -159 181 l-155 171 -72 0 c-40 0 -73 -3 -73 -6z"></path>
-                            </g>
-                        </svg>
-                    </button>
-                </div>
-                <div class="user-badge">
-                    <div class="user-info-text" style="text-align: right;">
-                        <div id="userNameDisplay" style="font-size: 0.85rem; font-weight: 700;">Usuário</div>
-                        <div id="userRoleDisplay" style="font-size: 0.7rem; color: var(--primary);">Cargo</div>
-                    </div>
-                    <div id="userAvatarLetter" class="avatar-circle">A</div>
-                </div>
-            </div>
-        </header>
-
-        <section id="view-finance" class="view-section active-view">
-            <div class="stats-grid">
-                <div class="card" onclick="openMonthlyReport()" style="cursor: pointer;">
-                    <div class="card-label">Saídas (Mês Selecionado)</div>
-                    <div class="card-val blur-sensitive" style="color: var(--danger)" id="finTotal">R$ 0,00</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">Toque para ver extrato</div>
-                </div>
-                <div class="card" style="border: 1px dashed var(--border-color); display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="openAddTransaction()">
-                    <div style="text-align: center; color: var(--text-muted);ht: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 5px var(--success); }
-
-        .total-year-widget { display: flex; align-items: center; background: rgba(47, 129, 247, 0.08); border: 1px solid rgba(47, 129, 247, 0.2); padding: 5px 15px; border-radius: 8px; margin-right: 10px; height: 36px; }
-        .tyw-label { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-right: 8px; font-weight: 600; }
-        .tyw-value { font-size: 0.95rem; color: var(--text-main); font-family: 'JetBrains Mono'; font-weight: 700; }
-
-        .chart-container { height: 280px; width: 100%; overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-end; padding-bottom: 5px; }
-        .chart-wrapper { display: flex; align-items: flex-end; gap: 12px; height: 100%; min-width: 100%; padding-right: 10px; }
-
-        .chart-bar-group { flex: 1; min-width: 40px; max-width: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; transition: 0.2s; }
-        .chart-val-top { font-size: 0.65rem; color: var(--text-main); margin-bottom: 4px; opacity: 0; transform: translateY(5px); transition: 0.2s; font-family: 'JetBrains Mono'; }
-        .chart-bar-group:hover .chart-val-top { opacity: 1; transform: translateY(0); }
-        .chart-bar-group:hover .chart-bar { opacity: 1; box-shadow: 0 0 10px var(--success); }
-        .chart-bar { width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px 3px 0 0; min-height: 4px; transition: height 0.5s ease; }
-        .chart-label { margin-top: 6px; font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono'; text-align: center; }
-
-        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); box-shadow: var(--card-shadow); }
-        .income-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        .income-table th { text-align: left; color: var(--text-muted); padding: 10px 15px; font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
-        .income-table td { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-main); }
-        .badge-pago { background: rgba(35, 134, 54, 0.2); color: #238636; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(35, 134, 54, 0.3); }
-
-        .transaction-list { display: flex; flex-direction: column; gap: 8px; }
-        .transaction-item { 
-            background: var(--bg-card); border: 1px solid var(--border-color); 
-            padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: var(--card-shadow);
-        }
-        .t-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(125,125,125,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; margin-right: 12px; }
-
-        /* CONTROLES E INPUTS */
-        .select-filter { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; outline: none; font-size: 0.85rem; height: 36px; }
-        .input-dark { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 0.9rem; height: 40px; }
-        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; font-size: 0.85rem; height: 38px; white-space: nowrap; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: rgba(248, 81, 73, 0.1); color: #f85149; }
-        .btn-warning { background: rgba(227, 179, 65, 0.2); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.4); }
-        .btn:active { transform: scale(0.96); }
-
-        .search-bar { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; color: var(--text-main); margin-bottom: 10px; }
-
-        .mobile-toggle { display: none; position: fixed; top: 15px; left: 15px; z-index: 110; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 90; display: none; backdrop-filter: blur(4px); }
-
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 20px; }
-        .modal-overlay.open { display: flex; animation: fadeIn 0.3s; }
-        .modal { background: var(--bg-card); width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-        .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 20px; overflow-y: auto; }
-
-        @media (max-width: 1100px) {
-            aside { transform: translateX(-100%); box-shadow: 5px 0 30px rgba(0,0,0,0.5); }
-            aside.open { transform: translateX(0); }
-            main { margin-left: 0; padding: 70px 20px 40px 20px; }
-            .mobile-toggle { display: block; }
-            
-            /* Header Mobile: Mantém alinhamento horizontal */
-            header { 
-                flex-direction: row; 
-                align-items: center; 
-                justify-content: space-between; 
-                margin-bottom: 20px;
-            }
-            .header-left { margin-left: 50px; }
-            .header-left h1 { font-size: 1.3rem; }
-            
-            .brand { padding-left: 50px; }
-            .bio-quote, .user-info-text { display: none; }
-            .income-table th:nth-child(4), .income-table td:nth-child(4),
-            .income-table th:nth-child(5), .income-table td:nth-child(5) { display: none; }
-            .tyw-label { display: none; } 
-        }
-    </style>
-</head>
-<body>
-
-    <div id="ptr-loader"><div id="ptr-spinner"></div></div>
-
-    <button class="mobile-toggle" onclick="toggleSidebar()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </button>
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
-    <aside id="mainSidebar">
-        <div class="brand">
-            <span class="brand-text">INTEGRUX</span>
-        </div>
-        <nav class="nav-menu">
-            <div class="nav-item active" onclick="switchView('finance', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Gestão de Gastos
-            </div>
-            <div class="nav-item" onclick="switchView('income', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                Minha Renda
-            </div>
-            <div class="nav-item" onclick="switchView('assets', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                Patrimônio & Dívidas
-            </div>
-            <div class="nav-item" onclick="switchView('tools', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14"></line><line x1="8" y1="14" x2="8" y2="14"></line><line x1="12" y1="14" x2="12" y2="14"></line><line x1="16" y1="18" x2="16" y2="18"></line><line x1="8" y1="18" x2="8" y2="18"></line><line x1="12" y1="18" x2="12" y2="18"></line></svg>
-                Calculadora
-            </div>
-            <div class="nav-item" onclick="switchView('logs', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                Logs & Backup
-            </div>
-        </nav>
-        <div onclick="logout()" class="btn-logout">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            Sair
-        </div>
-    </aside>
-
-    <main id="mainContent">
-        <header>
-            <div class="header-left">
-                <h1>Painel Financeiro</h1>
-                <p class="bio-quote" style="opacity: 0.9;">Simples. Robusto. Integrado.<br>A inteligência que        .total-year-widget { display: flex; align-items: center; background: rgba(47, 129, 247, 0.08); border: 1px solid rgba(47, 129, 247, 0.2); padding: 5px 15px; border-radius: 8px; margin-right: 10px; height: 36px; }
-        .tyw-label { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-right: 8px; font-weight: 600; }
-        .tyw-value { font-size: 0.95rem; color: var(--text-main); font-family: 'JetBrains Mono'; font-weight: 700; }
-
-        .chart-container { height: 280px; width: 100%; overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-end; padding-bottom: 5px; }
-        .chart-wrapper { display: flex; align-items: flex-end; gap: 12px; height: 100%; min-width: 100%; padding-right: 10px; }
-
-        .chart-bar-group { flex: 1; min-width: 40px; max-width: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; transition: 0.2s; }
-        .chart-val-top { font-size: 0.65rem; color: var(--text-main); margin-bottom: 4px; opacity: 0; transform: translateY(5px); transition: 0.2s; font-family: 'JetBrains Mono'; }
-        .chart-bar-group:hover .chart-val-top { opacity: 1; transform: translateY(0); }
-        .chart-bar-group:hover .chart-bar { opacity: 1; box-shadow: 0 0 10px var(--success); }
-        .chart-bar { width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px 3px 0 0; min-height: 4px; transition: height 0.5s ease; }
-        .chart-label { margin-top: 6px; font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono'; text-align: center; }
-
-        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); box-shadow: var(--card-shadow); }
-        .income-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        .income-table th { text-align: left; color: var(--text-muted); padding: 10px 15px; font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
-        .income-table td { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-main); }
-        .badge-pago { background: rgba(35, 134, 54, 0.2); color: #238636; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(35, 134, 54, 0.3); }
-
-        .transaction-list { display: flex; flex-direction: column; gap: 8px; }
-        .transaction-item { 
-            background: var(--bg-card); border: 1px solid var(--border-color); 
-            padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: var(--card-shadow);
-        }
-        .t-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(125,125,125,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; margin-right: 12px; }
-
-        /* CONTROLES E INPUTS */
-        .select-filter { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; outline: none; font-size: 0.85rem; height: 36px; }
-        .input-dark { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 0.9rem; height: 40px; }
-        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; font-size: 0.85rem; height: 38px; white-space: nowrap; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: rgba(248, 81, 73, 0.1); color: #f85149; }
-        .btn-warning { background: rgba(227, 179, 65, 0.2); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.4); }
-        .btn:active { transform: scale(0.96); }
-
-        .search-bar { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; color: var(--text-main); margin-bottom: 10px; }
-
-        .mobile-toggle { display: none; position: fixed; top: 15px; left: 15px; z-index: 110; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 90; display: none; backdrop-filter: blur(4px); }
-
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 20px; }
-        .modal-overlay.open { display: flex; animation: fadeIn 0.3s; }
-        .modal { background: var(--bg-card); width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-        .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 20px; overflow-y: auto; }
-
-        @media (max-width: 1100px) {
-            aside { transform: translateX(-100%); box-shadow: 5px 0 30px rgba(0,0,0,0.5); }
-            aside.open { transform: translateX(0); }
-            main { margin-left: 0; padding: 70px 20px 40px 20px; }
-            .mobile-toggle { display: block; }
-            header { flex-direction: row; align-items: center; justify-content: space-between; }
-            .header-left { margin-left: 50px; }
-            .header-left h1 { font-size: 1.3rem; }
-            /* CORREÇÃO DO HAMBÚRGUER: Adiciona padding extra à esquerda no mobile */
-            .brand { padding-left: 50px; }
-            .bio-quote, .user-info-text { display: none; }
-            .income-table th:nth-child(4), .income-table td:nth-child(4),
-            .income-table th:nth-child(5), .income-table td:nth-child(5) { display: none; }
-            .tyw-label { display: none; } 
-        }
-    </style>
-</head>
-<body>
-
-    <div id="ptr-loader"><div id="ptr-spinner"></div></div>
-
-    <button class="mobile-toggle" onclick="toggleSidebar()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </button>
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
-    <aside id="mainSidebar">
-        <div class="brand">
-            <span class="brand-text">INTEGRUX</span>
-        </div>
-        <nav class="nav-menu">
-            <div class="nav-item active" onclick="switchView('finance', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Gestão de Gastos
-            </div>
-            <div class="nav-item" onclick="switchView('income', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                Minha Renda
-            </div>
-            <div class="nav-item" onclick="switchView('assets', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                Patrimônio & Dívidas
-            </div>
-            <div class="nav-item" onclick="switchView('tools', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14"></line><line x1="8" y1="14" x2="8" y2="14"></line><line x1="12" y1="14" x2="12" y2="14"></line><line x1="16" y1="18" x2="16" y2="18"></line><line x1="8" y1="18" x2="8" y2="18"></line><line x1="12" y1="18" x2="12" y2="18"></line></svg>
-                Calculadora
-            </div>
-            <div class="nav-item" onclick="switchView('logs', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                Logs & Backup
-            </div>
-        </nav>
-        <div onclick="logout()" class="btn-logout">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            Sair
-        </div>
-    </aside>
-
-    <main id="mainContent">
-        <header>
-            <div class="header-left">
-                <h1>Painel Financeiro</h1>
-                <p class="bio-quote" style="opacity: 0.9;">Simples. Robusto. Integrado.<br>A inteligência que o seu negócio exige.</p>
-            </div>
-            <div class="header-right" style="display: flex; align-items: center;">
-                <div class="header-actions">
-                    <button ims: center; justify-content: flex-end; cursor: pointer; position: relative; transition: 0.2s; }
-        .chart-val-top { font-size: 0.65rem; color: var(--text-main); margin-bottom: 4px; opacity: 0; transform: translateY(5px); transition: 0.2s; font-family: 'JetBrains Mono'; }
-        .chart-bar-group:hover .chart-val-top { opacity: 1; transform: translateY(0); }
-        .chart-bar-group:hover .chart-bar { opacity: 1; box-shadow: 0 0 10px var(--success); }
-        .chart-bar { width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px 3px 0 0; min-height: 4px; transition: height 0.5s ease; }
-        .chart-label { margin-top: 6px; font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono'; text-align: center; }
-
-        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); box-shadow: var(--card-shadow); }
-        .income-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        .income-table th { text-align: left; color: var(--text-muted); padding: 10px 15px; font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
-        .income-table td { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-main); }
-        .badge-pago { background: rgba(35, 134, 54, 0.2); color: #238636; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(35, 134, 54, 0.3); }
-
-        .transaction-list { display: flex; flex-direction: column; gap: 8px; }
-        .transaction-item { 
-            background: var(--bg-card); border: 1px solid var(--border-color); 
-            padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: var(--card-shadow);
-        }
-        .t-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(125,125,125,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; margin-right: 12px; }
-
-        /* CONTROLES E INPUTS */
-        .select-filter { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; outline: none; font-size: 0.85rem; height: 36px; }
-        .input-dark { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 0.9rem; height: 40px; }
-        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; font-size: 0.85rem; height: 38px; white-space: nowrap; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: rgba(248, 81, 73, 0.1); color: #f85149; }
-        .btn-warning { background: rgba(227, 179, 65, 0.2); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.4); }
-        .btn:active { transform: scale(0.96); }
-
-        .search-bar { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; color: var(--text-main); margin-bottom: 10px; }
-
-        .mobile-toggle { display: none; position: fixed; top: 15px; left: 15px; z-index: 110; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 90; display: none; backdrop-filter: blur(4px); }
-
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 20px; }
-        .modal-overlay.open { display: flex; animation: fadeIn 0.3s; }
-        .modal { background: var(--bg-card); width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-        .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 20px; overflow-y: auto; }
-
-        @media (max-width: 1100px) {
-            aside { transform: translateX(-100%); box-shadow: 5px 0 30px rgba(0,0,0,0.5); }
-            aside.open { transform: translateX(0); }
-            main { margin-left: 0; padding: 70px 20px 40px 20px; }
-            .mobile-toggle { display: block; }
-            header { flex-direction: row; align-items: center; justify-content: space-between; }
-            .header-left { margin-left: 50px; }
-            .header-left h1 { font-size: 1.3rem; }
-            /* CORREÇÃO DO HAMBÚRGUER */
-            .brand { padding-left: 50px; }
-            .bio-quote, .user-info-text { display: none; }
-            .income-table th:nth-child(4), .income-table td:nth-child(4),
-            .income-table th:nth-child(5), .income-table td:nth-child(5) { display: none; }
-            .tyw-label { display: none; } 
-        }
-    </style>
-</head>
-<body>
-
-    <div id="ptr-loader"><div id="ptr-spinner"></div></div>
-
-    <button class="mobile-toggle" onclick="toggleSidebar()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </button>
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
-    <aside id="mainSidebar">
-        <div class="brand">
-            <span class="brand-text">INTEGRUX</span>
-        </div>
-        <nav class="nav-menu">
-            <div class="nav-item active" onclick="switchView('finance', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Gestão de Gastos
-            </div>
-            <div class="nav-item" onclick="switchView('income', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                Minha Renda
-            </div>
-            <div class="nav-item" onclick="switchView('assets', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                Patrimônio & Dívidas
-            </div>
-            <div class="nav-item" onclick="switchView('tools', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14"></line><line x1="8" y1="14" x2="8" y2="14"></line><line x1="12" y1="14" x2="12" y2="14"></line><line x1="16" y1="18" x2="16" y2="18"></line><line x1="8" y1="18" x2="8" y2="18"></line><line x1="12" y1="18" x2="12" y2="18"></line></svg>
-                Calculadora
-            </div>
-            <div class="nav-item" onclick="switchView('logs', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                Logs & Backup
-            </div>
-        </nav>
-        <div onclick="logout()" class="btn-logout">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            Sair
-        </div>
-    </aside>
-
-    <main id="mainContent">
-        <header>
-            <div class="header-left">
-                <h1>Painel Financeiro</h1>
-                <p class="bio-quote" style="opacity: 0.9;">Simples. Robusto. Integrado.<br>A inteligência que o seu negócio exige.</p>
-            </div>
-            <div class="header-right" style="display: flex; align-items: center;">
-                <div class="header-actions">
-                    <button id="privacyToggle" class="icon-btn theme-btn" title="Modo Privacidade">
+                    <button id="privacyToggle" class="icon-btn" title="Modo Privacidade">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     </button>
 
-                    <button id="themeToggle" class="theme-btn" title="Alternar Tema">
+                    <button id="themeToggle" class="icon-btn" title="Alternar Tema">
                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="70 40 325 325" preserveAspectRatio="xMidYMid meet">
                             <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)">
                                 <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 c94 -83 195 -172 222 -196 l50 -45 126 -1 127 0 58 68 c32 37 78 87 101 112 23 25 54 61 68 80 14 18 31 37 37 42 7 4 -86 8 -207 8 l-220 0 -75 70 c-41 39 -90 82 -107 96 l-33 26 0 369 0 369 335 2 335 3 -33 35 c-18 19 -52 60 -76 90 -25 30 -49 60 -55 65 -6 6 -28 31 -49 58 l-38 47 -363 0 c-199 0 -366 -3 -369 -7z"></path>
@@ -669,10 +332,16 @@
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div class="card" style="margin-bottom: 20px; padding: 15px;">
+                <div style="font-size:0.85rem; margin-bottom:10px; color:var(--text-main); font-weight:600;">Top Categorias (Mês)</div>
+                <div id="categorySummary"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h3>Últimas Transações</h3>
                 <input type="month" id="filterMonth" class="select-filter" onchange="renderFinance()">
             </div>
+            
             <input type="text" id="financeSearch" class="search-bar" placeholder="🔍 Buscar (Ex: gasolina, mercado)..." onkeyup="renderFinance()">
             
             <div class="transaction-list" id="transactionList"></div>
@@ -744,7 +413,7 @@
                 </div>
             </div>
 
-            <h3 style="margin: 30px 0 15px 0;">Monitor de Empréstimos (Crédito Trab.)</h3>
+            <h3 style="margin: 30px 0 15px 0;">Monitor de Empréstimos</h3>
             <div class="stats-grid">
                 <div class="card card-divida">
                     <div class="card-label">UP.P (Finaliza Jan/26)</div>
@@ -877,7 +546,7 @@
     </div>
 
     <script>
-        const APP_VERSION = 'v12.0_Master_Command';
+        const APP_VERSION = 'v12.0_Master_Complete';
         
         function parseMoneyInput(value) {
             if(!value) return 0;
@@ -1124,7 +793,7 @@
             document.getElementById('calcResult').innerText = total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
         }
 
-        // Renderizadores
+        // --- RENDERIZADORES ---
         function renderIncome() {
             const list = Income.getData();
             const yearFilter = document.getElementById('incomeYearFilter');
@@ -1171,26 +840,48 @@
             const filter = document.getElementById('filterMonth').value;
             const search = document.getElementById('financeSearch').value.toLowerCase();
             const el = document.getElementById('transactionList');
+            const catSummary = document.getElementById('categorySummary');
             el.innerHTML = '';
             
             let filtered = list;
-            // Se tiver busca, ignora o mês e busca em tudo
+            // Filtro por Busca (ignora data)
             if(search) {
                 filtered = list.filter(i => i.desc.toLowerCase().includes(search) || i.cat.toLowerCase().includes(search));
             } else {
+                // Filtro por Data
                 filtered = list.filter(i => !filter || i.date.startsWith(filter));
             }
 
-            if(filtered.length === 0) { el.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Vazio.</div>'; document.getElementById('finTotal').innerText = 'R$ 0,00'; return; }
+            if(filtered.length === 0) { 
+                el.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Vazio.</div>'; 
+                document.getElementById('finTotal').innerText = 'R$ 0,00'; 
+                catSummary.innerHTML = '';
+                return; 
+            }
 
-            const displayList = search ? filtered : filtered.slice(0, 50); // Limite de exibição
-
+            // Exibição da Lista
+            const displayList = search ? filtered : filtered.slice(0, 50);
             displayList.forEach(i => {
                 const icon = getCategoryIcon(i.cat);
                 el.innerHTML += `<div class="transaction-item"><div style="display:flex; align-items:center;"><div class="t-icon">${icon}</div><div><div style="font-weight:500; color:var(--text-main);">${i.desc}</div><div style="font-size:0.7rem; color:var(--text-muted);">${i.cat} - ${i.date}</div></div></div><div class="blur-sensitive" style="color:var(--danger); font-family:'JetBrains Mono'; font-weight:700;">- ${i.amount.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div></div>`;
             });
+
+            // Totais e Gráfico de Categoria
             const total = filtered.reduce((a,b) => a + Number(b.amount), 0);
             document.getElementById('finTotal').innerText = total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+
+            // Lógica simples para categorias (Top 3)
+            if(!search) {
+                const cats = {};
+                filtered.forEach(i => { cats[i.cat] = (cats[i.cat] || 0) + i.amount; });
+                const sortedCats = Object.entries(cats).sort((a,b) => b[1] - a[1]).slice(0, 3);
+                catSummary.innerHTML = sortedCats.map(c => {
+                    const pct = (c[1] / total) * 100;
+                    return `<div class="cat-bar-container"><div class="cat-bar-header"><span>${c[0]}</span><span>${pct.toFixed(0)}%</span></div><div class="cat-bar-fill" style="width:${pct}%"></div></div>`;
+                }).join('');
+            } else {
+                catSummary.innerHTML = '';
+            }
         }
 
         function renderLogs() {
@@ -1242,6 +933,9 @@
                 document.getElementById('userAvatarLetter').innerText = session.initial;
             }
             
+            // --- INICIALIZAÇÃO COM PRIVACIDADE ATIVADA POR PADRÃO ---
+            document.body.classList.add('privacy-mode');
+
             // TEMA & PRIVACIDADE
             const toggleBtn = document.getElementById('themeToggle');
             const privacyBtn = document.getElementById('privacyToggle');
